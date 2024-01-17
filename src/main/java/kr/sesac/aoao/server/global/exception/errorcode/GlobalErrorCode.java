@@ -1,8 +1,8 @@
-package kr.sesac.aoao.server.exception.errorcode;
+package kr.sesac.aoao.server.global.exception.errorcode;
 
 import org.springframework.http.HttpStatus;
 
-import kr.sesac.aoao.server.exception.ErrorCode;
+import kr.sesac.aoao.server.global.exception.ErrorCode;
 
 public enum GlobalErrorCode implements ErrorCode {
     ;
