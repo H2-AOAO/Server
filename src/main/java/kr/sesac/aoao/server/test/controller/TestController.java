@@ -1,4 +1,4 @@
-package kr.sesac.aoao.server.domain;
+package kr.sesac.aoao.server.test.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
