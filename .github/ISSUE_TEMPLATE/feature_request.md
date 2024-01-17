@@ -10,7 +10,7 @@ assignees: ''
 ## ✨ 이슈 내용
 - 이슈 내용 구현 관련 내용 작성
 
-## ✔ 체크리스트
-- [ ] TO-DO A
-- [ ] TO-DO B
-- [ ] TO-DO C
+## ✔ 구현할 목록
+- TO-DO A
+- TO-DO B
+- TO-DO C
