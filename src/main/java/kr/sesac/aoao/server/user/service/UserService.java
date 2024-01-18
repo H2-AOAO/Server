@@ -10,5 +10,4 @@ public interface UserService {
 	User signUp(SignUpRequest signUpRequest);
 
 	String login(Map<String, String> users);
-
 }
