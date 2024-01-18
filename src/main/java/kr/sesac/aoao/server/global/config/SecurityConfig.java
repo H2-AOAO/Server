@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
  * @since 2024.01.18
  */
 @Configuration
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
