@@ -13,12 +13,14 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import lombok.RequiredArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.*;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+import lombok.RequiredArgsConstructor;
 
 /**
  * @since 2024.01.18
