@@ -1,11 +1,11 @@
 package kr.sesac.aoao.server.user.infrastructure;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserEntityRepository extends JpaRepository<UserEntity, Long> {
 
-    Optional<UserEntity> findByEmail(String email);
+	Optional<UserEntity> findByEmail(String email);
 
 }
