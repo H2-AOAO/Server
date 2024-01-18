@@ -40,4 +40,7 @@ public class UserEntity extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
+	@Enumerated(EnumType.STRING)
+	private Role role;
+
 }
