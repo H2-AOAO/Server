@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.sesac.aoao.server.global.exception.ApplicationException;
 import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
-import kr.sesac.aoao.server.user.infrastructure.UserEntityRepository;
+import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private final UserEntityRepository userRepository;
+	private final UserJpaRepository userRepository;
 
 	@Transactional
 	@Override

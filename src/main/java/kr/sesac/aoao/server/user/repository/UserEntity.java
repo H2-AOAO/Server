@@ -1,4 +1,4 @@
-package kr.sesac.aoao.server.user.infrastructure;
+package kr.sesac.aoao.server.user.repository;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
