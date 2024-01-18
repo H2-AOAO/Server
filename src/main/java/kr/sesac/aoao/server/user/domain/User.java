@@ -1,5 +1,7 @@
 package kr.sesac.aoao.server.user.domain;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
 import kr.sesac.aoao.server.user.repository.Role;
 import lombok.Builder;
@@ -7,6 +9,7 @@ import lombok.Getter;
 
 @Getter
 public class User {
+	private final Long userId;
 	private final String email;
 	private final String nickname;
 	private final String password;
@@ -14,7 +17,8 @@ public class User {
 	private final Role role;
 
 	@Builder
-	public User(String email, String nickname, String password, String profile, Role role) {
+	public User(Long userId, String email, String nickname, String password, String profile, Role role) {
+		this.userId = userId;
 		this.email = email;
 		this.nickname = nickname;
 		this.password = password;
@@ -22,12 +26,13 @@ public class User {
 		this.role = role;
 	}
 
-	public static User from(SignUpRequest signUpRequest){
+	public static User from(SignUpRequest signUpRequest, PasswordEncoder passwordEncoder) {
 		return User.builder()
 			.nickname(signUpRequest.getNickname())
 			.email(signUpRequest.getEmail())
-			.password(signUpRequest.getPassword())
+			.password(passwordEncoder.encode(signUpRequest.getPassword()))
 			.role(Role.USER)
 			.build();
 	}
+
 }

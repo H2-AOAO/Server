@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
+import kr.sesac.aoao.server.user.domain.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,5 +40,26 @@ public class UserEntity extends BaseEntity {
 
 	@Enumerated(EnumType.STRING)
 	private Role role;
+
+	public static UserEntity from(User user){
+		UserEntity userEntity = new UserEntity();
+		userEntity.userId = user.getUserId();
+		userEntity.nickname = user.getNickname();
+		userEntity.password = user.getPassword();
+		userEntity.email = user.getEmail();
+		userEntity.profile = user.getProfile();
+		userEntity.role = user.getRole();
+		return userEntity;
+	}
+
+	public User toModel(){
+		return User.builder()
+			.userId(userId)
+			.email(email)
+			.nickname(nickname)
+			.profile(profile)
+			.role(role)
+			.build();
+	}
 
 }
