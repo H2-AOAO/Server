@@ -1,6 +1,7 @@
 package kr.sesac.aoao.server.user.infrastructure;
 
 import jakarta.persistence.*;
+import kr.sesac.aoao.server.global.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -9,11 +10,11 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserEntity {
+public class UserEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Long userId;
 
     @Column(nullable = false, length = 20, unique = true)
     private String nickname;
@@ -26,5 +27,8 @@ public class UserEntity {
 
     @Column
     private String profile;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 }
