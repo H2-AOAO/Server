@@ -10,11 +10,11 @@ import kr.sesac.aoao.server.global.controller.dto.response.ExceptionResponse;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ApplicationException.class)
-    public ResponseEntity<ExceptionResponse> handleException(ApplicationException e) {
-        HttpStatus statusCode = e.getStatusCode();
-        ExceptionResponse response = ExceptionResponse.from(e.getMessage());
+	@ExceptionHandler(ApplicationException.class)
+	public ResponseEntity<ExceptionResponse> handleException(ApplicationException e) {
+		HttpStatus statusCode = e.getStatusCode();
+		ExceptionResponse response = ExceptionResponse.from(e.getMessage());
 
-        return ResponseEntity.status(statusCode).body(response);
-    }
+		return ResponseEntity.status(statusCode).body(response);
+	}
 }

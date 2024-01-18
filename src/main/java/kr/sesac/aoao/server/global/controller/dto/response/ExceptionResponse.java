@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ExceptionResponse {
 
-    private final String message;
+	private final String message;
 
-    public static ExceptionResponse from(String e) {
-        return new ExceptionResponse(e);
-    }
+	public static ExceptionResponse from(String e) {
+		return new ExceptionResponse(e);
+	}
 }
