@@ -23,7 +23,7 @@ public class DinoServiceImpl implements DinoService {
 
 	@Override
 	public Optional<GetUserDinoResponse> getDinoInfo(Long userId) {
-		return dinoRepository.findByUserID(userId);
+		return dinoRepository.findByUserId(userId);
 	}
 
 }
