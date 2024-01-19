@@ -37,9 +37,7 @@ public class UserController {
 	@PostMapping("/signup")
 	public ResponseEntity<ApplicationResponse<SignUpResponse>> signup(@Valid @RequestBody SignUpRequest signUpRequest) {
 		User user = userService.signUp(signUpRequest);
-		return ResponseEntity
-			.status(HttpStatus.CREATED)
-			.body(ApplicationResponse.success(new SignUpResponse(user)));
+		return ResponseEntity.ok(ApplicationResponse.success(new SignUpResponse(user)));
 	}
 
 	/**
@@ -51,8 +49,6 @@ public class UserController {
 	@PostMapping("/login")
 	public ResponseEntity<ApplicationResponse<JwtTokenResponse>> login(@RequestBody Map<String, String> user) {
 		JwtTokenResponse token = new JwtTokenResponse(userService.login(user));
-		return ResponseEntity
-			.status(HttpStatus.OK)
-			.body(ApplicationResponse.success(token));
+		return ResponseEntity.ok(ApplicationResponse.success(token));
 	}
 }
