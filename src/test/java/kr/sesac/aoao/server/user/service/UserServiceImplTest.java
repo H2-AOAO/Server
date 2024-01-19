@@ -46,7 +46,6 @@ class UserServiceImplTest {
 		assertThatThrownBy(() -> userService.signUp(signUpRequest))
 			.isInstanceOf(ApplicationException.class)
 			.hasMessageContaining(EXISTENT_EMAIL.getMessage());
-
 	}
 
 	@Test
