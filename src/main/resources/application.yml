@@ -14,11 +14,16 @@ spring:
     username: sa
     password:
 
-  security:
-    jwt:
-      header: Authorization
-      secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
-      token-validity-in-seconds: 86400
+
+  jwt:
+    header: Authorization
+    secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+    token-validity-in-seconds: 86400
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 logging.level:
   org.hibernate.SQL: debug
