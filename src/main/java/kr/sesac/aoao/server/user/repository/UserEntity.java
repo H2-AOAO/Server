@@ -41,6 +41,7 @@ public class UserEntity extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
+
 	public static UserEntity from(User user) {
 		UserEntity userEntity = new UserEntity();
 		userEntity.userId = user.getUserId();
