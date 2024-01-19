@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
  * @since 2024.01.18
  */
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 @Service
 public class UserServiceImpl implements UserService {
 
