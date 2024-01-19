@@ -1,33 +1,55 @@
 package kr.sesac.aoao.server.user.domain;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
 import kr.sesac.aoao.server.user.repository.Role;
-import lombok.Builder;
+import kr.sesac.aoao.server.user.repository.UserEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class User {
+
+	private final Long id;
 	private final String email;
 	private final String nickname;
-	private final String password;
+	private String password;
+	private String checkedPassword;
 	private final String profile;
 	private final Role role;
 
-	@Builder
-	public User(String email, String nickname, String password, String profile, Role role) {
-		this.email = email;
-		this.nickname = nickname;
-		this.password = password;
-		this.profile = profile;
-		this.role = role;
+	public User(SignUpRequest signUpRequest) {
+		this.id = null;
+		this.email = signUpRequest.getEmail();
+		this.nickname = signUpRequest.getNickname();
+		this.password = signUpRequest.getPassword();
+		this.checkedPassword = signUpRequest.getCheckedPassword();
+		this.role = Role.USER;
+		this.profile = null;
 	}
 
-	public static User from(SignUpRequest signUpRequest){
-		return User.builder()
-			.nickname(signUpRequest.getNickname())
-			.email(signUpRequest.getEmail())
-			.password(signUpRequest.getPassword())
-			.role(Role.USER)
-			.build();
+	public void encodePassword(String checkedPassword) {
+		this.password = checkedPassword;
+	}
+
+	public User(UserEntity userEntity) {
+		this.id = userEntity.getId();
+		this.email = userEntity.getEmail();
+		this.nickname = userEntity.getNickname();
+		this.password = userEntity.getPassword();
+		this.role = userEntity.getRole();
+		this.profile = userEntity.getProfile();
+	}
+
+	/**
+	 * 비밀번호 확인
+	 * @since 2024.01.19
+	 * @return boolean
+	 * @author 이상민
+	 */
+	public boolean checkPassword(PasswordEncoder passwordEncoder, String password) {
+		return passwordEncoder.matches(password, this.password);
 	}
 }
