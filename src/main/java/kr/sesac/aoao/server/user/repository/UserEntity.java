@@ -56,6 +56,7 @@ public class UserEntity extends BaseEntity {
 		return User.builder()
 			.userId(userId)
 			.email(email)
+			.password(password)
 			.nickname(nickname)
 			.profile(profile)
 			.role(role)

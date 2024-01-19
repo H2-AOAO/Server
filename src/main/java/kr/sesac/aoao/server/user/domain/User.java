@@ -35,4 +35,14 @@ public class User {
 			.build();
 	}
 
+	/**
+	 * 비밀번호 확인
+	 * @since 2024.01.19
+	 * @return boolean
+	 * @author 이상민
+	 */
+	public boolean checkPassword(PasswordEncoder passwordEncoder, String password) {
+		return passwordEncoder.matches(password, this.password);
+	}
+
 }
