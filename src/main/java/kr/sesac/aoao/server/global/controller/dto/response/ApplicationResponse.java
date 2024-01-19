@@ -12,11 +12,11 @@ public class ApplicationResponse<T> {
     private final String message;
     private final T date;
 
-    public static <T> ApplicationResponse<T> success(String message, T data) {
-        return new ApplicationResponse<>(true, message, data);
+    public static <T> ApplicationResponse<T> success(T data) {
+        return new ApplicationResponse<>(true, null, data);
     }
 
-    public static <T> ApplicationResponse<T> fail(String message, T data) {
-        return new ApplicationResponse<>(false, message, data);
+    public static <T> ApplicationResponse<T> fail(String message) {
+        return new ApplicationResponse<>(false, message, null);
     }
 }
