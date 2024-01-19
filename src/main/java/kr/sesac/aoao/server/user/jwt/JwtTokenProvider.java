@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class JwtTokenProvider {
 
+	// @Value("${security.jwt.secret.key}")
 	private String secretKey =
 		"c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK";
 

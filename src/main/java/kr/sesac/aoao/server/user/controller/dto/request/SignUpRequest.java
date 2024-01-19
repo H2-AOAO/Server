@@ -3,17 +3,18 @@ package kr.sesac.aoao.server.user.controller.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public class SignUpRequest {
 
 	@NotBlank(message = "이메일을 입력해주세요")
 	private final String email;
 
 	@NotBlank(message = "닉네임을 입력해주세요.")
-	@Size(min = 2, message = "닉네임이 너무 짧습니다.")
+	@Size(min = 2, message = "닉네임이 너무 짧습니다. 2자 이상 입력해 주세요.")
 	private final String nickname;
 
 	@NotBlank(message = "비밀번호를 입력해주세요")
@@ -22,13 +23,4 @@ public class SignUpRequest {
 	private final String password;
 
 	private final String checkedPassword;
-
-	@Builder
-	public SignUpRequest(String email, String nickname, String password, String checkedPassword) {
-		this.email = email;
-		this.nickname = nickname;
-		this.password = password;
-		this.checkedPassword = checkedPassword;
-	}
-
 }

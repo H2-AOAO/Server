@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
  * @author 이상민
  */
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -37,17 +37,20 @@ public class UserServiceImpl implements UserService {
 	 * @return User
 	 * @author 이상민
 	 */
-	@Transactional
 	@Override
 	public User signUp(SignUpRequest signUpRequest) {
-		if (userRepository.findByEmail(signUpRequest.getEmail()).isPresent()) {
+		// signUpRequest -> user
+		User user = new User(signUpRequest);
+		if (userRepository.findByEmail(user.getEmail()).isPresent()) {
 			throw new ApplicationException(EXISTENT_EMAIL);
 		}
-		if (!signUpRequest.getPassword().equals(signUpRequest.getCheckedPassword())) {  // 비밀번호 중복확인
+		if (!user.getPassword().equals(user.getCheckedPassword())) {  // 비밀번호 중복확인
 			throw new ApplicationException(INVALID_PASSWORD);
 		}
-		User user = User.from(signUpRequest, passwordEncoder);
-		return userRepository.save(UserEntity.from(user)).toModel();
+
+		String encodePassword = passwordEncoder.encode(user.getPassword());
+		user.encodePassword(encodePassword);
+		return userRepository.save(new UserEntity(user)).toModel();
 	}
 
 	/**
@@ -57,6 +60,7 @@ public class UserServiceImpl implements UserService {
 	 * @author 이상민
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public String login(Map<String, String> users) {
 		User user = userRepository.findByEmail(users.get("email"))
 			.orElseThrow(() -> new ApplicationException(NOT_EXISTENT_EMAIL)).toModel();
@@ -68,5 +72,4 @@ public class UserServiceImpl implements UserService {
 		roles.add(user.getRole().name());
 		return jwtTokenProvider.createToken(user.getEmail(), roles);
 	}
-
 }

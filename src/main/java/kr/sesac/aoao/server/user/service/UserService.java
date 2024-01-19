@@ -7,7 +7,7 @@ import kr.sesac.aoao.server.user.domain.User;
 
 public interface UserService {
 
-	User signUp(SignUpRequest signUpRequest) throws Exception;
+	User signUp(SignUpRequest signUpRequest);
 
 	String login(Map<String, String> users);
 

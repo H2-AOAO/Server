@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
 import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
 import kr.sesac.aoao.server.user.controller.dto.response.JwtTokenResponse;
 import kr.sesac.aoao.server.user.controller.dto.response.SignUpResponse;
@@ -34,25 +35,24 @@ public class UserController {
 	 * @author 이상민
 	 */
 	@PostMapping("/signup")
-	public ResponseEntity<SignUpResponse> signup(@Valid @RequestBody SignUpRequest signUpRequest) throws Exception {
+	public ResponseEntity<ApplicationResponse<SignUpResponse>> signup(@Valid @RequestBody SignUpRequest signUpRequest) {
 		User user = userService.signUp(signUpRequest);
 		return ResponseEntity
 			.status(HttpStatus.CREATED)
-			.body(SignUpResponse.from(user));
+			.body(ApplicationResponse.success(new SignUpResponse(user)));
 	}
 
 	/**
 	 * 로그인
 	 * @since 2024.01.19
-	 * @return String
+	 * @return JwtTokenResponse
 	 * @author 이상민
 	 */
 	@PostMapping("/login")
-	public ResponseEntity<JwtTokenResponse> login(@RequestBody Map<String, String> user) {
-		JwtTokenResponse token = JwtTokenResponse.from(userService.login(user));
+	public ResponseEntity<ApplicationResponse<JwtTokenResponse>> login(@RequestBody Map<String, String> user) {
+		JwtTokenResponse token = new JwtTokenResponse(userService.login(user));
 		return ResponseEntity
 			.status(HttpStatus.OK)
-			.body(token);
+			.body(ApplicationResponse.success(token));
 	}
-
 }

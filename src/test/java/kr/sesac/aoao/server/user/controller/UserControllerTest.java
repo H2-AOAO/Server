@@ -48,13 +48,13 @@ class UserControllerTest {
 	@Test
 	void signup_성공() throws Exception {
 		// given
-		SignUpRequest signUpRequest = SignUpRequest.builder()
-			.email("test1234@gmail.com")
-			.nickname("테스터")
-			.password("test1234")
-			.checkedPassword("test1234")
-			.build();
-		User response = User.from(signUpRequest, passwordEncoder);
+
+		SignUpRequest signUpRequest = new SignUpRequest("test1234@gmail.com"
+			, "테스터", "test1234", "test1234");
+
+		User response = new User(signUpRequest);
+		String encodePassword = passwordEncoder.encode(signUpRequest.getPassword());
+		response.encodePassword(encodePassword);
 
 		doReturn(response).when(userService)
 			.signUp(any(SignUpRequest.class));

@@ -11,20 +11,18 @@ import jakarta.persistence.Table;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
 import kr.sesac.aoao.server.user.domain.User;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Builder
+@Getter
 @Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class UserEntity extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long userId;
+	private Long id;
 
 	@Column(nullable = false, length = 20, unique = true)
 	private String nickname;
@@ -41,27 +39,16 @@ public class UserEntity extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
-
-	public static UserEntity from(User user) {
-		UserEntity userEntity = new UserEntity();
-		userEntity.userId = user.getUserId();
-		userEntity.nickname = user.getNickname();
-		userEntity.password = user.getPassword();
-		userEntity.email = user.getEmail();
-		userEntity.profile = user.getProfile();
-		userEntity.role = user.getRole();
-		return userEntity;
+	public UserEntity(User user) {
+		this.id = user.getId();
+		this.nickname = user.getNickname();
+		this.password = user.getPassword();
+		this.email = user.getEmail();
+		this.profile = user.getProfile();
+		this.role = user.getRole();
 	}
 
 	public User toModel() {
-		return User.builder()
-			.userId(userId)
-			.email(email)
-			.password(password)
-			.nickname(nickname)
-			.profile(profile)
-			.role(role)
-			.build();
+		return new User(this);
 	}
-
 }

@@ -1,18 +1,11 @@
 package kr.sesac.aoao.server.user.controller.dto.response;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Builder
 @Getter
+@RequiredArgsConstructor
 public class JwtTokenResponse {
 
-	private String accessToken;
-
-	public static JwtTokenResponse from(String accessToken) {
-		return JwtTokenResponse.builder()
-			.accessToken(accessToken)
-			.build();
-	}
-
+	private final String accessToken;
 }

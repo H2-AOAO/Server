@@ -2,25 +2,24 @@ package kr.sesac.aoao.server.user.controller.dto.response;
 
 import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.repository.Role;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Builder
 @Getter
+@RequiredArgsConstructor
 public class SignUpResponse {
-	private Long userId;
-	private String email;
-	private String nickname;
-	private String profile;
-	private Role role;
 
-	public static SignUpResponse from(User user) {
-		return SignUpResponse.builder()
-			.userId(user.getUserId())
-			.email(user.getEmail())
-			.nickname(user.getNickname())
-			.profile(user.getProfile())
-			.role(user.getRole())
-			.build();
+	private final Long userId;
+	private final String email;
+	private final String nickname;
+	private final String profile;
+	private final Role role;
+
+	public SignUpResponse(User user) {
+		this.userId = user.getId();
+		this.email = user.getEmail();
+		this.nickname = user.getNickname();
+		this.profile = user.getProfile();
+		this.role = user.getRole();
 	}
 }

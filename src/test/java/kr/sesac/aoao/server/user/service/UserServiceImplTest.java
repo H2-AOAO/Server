@@ -34,12 +34,8 @@ class UserServiceImplTest {
 	@Test
 	void signUp은_이메일이_이미_존재하면_에러를_발생시킨다() {
 		// given
-		SignUpRequest signUpRequest = SignUpRequest.builder()
-			.email("test1234@gmail.com")
-			.nickname("테스터")
-			.password("test1234")
-			.checkedPassword("test1234")
-			.build();
+		SignUpRequest signUpRequest = new SignUpRequest("test1234@gmail.com"
+			, "테스터", "test1234", "test1234");
 
 		// when
 		UserEntity user = mock(UserEntity.class);
@@ -56,12 +52,8 @@ class UserServiceImplTest {
 	@Test
 	void signUp은_비밀번호와_확인비밀번호가_일치하지않으면_에러를_발생시킨다() {
 		// given
-		SignUpRequest signUpRequest = SignUpRequest.builder()
-			.email("test1234@gmail.com")
-			.nickname("테스터1")
-			.password("test1234")
-			.checkedPassword("111111aa")
-			.build();
+		SignUpRequest signUpRequest = new SignUpRequest("test1234@gmail.com"
+			, "테스터", "test1234", "111111aa");
 
 		// when
 		// then
