@@ -14,14 +14,10 @@ import kr.sesac.aoao.server.user.repository.UserEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
-/**
- * @since 2024.01.18
- * @author 김은서
- */
-
+@Getter
 @Entity
 @Builder
 @Table(name = "raise_dino")
@@ -34,7 +30,7 @@ public class DinoEntity extends BaseEntity {
 	private Long id;
 
 	@OneToOne
-	@JoinColumn(name = "userId")
+	@JoinColumn(name = "user_id")
 	private UserEntity user;
 
 	@Column(nullable = false, length = 20)

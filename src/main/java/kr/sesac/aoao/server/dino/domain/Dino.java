@@ -8,12 +8,12 @@ public class Dino {
 	private final String name;
 	private final String color;
 	private final int exp;
-	private final int userId;
+	private final Long userId;
 	private final int Lv;
 	private final int point;
 
 	@Builder
-	public Dino(String name, String color, int exp, int userId, int Lv, int point){
+	public Dino(String name, String color, int exp, Long userId, int Lv, int point){
 		this.name = name;
 		this.color = color;
 		this.exp = exp;

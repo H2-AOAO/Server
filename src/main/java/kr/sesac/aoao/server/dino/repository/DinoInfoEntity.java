@@ -13,10 +13,12 @@ import kr.sesac.aoao.server.global.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
+@Getter
 @Table(name = "dino_info")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -24,7 +26,7 @@ public class DinoInfoEntity extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Lv;
+	private Long Lv;
 
 	@Column(nullable = false)
 	private int all_exp;
