@@ -48,7 +48,7 @@ public class UserController {
 	 * @author 이상민
 	 */
 	@PostMapping("/login")
-	public ResponseEntity<JwtTokenResponse> login(@RequestBody Map<String, String> user){
+	public ResponseEntity<JwtTokenResponse> login(@RequestBody Map<String, String> user) {
 		JwtTokenResponse token = JwtTokenResponse.from(userService.login(user));
 		return ResponseEntity
 			.status(HttpStatus.OK)

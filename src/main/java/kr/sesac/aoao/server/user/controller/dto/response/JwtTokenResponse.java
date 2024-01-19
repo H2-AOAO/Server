@@ -7,7 +7,7 @@ public class JwtTokenResponse {
 
 	private String accessToken;
 
-	public static JwtTokenResponse from(String accessToken){
+	public static JwtTokenResponse from(String accessToken) {
 		return JwtTokenResponse.builder()
 			.accessToken(accessToken)
 			.build();

@@ -16,7 +16,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -42,7 +41,7 @@ public class JwtTokenProvider {
 	 * @return String
 	 * @author 이상민
 	 */
-	public String createToken(String userPK, List<String> roles){
+	public String createToken(String userPK, List<String> roles) {
 		Claims claims = Jwts.claims().setSubject(userPK);
 		claims.put("roles", roles);
 		Date now = new Date();
@@ -61,7 +60,7 @@ public class JwtTokenProvider {
 	 * @return String
 	 * @author 이상민
 	 */
-	public Authentication getAuthentication(String token){
+	public Authentication getAuthentication(String token) {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPK(token));
 		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
 	}
@@ -72,16 +71,16 @@ public class JwtTokenProvider {
 	}
 
 	// Request의 Header에서 token 값을 가져옴 "X-AUTH-TOKEN" : "TOKEN값'
-	public String resolveToken(HttpServletRequest request){
+	public String resolveToken(HttpServletRequest request) {
 		return request.getHeader("X-AUTH-TOKEN");
 	}
 
 	// 토큰의 유효성 + 만료일자 확인
-	public boolean validateToken(String jwtToken){
+	public boolean validateToken(String jwtToken) {
 		try {
 			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
 			return !claims.getBody().getExpiration().before(new Date());
-		}catch (Exception e){
+		} catch (Exception e) {
 			return false;
 		}
 	}

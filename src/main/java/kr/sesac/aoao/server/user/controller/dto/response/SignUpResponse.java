@@ -14,7 +14,7 @@ public class SignUpResponse {
 	private String profile;
 	private Role role;
 
-	public static SignUpResponse from(User user){
+	public static SignUpResponse from(User user) {
 		return SignUpResponse.builder()
 			.userId(user.getUserId())
 			.email(user.getEmail())

@@ -2,7 +2,6 @@ package kr.sesac.aoao.server.user.service;
 
 import static kr.sesac.aoao.server.user.exception.UserErrorCode.*;
 import static org.assertj.core.api.AssertionsForClassTypes.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
@@ -13,12 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import kr.sesac.aoao.server.global.exception.ApplicationException;
 import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
-import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 
@@ -35,7 +32,7 @@ class UserServiceImplTest {
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@Test
-	void signUp은_이메일이_이미_존재하면_에러를_발생시킨다(){
+	void signUp은_이메일이_이미_존재하면_에러를_발생시킨다() {
 		// given
 		SignUpRequest signUpRequest = SignUpRequest.builder()
 			.email("test1234@gmail.com")
@@ -50,14 +47,14 @@ class UserServiceImplTest {
 			.thenReturn(Optional.of(user));
 
 		// then
-		assertThatThrownBy(()-> userService.signUp(signUpRequest))
+		assertThatThrownBy(() -> userService.signUp(signUpRequest))
 			.isInstanceOf(ApplicationException.class)
-				.hasMessageContaining(EXISTENT_EMAIL.getMessage());
+			.hasMessageContaining(EXISTENT_EMAIL.getMessage());
 
 	}
 
 	@Test
-	void signUp은_비밀번호와_확인비밀번호가_일치하지않으면_에러를_발생시킨다(){
+	void signUp은_비밀번호와_확인비밀번호가_일치하지않으면_에러를_발생시킨다() {
 		// given
 		SignUpRequest signUpRequest = SignUpRequest.builder()
 			.email("test1234@gmail.com")
@@ -68,12 +65,10 @@ class UserServiceImplTest {
 
 		// when
 		// then
-		assertThatThrownBy(()-> userService.signUp(signUpRequest))
+		assertThatThrownBy(() -> userService.signUp(signUpRequest))
 			.isInstanceOf(ApplicationException.class)
 			.hasMessageContaining(INVALID_PASSWORD.getMessage());
 
 	}
-
-
 
 }

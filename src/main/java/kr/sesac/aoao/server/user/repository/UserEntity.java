@@ -41,7 +41,7 @@ public class UserEntity extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
-	public static UserEntity from(User user){
+	public static UserEntity from(User user) {
 		UserEntity userEntity = new UserEntity();
 		userEntity.userId = user.getUserId();
 		userEntity.nickname = user.getNickname();
@@ -52,7 +52,7 @@ public class UserEntity extends BaseEntity {
 		return userEntity;
 	}
 
-	public User toModel(){
+	public User toModel() {
 		return User.builder()
 			.userId(userId)
 			.email(email)

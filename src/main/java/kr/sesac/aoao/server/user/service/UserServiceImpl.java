@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 		if (userRepository.findByEmail(signUpRequest.getEmail()).isPresent()) {
 			throw new ApplicationException(EXISTENT_EMAIL);
 		}
-		if(!signUpRequest.getPassword().equals(signUpRequest.getCheckedPassword())){  // 비밀번호 중복확인
+		if (!signUpRequest.getPassword().equals(signUpRequest.getCheckedPassword())) {  // 비밀번호 중복확인
 			throw new ApplicationException(INVALID_PASSWORD);
 		}
 		User user = User.from(signUpRequest, passwordEncoder);
@@ -59,9 +59,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String login(Map<String, String> users) {
 		User user = userRepository.findByEmail(users.get("email"))
-			.orElseThrow(()-> new ApplicationException(NOT_EXISTENT_EMAIL)).toModel();
+			.orElseThrow(() -> new ApplicationException(NOT_EXISTENT_EMAIL)).toModel();
 		String password = users.get("password");
-		if(!user.checkPassword(passwordEncoder, password)){
+		if (!user.checkPassword(passwordEncoder, password)) {
 			throw new ApplicationException(NOT_CORRECTED_PASSWORD);
 		}
 		List<String> roles = new ArrayList<>();
