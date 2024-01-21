@@ -23,8 +23,8 @@ public class DinoController {
 	private final DinoService dinoService;
 
 
-	@GetMapping("/getUserDinoInfo")
-	public ResponseEntity<GetUserDinoResponse> getDinoInfo(@RequestBody Long userId) {
+	@GetMapping("/dinos")
+	public ResponseEntity<GetUserDinoResponse> getDinoInfo(Long userId) {
 		GetUserDinoResponse userDinoResponse = dinoService.getDinoInfo(userId);
 		return ResponseEntity.ok(userDinoResponse);
 	}
