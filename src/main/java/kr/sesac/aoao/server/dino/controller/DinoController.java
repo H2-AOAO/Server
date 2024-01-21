@@ -17,12 +17,10 @@ import kr.sesac.aoao.server.dino.service.DinoService;
  */
 
 @RestController
+@RequiredArgsContructor
 public class DinoController {
+
 	private final DinoService dinoService;
-	@Autowired
-	public DinoController(DinoService dinoService){
-		this.dinoService = dinoService;
-	}
 
 
 	@GetMapping("/getUserDinoInfo")
