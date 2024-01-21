@@ -13,11 +13,11 @@ public enum DinoErrorCode implements ErrorCode {
 	private final String message;
 	@Override
 	public HttpStatus getStatusCode() {
-		return null;
+		return httpStatus;
 	}
 
 	@Override
 	public String getMessage() {
-		return null;
+		return message;
 	}
 }
