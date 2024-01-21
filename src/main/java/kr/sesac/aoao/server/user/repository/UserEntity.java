@@ -7,11 +7,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import kr.sesac.aoao.server.dino.domain.Dino;
-import kr.sesac.aoao.server.dino.repository.DinoEntity;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
 import kr.sesac.aoao.server.user.domain.User;
 import lombok.AccessLevel;
@@ -43,9 +39,6 @@ public class UserEntity extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
-	@OneToOne(mappedBy = "user")
-	private DinoEntity dino;
-
 	public UserEntity(User user) {
 		this.id = user.getId();
 		this.nickname = user.getNickname();
@@ -58,5 +51,4 @@ public class UserEntity extends BaseEntity {
 	public User toModel() {
 		return new User(this);
 	}
-
 }
