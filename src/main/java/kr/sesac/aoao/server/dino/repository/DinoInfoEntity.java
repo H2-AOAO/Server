@@ -29,10 +29,10 @@ public class DinoInfoEntity extends BaseEntity {
 	private Long Lv;
 
 	@Column(nullable = false)
-	private int all_exp;
+	private int allExp;
 
 	@Column(nullable = false, length = 30)
-	private String lv_name;
+	private String lvName;
 
 	@OneToMany(mappedBy = "dino")
 	private List<DinoEntity> dinos;
