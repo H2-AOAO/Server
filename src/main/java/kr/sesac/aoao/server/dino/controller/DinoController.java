@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
  * @since 2024.01.19
  * @author 김은서
  */
-
 @RestController
 @RequiredArgsConstructor
 public class DinoController {
