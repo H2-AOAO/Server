@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "raise_dino")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
