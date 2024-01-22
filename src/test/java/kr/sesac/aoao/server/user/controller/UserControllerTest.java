@@ -25,8 +25,6 @@ import kr.sesac.aoao.server.user.service.UserService;
 @WebMvcTest(UserController.class)
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
-	// @InjectMocks
-	// private UserController userController;
 
 	@MockBean
 	private UserService userService;
@@ -39,11 +37,6 @@ class UserControllerTest {
 
 	@Autowired
 	private ObjectMapper objectMapper;
-
-	// @BeforeEach
-	// public void init(){
-	// 	mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
-	// }
 
 	@Test
 	void signup_성공() throws Exception {
@@ -67,7 +60,7 @@ class UserControllerTest {
 		);
 
 		// then
-		MvcResult mvcResult = (MvcResult)resultActions.andExpect(status().isCreated())
+		MvcResult mvcResult = resultActions.andExpect(status().isCreated())
 			// .andExpect(jsonPath("email", response.getEmail()).exists())
 			// .andExpect(jsonPath("nickname", response.getNickname()).exists())
 			.andReturn();

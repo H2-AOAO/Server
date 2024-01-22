@@ -6,7 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -23,8 +23,8 @@ import kr.sesac.aoao.server.todo.repository.PaletteEntity;
 import kr.sesac.aoao.server.todo.repository.PaletteJpaRepository;
 import kr.sesac.aoao.server.todo.repository.TodoFolderEntity;
 import kr.sesac.aoao.server.todo.repository.TodoFolderJpaRepository;
+import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.exception.UserErrorCode;
-import kr.sesac.aoao.server.user.repository.Role;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 
@@ -60,11 +60,12 @@ class TodoFolderServiceImplTest {
             long userId = 1L;
             long paletteId = 2L;
             long todoFolderId = 3L;
-            TodoFolderSaveRequest request = new TodoFolderSaveRequest("content", LocalDateTime.now(), paletteId);
+            TodoFolderSaveRequest request = new TodoFolderSaveRequest("content", LocalDate.now(), paletteId);
 
             // mock
+            User user = new User(userId, "email", "nickname", "password", "password2", "profile", null);
             when(userJpaRepository.findById(userId))
-                .thenReturn(Optional.of(new UserEntity("nickname", "email", "password", "profile", Role.USER)));
+                .thenReturn(Optional.of(new UserEntity(user)));
             when(paletteJpaRepository.findById(paletteId))
                 .thenReturn(Optional.of(new PaletteEntity("blue")));
 
@@ -85,7 +86,7 @@ class TodoFolderServiceImplTest {
         void userIsNotExist() {
             // given
             long notExistUserId = 0L;
-            TodoFolderSaveRequest request = new TodoFolderSaveRequest("content", LocalDateTime.now(), 1L);
+            TodoFolderSaveRequest request = new TodoFolderSaveRequest("content", LocalDate.now(), 1L);
 
             // mock
             when(userJpaRepository.findById(notExistUserId))
@@ -102,11 +103,12 @@ class TodoFolderServiceImplTest {
             // given
             long userId = 1L;
             long notExistPaletteId = 0L;
-            TodoFolderSaveRequest request = new TodoFolderSaveRequest("content", LocalDateTime.now(), notExistPaletteId);
+            TodoFolderSaveRequest request = new TodoFolderSaveRequest("content", LocalDate.now(), notExistPaletteId);
 
             // mock
+            User user = new User(userId, "email", "nickname", "password", "password2", "profile", null);
             when(userJpaRepository.findById(userId))
-                .thenReturn(Optional.of(new UserEntity("nickname", "email", "password", "profile", Role.USER)));
+                .thenReturn(Optional.of(new UserEntity(user)));
             when(paletteJpaRepository.findById(notExistPaletteId))
                 .thenReturn(Optional.empty());
 
