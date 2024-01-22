@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import kr.sesac.aoao.server.dino.controller.dto.GetUserDinoResponse;
 
 public interface DinoJpaRepository extends JpaRepository<DinoEntity, Long> {
-	Optional<GetUserDinoResponse> findByUserId(Long userID);
+	Optional<DinoEntity>findByUserId(Long userID);
 }

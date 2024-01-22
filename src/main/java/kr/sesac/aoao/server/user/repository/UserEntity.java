@@ -13,6 +13,8 @@ import jakarta.persistence.Table;
 import kr.sesac.aoao.server.dino.domain.Dino;
 import kr.sesac.aoao.server.dino.repository.DinoEntity;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
+import kr.sesac.aoao.server.item.repository.ItemEntity;
+import kr.sesac.aoao.server.item.repository.UserItemEntity;
 import kr.sesac.aoao.server.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -45,6 +47,9 @@ public class UserEntity extends BaseEntity {
 
 	@OneToOne(mappedBy = "user")
 	private DinoEntity dino;
+
+	@OneToOne(mappedBy = "user")
+	private UserItemEntity userItem;
 
 	public UserEntity(User user) {
 		this.id = user.getId();
