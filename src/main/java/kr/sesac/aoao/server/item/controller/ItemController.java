@@ -26,7 +26,6 @@ public class ItemController {
 	 * @return ItemInfoResponse
 	 * @author 김은서
 	 */
-
 	@GetMapping("/items")
 	public ResponseEntity<GetItemInfoResponse> getItemInfo(Long id){
 		GetItemInfoResponse itemInfoResponse = itemService.getItemInfo(id);
