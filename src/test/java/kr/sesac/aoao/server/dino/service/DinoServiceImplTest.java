@@ -12,18 +12,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import kr.sesac.aoao.server.dino.controller.dto.GetUserDinoResponse;
-import kr.sesac.aoao.server.dino.domain.Dino;
 import kr.sesac.aoao.server.dino.repository.DinoEntity;
 import kr.sesac.aoao.server.dino.repository.DinoInfoEntity;
 import kr.sesac.aoao.server.dino.repository.DinoJpaRepository;
+import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class DinoServiceImplTest {
+
 	// private DinoService dinoService;
 	//
 	// @Mock
