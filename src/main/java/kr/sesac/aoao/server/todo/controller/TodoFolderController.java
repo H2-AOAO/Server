@@ -5,6 +5,7 @@ import java.net.URI;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +34,7 @@ public class TodoFolderController {
      * @author 김유빈
      */
     @PostMapping("/{userId}")
-    public ResponseEntity<ApplicationResponse<Void>> save(@PathVariable Long userId, TodoFolderSaveRequest request) {
+    public ResponseEntity<ApplicationResponse<Void>> save(@PathVariable Long userId, @RequestBody TodoFolderSaveRequest request) {
         Long folderId = todoFolderService.save(userId, request);
         return ResponseEntity.created(URI.create("/folders/" + folderId)).build();
     }

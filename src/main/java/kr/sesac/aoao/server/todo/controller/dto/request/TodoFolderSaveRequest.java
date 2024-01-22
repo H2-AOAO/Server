@@ -1,6 +1,6 @@
 package kr.sesac.aoao.server.todo.controller.dto.request;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +10,6 @@ import lombok.RequiredArgsConstructor;
 public class TodoFolderSaveRequest {
 
     private final String content;
-    private final LocalDateTime date;
+    private final LocalDate date;
     private final Long paletteId;
 }

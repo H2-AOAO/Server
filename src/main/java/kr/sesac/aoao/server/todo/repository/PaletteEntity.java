@@ -21,8 +21,10 @@ public class PaletteEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // todo: ENUM 정의하여 수정
-    // todo: Application 실행 시 ENUM 순회하여 정보 저장
     @Column
     private String colorCode;
+
+    public PaletteEntity(String colorCode) {
+        this.colorCode = colorCode;
+    }
 }

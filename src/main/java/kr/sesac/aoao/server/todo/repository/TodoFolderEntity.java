@@ -1,6 +1,6 @@
 package kr.sesac.aoao.server.todo.repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +32,7 @@ public class TodoFolderEntity extends BaseEntity {
     private String content;
 
     @Column
-    private LocalDateTime date;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -42,7 +42,7 @@ public class TodoFolderEntity extends BaseEntity {
     @JoinColumn(name = "palette_id")
     private PaletteEntity palette;
 
-    public TodoFolderEntity(String content, LocalDateTime date, UserEntity user, PaletteEntity palette) {
+    public TodoFolderEntity(String content, LocalDate date, UserEntity user, PaletteEntity palette) {
         this.content = content;
         this.date = date;
         this.user = user;
