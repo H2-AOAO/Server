@@ -3,6 +3,7 @@ package kr.sesac.aoao.server.todo.controller;
 import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,5 +55,19 @@ public class TodoFolderController {
         @RequestBody TodoFolderUpdateRequest request) {
         todoFolderService.update(userId, folderId, request);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 투두 폴더 삭제 API
+     * @since 2024.01.22
+     * @parameter Long
+     * @return ResponseEntity<ApplicationResponse<Void>>
+     * @author 김유빈
+     */
+    @DeleteMapping("/{folderId}")
+    public ResponseEntity<ApplicationResponse<Void>> update(
+        @RequestParam Long userId, @PathVariable Long folderId) {
+        todoFolderService.delete(userId, folderId);
+        return ResponseEntity.noContent().build();
     }
 }

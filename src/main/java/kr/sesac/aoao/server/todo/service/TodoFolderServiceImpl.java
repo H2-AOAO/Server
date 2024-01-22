@@ -70,4 +70,21 @@ public class TodoFolderServiceImpl implements TodoFolderService {
 
         savedTodoFolder.update(savedUser, request.getContent(), savedPalette);
     }
+
+    /**
+     * 투두 폴더 삭제
+     * @since 2024.01.22
+     * @parameter Long, Long
+     * @author 김유빈
+     */
+    @Override
+    public void delete(Long userId, Long folderId) {
+        UserEntity savedUser = userJpaRepository.findById(userId)
+            .orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_EXIST));
+        TodoFolderEntity savedTodoFolder = todoFolderJpaRepository.findById(folderId)
+            .orElseThrow(() -> new ApplicationException(TodoFolderErrorCode.NOT_EXIST));
+
+        savedTodoFolder.validateUserIsWriter(savedUser);
+        todoFolderJpaRepository.deleteById(savedTodoFolder.getId());
+    }
 }

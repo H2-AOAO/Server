@@ -52,10 +52,14 @@ public class TodoFolderEntity extends BaseEntity {
     }
 
     public void update(UserEntity user, String content, PaletteEntity palette) {
+        validateUserIsWriter(user);
+        this.content = content;
+        this.palette = palette;
+    }
+
+    public void validateUserIsWriter(UserEntity user) {
         if (!this.user.isWriter(user)) {
             throw new ApplicationException(TodoFolderErrorCode.IS_NOT_WRITER);
         }
-        this.content = content;
-        this.palette = palette;
     }
 }

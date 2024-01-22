@@ -8,4 +8,6 @@ public interface TodoFolderService {
     Long save(Long userId, TodoFolderSaveRequest request);
 
     void update(Long userId, Long folderId, TodoFolderUpdateRequest request);
+
+    void delete(Long userId, Long folderId);
 }
