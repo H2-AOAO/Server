@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @Getter
 public class UseItemNumResponse {
-	private final Long item_id;
-	private final Long user_id;
-	private final int item_num;
+	private final Long itemId;
+	private final Long userId;
+	private final int itemNum;
 
 	@Builder
 	public UseItemNumResponse(Long item_id, Long user_id, int item_num){
