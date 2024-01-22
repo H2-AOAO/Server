@@ -22,7 +22,6 @@ import lombok.Setter;
 @Table(name = "dino_info")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Setter
 public class DinoInfoEntity extends BaseEntity {
 
 	@Id
