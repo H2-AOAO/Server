@@ -1,5 +1,6 @@
 package kr.sesac.aoao.server.global.exception;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -40,8 +41,22 @@ public class GlobalExceptionHandler {
 	 * @author 김유빈
 	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<ApplicationResponse<Void>> validException(MethodArgumentNotValidException e) {
+	public ResponseEntity<ApplicationResponse<Void>> handleValidationException(MethodArgumentNotValidException e) {
 		ApplicationResponse<Void> response = ApplicationResponse.fail(e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+		return ResponseEntity.badRequest().body(response);
+	}
+
+	/**
+	 * jpa entity column exception 처리 추가
+	 * @since 2024.01.22
+	 * @parameter DataIntegrityViolationException
+	 * @return ResponseEntity<ApplicationResponse<Void>>
+	 * @author 김유빈
+	 */
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<ApplicationResponse<Void>> handleEntityException(DataIntegrityViolationException e) {
+		log.warning(e.getMessage());
+		ApplicationResponse<Void> response = ApplicationResponse.fail("올바른 값을 입력해주세요.");
 		return ResponseEntity.badRequest().body(response);
 	}
 
