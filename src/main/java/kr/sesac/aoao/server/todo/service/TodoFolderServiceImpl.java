@@ -5,7 +5,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.sesac.aoao.server.global.exception.ApplicationException;
 import kr.sesac.aoao.server.todo.controller.dto.request.TodoFolderSaveRequest;
+import kr.sesac.aoao.server.todo.controller.dto.request.TodoFolderUpdateRequest;
 import kr.sesac.aoao.server.todo.exception.PaletteErrorCode;
+import kr.sesac.aoao.server.todo.exception.TodoFolderErrorCode;
 import kr.sesac.aoao.server.todo.repository.PaletteEntity;
 import kr.sesac.aoao.server.todo.repository.PaletteJpaRepository;
 import kr.sesac.aoao.server.todo.repository.TodoFolderEntity;
@@ -49,5 +51,23 @@ public class TodoFolderServiceImpl implements TodoFolderService {
             savedPalette
         );
         return todoFolderJpaRepository.save(todoFolder).getId();
+    }
+
+    /**
+     * 투두 폴더 수정
+     * @since 2024.01.22
+     * @parameter Long, Long, TodoFolderSaveRequest
+     * @author 김유빈
+     */
+    @Override
+    public void update(Long userId, Long folderId, TodoFolderUpdateRequest request) {
+        UserEntity savedUser = userJpaRepository.findById(userId)
+            .orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_EXIST));
+        PaletteEntity savedPalette = paletteJpaRepository.findById(request.getPaletteId())
+            .orElseThrow(() -> new ApplicationException(PaletteErrorCode.NOT_EXIST));
+        TodoFolderEntity savedTodoFolder = todoFolderJpaRepository.findById(folderId)
+            .orElseThrow(() -> new ApplicationException(TodoFolderErrorCode.NOT_EXIST));
+
+        savedTodoFolder.update(savedUser, request.getContent(), savedPalette);
     }
 }

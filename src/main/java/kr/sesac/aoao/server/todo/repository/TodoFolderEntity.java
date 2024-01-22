@@ -11,6 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
+import kr.sesac.aoao.server.global.exception.ApplicationException;
+import kr.sesac.aoao.server.todo.exception.TodoFolderErrorCode;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -46,6 +48,14 @@ public class TodoFolderEntity extends BaseEntity {
         this.content = content;
         this.date = date;
         this.user = user;
+        this.palette = palette;
+    }
+
+    public void update(UserEntity user, String content, PaletteEntity palette) {
+        if (!this.user.isWriter(user)) {
+            throw new ApplicationException(TodoFolderErrorCode.IS_NOT_WRITER);
+        }
+        this.content = content;
         this.palette = palette;
     }
 }
