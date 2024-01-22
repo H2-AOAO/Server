@@ -41,7 +41,7 @@ public class DinoServiceImpl implements DinoService {
 	public GetUserDinoResponse getDinoInfo(Long userId) {
 		UserEntity user = userRepository.findById(userId)
 			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));;
-		DinoEntity dino = dinoRepository.findByUserId(user.getId())
+		DinoEntity dino = dinoRepository.findByUser(user)
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 		return new GetUserDinoResponse(
 			dino.getUser().getId(),
