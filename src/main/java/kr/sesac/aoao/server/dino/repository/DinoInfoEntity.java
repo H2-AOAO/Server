@@ -18,12 +18,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Builder
 @Getter
 @Table(name = "dino_info")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Setter
 public class DinoInfoEntity extends BaseEntity {
 
 	@Id
@@ -41,4 +39,8 @@ public class DinoInfoEntity extends BaseEntity {
 
 	@OneToMany(mappedBy = "dino")
 	private List<DinoEntity> dinos;
+
+	public void changeLv(int Lv){
+		this.Lv = Lv;
+	}
 }
