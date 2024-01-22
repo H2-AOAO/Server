@@ -10,10 +10,10 @@ public class UseItemNumResponse {
 	private final int itemNum;
 
 	@Builder
-	public UseItemNumResponse(Long item_id, Long user_id, int item_num) {
-		this.itemId = item_id;
-		this.userId = user_id;
-		this.itemNum = item_num;
+	public UseItemNumResponse(Long itemId, Long userId, int itemNum){
+		this.itemId = itemId;
+		this.userId = userId;
+		this.itemNum = itemNum;
 	}
 
 }
