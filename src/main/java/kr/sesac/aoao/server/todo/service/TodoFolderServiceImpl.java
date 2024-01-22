@@ -39,10 +39,8 @@ public class TodoFolderServiceImpl implements TodoFolderService {
      */
     @Override
     public Long save(Long userId, TodoFolderSaveRequest request) {
-        UserEntity savedUser = userJpaRepository.findById(userId)
-            .orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_EXIST));
-        PaletteEntity savedPalette = paletteJpaRepository.findById(request.getPaletteId())
-            .orElseThrow(() -> new ApplicationException(PaletteErrorCode.NOT_EXIST));
+        UserEntity savedUser = findUserById(userId);
+        PaletteEntity savedPalette = findPaletteById(request.getPaletteId());
 
         TodoFolderEntity todoFolder = new TodoFolderEntity(
             request.getContent(),
@@ -61,12 +59,9 @@ public class TodoFolderServiceImpl implements TodoFolderService {
      */
     @Override
     public void update(Long userId, Long folderId, TodoFolderUpdateRequest request) {
-        UserEntity savedUser = userJpaRepository.findById(userId)
-            .orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_EXIST));
-        PaletteEntity savedPalette = paletteJpaRepository.findById(request.getPaletteId())
-            .orElseThrow(() -> new ApplicationException(PaletteErrorCode.NOT_EXIST));
-        TodoFolderEntity savedTodoFolder = todoFolderJpaRepository.findById(folderId)
-            .orElseThrow(() -> new ApplicationException(TodoFolderErrorCode.NOT_EXIST));
+        UserEntity savedUser = findUserById(userId);
+        PaletteEntity savedPalette = findPaletteById(request.getPaletteId());
+        TodoFolderEntity savedTodoFolder = findTodoFolderById(folderId);
 
         savedTodoFolder.update(savedUser, request.getContent(), savedPalette);
     }
@@ -79,12 +74,25 @@ public class TodoFolderServiceImpl implements TodoFolderService {
      */
     @Override
     public void delete(Long userId, Long folderId) {
-        UserEntity savedUser = userJpaRepository.findById(userId)
-            .orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_EXIST));
-        TodoFolderEntity savedTodoFolder = todoFolderJpaRepository.findById(folderId)
-            .orElseThrow(() -> new ApplicationException(TodoFolderErrorCode.NOT_EXIST));
+        UserEntity savedUser = findUserById(userId);
+        TodoFolderEntity savedTodoFolder = findTodoFolderById(folderId);
 
         savedTodoFolder.validateUserIsWriter(savedUser);
         todoFolderJpaRepository.deleteById(savedTodoFolder.getId());
+    }
+
+    private UserEntity findUserById(Long userId) {
+        return userJpaRepository.findById(userId)
+            .orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_EXIST));
+    }
+
+    private PaletteEntity findPaletteById(Long paletteId) {
+        return paletteJpaRepository.findById(paletteId)
+            .orElseThrow(() -> new ApplicationException(PaletteErrorCode.NOT_EXIST));
+    }
+
+    private TodoFolderEntity findTodoFolderById(Long folderId) {
+        return todoFolderJpaRepository.findById(folderId)
+            .orElseThrow(() -> new ApplicationException(TodoFolderErrorCode.NOT_EXIST));
     }
 }
