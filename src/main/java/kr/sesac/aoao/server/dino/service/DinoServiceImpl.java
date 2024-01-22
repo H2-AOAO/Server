@@ -40,11 +40,11 @@ public class DinoServiceImpl implements DinoService {
 	@Override
 	public GetUserDinoResponse getDinoInfo(Long userId) {
 		UserEntity user = userRepository.findById(userId)
-			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_EXIST));;
-		DinoEntity dino = dinoRepository.findByUser(user)
+			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));;
+		DinoEntity dino = dinoRepository.findByUserId(user.getId())
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 		return new GetUserDinoResponse(
-			dino.getUser().getUserId(),
+			dino.getUser().getId(),
 			dino.getName(),
 			dino.getColor(),
 			dino.getExp(),
