@@ -52,7 +52,6 @@ public class ItemServiceImpl implements ItemService {
 	 * @author 김은서
 	 */
 	@Override
-	@Transactional
 	public UseItemNumResponse calItemNum(Long userId, Long itemId, String status) {
 		UserEntity user = userRepository.findById(userId)
 			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
@@ -68,8 +67,8 @@ public class ItemServiceImpl implements ItemService {
 		}
 
 		int currentItemNum = userItem.getItem_num();
-		if(status.equals("구매")) userItem.setItem_num(currentItemNum + 1);
-		if(status.equals("사용")) userItem.setItem_num(currentItemNum - 1);
+		if(status.equals("구매")) userItem.changeItemNum(currentItemNum + 1);
+		if(status.equals("사용")) userItem.changeItemNum(currentItemNum - 1);
 		userItemRepository.save(userItem);
 
 		return new UseItemNumResponse(
