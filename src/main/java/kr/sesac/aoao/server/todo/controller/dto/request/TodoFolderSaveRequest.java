@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TodoFolderSaveRequest {
 
-	private final String content;
-	private final LocalDate date;
-	private final Long paletteId;
+    private final String content;
+    private final LocalDate date;
+    private final Long paletteId;
 }
