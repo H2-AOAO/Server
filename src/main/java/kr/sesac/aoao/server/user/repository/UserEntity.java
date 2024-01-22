@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import kr.sesac.aoao.server.dino.repository.DinoEntity;
@@ -40,8 +41,8 @@ public class UserEntity extends BaseEntity {
 	@OneToOne(mappedBy = "user")
 	private DinoEntity dino;
 
-	@OneToOne(mappedBy = "user")
-	private UserItemEntity userItem;
+	@OneToMany(mappedBy = "user")
+	private List<UserItemEntity> userItems;
 
 	public UserEntity(User user) {
 		this.id = user.getId();
