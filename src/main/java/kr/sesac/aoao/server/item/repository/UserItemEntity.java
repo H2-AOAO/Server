@@ -19,7 +19,6 @@ import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @Table(name="user_item")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -38,4 +37,8 @@ public class UserItemEntity {
 
 	@Column
 	private int item_num;
+
+	public void changeItemNum(int num){
+		this.item_num = num;
+	}
 }

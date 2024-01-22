@@ -9,7 +9,6 @@ public class UseItemNumResponse {
 	private final Long userId;
 	private final int itemNum;
 
-	@Builder
 	public UseItemNumResponse(Long itemId, Long userId, int itemNum){
 		this.itemId = itemId;
 		this.userId = userId;

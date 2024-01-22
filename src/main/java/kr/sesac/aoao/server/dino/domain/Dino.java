@@ -12,7 +12,6 @@ public class Dino {
 	private final int Lv;
 	private final int point;
 
-	@Builder
 	public Dino(String name, String color, int exp, Long userId, int Lv, int point){
 		this.name = name;
 		this.color = color;
@@ -21,6 +20,4 @@ public class Dino {
 		this.Lv = Lv;
 		this.point = point;
 	}
-
-
 }
