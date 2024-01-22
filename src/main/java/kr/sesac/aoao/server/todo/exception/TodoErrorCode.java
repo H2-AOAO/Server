@@ -7,13 +7,21 @@ import kr.sesac.aoao.server.global.exception.ErrorCode;
 public enum TodoErrorCode implements ErrorCode {
     ;
 
+    private final HttpStatus httpStatus;
+    private final String message;
+
+    TodoErrorCode(HttpStatus httpStatus, String message) {
+        this.httpStatus = httpStatus;
+        this.message = message;
+    }
+
     @Override
     public HttpStatus getStatusCode() {
-        return null;
+        return httpStatus;
     }
 
     @Override
     public String getMessage() {
-        return null;
+        return message;
     }
 }
