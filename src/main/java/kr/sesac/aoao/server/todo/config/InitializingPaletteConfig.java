@@ -10,27 +10,26 @@ import kr.sesac.aoao.server.todo.repository.PaletteJpaRepository;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @author 김유빈
  * @since 2024.01.22
+ * @author 김유빈
  */
 @Configuration
 @RequiredArgsConstructor
 public class InitializingPaletteConfig implements ApplicationRunner {
 
-	private final PaletteJpaRepository paletteJpaRepository;
+    private final PaletteJpaRepository paletteJpaRepository;
 
-	/**
-	 * 어플리케이션 실행 시 팔레트 정보 초기화
-	 *
-	 * @parameter
-	 * @author 김유빈
-	 * @since 2024.01.22
-	 */
-	@Override
-	public void run(ApplicationArguments args) {
-		for (Palette palette : Palette.values()) {
-			PaletteEntity paletteEntity = new PaletteEntity(palette.getColorCode());
-			paletteJpaRepository.save(paletteEntity);
-		}
-	}
+    /**
+     * 어플리케이션 실행 시 팔레트 정보 초기화
+     * @since 2024.01.22
+     * @parameter
+     * @author 김유빈
+     */
+    @Override
+    public void run(ApplicationArguments args) {
+        for (Palette palette : Palette.values()) {
+            PaletteEntity paletteEntity = new PaletteEntity(palette.getColorCode());
+            paletteJpaRepository.save(paletteEntity);
+        }
+    }
 }
