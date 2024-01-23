@@ -8,10 +8,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import kr.sesac.aoao.server.global.exception.ApplicationException;
-import kr.sesac.aoao.server.user.domain.User;
+import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
+import kr.sesac.aoao.server.user.repository.UserEntity;
 import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * @author 이상민
+ * @since 2024.01.22
+ */
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
@@ -20,11 +25,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userJpaRepository.findByEmail(username).get().toModel();
-		if (user == null) {
-			throw new ApplicationException(NOT_FOUND_USER);
-		}
-		return (UserDetails)user;
+		UserEntity userEntity = userJpaRepository.findByEmail(username)
+			.orElseThrow(() -> new ApplicationException(NOT_FOUND_USER));
+		return new UserCustomDetails(userEntity);
 	}
 
 }

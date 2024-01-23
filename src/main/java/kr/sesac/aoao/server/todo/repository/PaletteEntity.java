@@ -17,14 +17,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PaletteEntity extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column
-    private String colorCode;
+	@Column
+	private String colorCode;
 
-    public PaletteEntity(String colorCode) {
-        this.colorCode = colorCode;
-    }
+	public PaletteEntity(String colorCode) {
+		this.colorCode = colorCode;
+	}
 }

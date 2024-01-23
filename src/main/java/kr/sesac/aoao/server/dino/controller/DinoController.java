@@ -13,8 +13,8 @@ import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @since 2024.01.19
  * @author 김은서
+ * @since 2024.01.19
  */
 @RestController
 @RequiredArgsConstructor
@@ -25,9 +25,10 @@ public class DinoController {
 
 	/**
 	 * 다이노 정보 조회
-	 * @since 2024.01.19
+	 *
 	 * @return GetUserDinoResponse
 	 * @author 김은서
+	 * @since 2024.01.19
 	 */
 	@GetMapping("/{userId}")
 	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> getDinoInfo(@PathVariable Long userId) {
@@ -37,36 +38,39 @@ public class DinoController {
 
 	/**
 	 * 다이노 이름 변경
-	 * @since 2024.01.22
+	 *
 	 * @return GetUserDinoResponse
 	 * @author 김은서
+	 * @since 2024.01.22
 	 */
 	@PostMapping("/rename")
-	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> renameDino(Long dinoId, String name){
+	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> renameDino(Long dinoId, String name) {
 		GetUserDinoResponse userDinoResponse = dinoService.renameDino(dinoId, name);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}
 
 	/**
 	 * 다이노 경헙치 변경
-	 * @since 2024.01.22
+	 *
 	 * @return GetUserDinoResponse
 	 * @author 김은서
+	 * @since 2024.01.22
 	 */
 	@PostMapping("/exp")
-	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> expChange(Long userId, Long dinoId, Long itemId){
-		GetUserDinoResponse userDinoResponse = dinoService.expChange(userId,dinoId,itemId);
+	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> expChange(Long userId, Long dinoId, Long itemId) {
+		GetUserDinoResponse userDinoResponse = dinoService.expChange(userId, dinoId, itemId);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}
 
 	/**
 	 * 다이노 포인트 변경
-	 * @since 2024.01.22
+	 *
 	 * @return GetUserDinoResponse
 	 * @author 김은서
+	 * @since 2024.01.22
 	 */
 	@PostMapping("/point")
-	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> usePoint(Long userId, Long itemId){
+	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> usePoint(Long userId, Long itemId) {
 		GetUserDinoResponse userDinoResponse = dinoService.usePoint(userId, itemId);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}
