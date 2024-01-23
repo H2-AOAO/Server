@@ -30,6 +30,17 @@ public class DinoServiceImpl implements DinoService {
 	private final UserJpaRepository userRepository;
 	private final ItemJpaRepository itemRepository;
 
+	private GetUserDinoResponse result(DinoEntity dino){
+		return new GetUserDinoResponse(
+			dino.getUser().getId(),
+			dino.getName(),
+			dino.getColor(),
+			dino.getExp(),
+			dino.getDino().getLv(),
+			dino.getPoint()
+		);
+	}
+
 	/**
 	 * 다이노 정보 가져오기
 	 * @since 2024.01.18
@@ -43,14 +54,7 @@ public class DinoServiceImpl implements DinoService {
 			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));;
 		DinoEntity dino = dinoRepository.findByUser(user)
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
-		return new GetUserDinoResponse(
-			dino.getUser().getId(),
-			dino.getName(),
-			dino.getColor(),
-			dino.getExp(),
-			dino.getDino().getLv(),
-			dino.getPoint()
-		);
+		return result(dino);
 	}
 
 	/**
@@ -60,20 +64,12 @@ public class DinoServiceImpl implements DinoService {
 	 * @author 김은서
 	 */
 	@Override
-	@Transactional
 	public GetUserDinoResponse renameDino(Long dinoId, String name) {
 		DinoEntity dino = dinoRepository.findById(dinoId)
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
-		dino.setName(name);
+		dino.changeName(name);
 		dinoRepository.save(dino);
-		return new GetUserDinoResponse(
-			dino.getUser().getId(),
-			dino.getName(),
-			dino.getColor(),
-			dino.getExp(),
-			dino.getDino().getLv(),
-			dino.getPoint()
-		);
+		return result(dino);
 	}
 
 	/**
@@ -83,7 +79,6 @@ public class DinoServiceImpl implements DinoService {
 	 * @author 김은서
 	 */
 	@Override
-	@Transactional
 	public GetUserDinoResponse expChange(Long userId, Long dinoId, Long itemId) {
 		UserEntity user = userRepository.findById(userId)
 		.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
@@ -100,23 +95,14 @@ public class DinoServiceImpl implements DinoService {
 		if(currentExp + upExp > levelLimit){
 			int leftExp = currentExp + upExp - levelLimit;
 			currentLv += 1;
-			dino.setExp(leftExp);
+			dino.changeExp(leftExp);
 			DinoInfoEntity dinoInfoEntity = dino.getDino();
-			dinoInfoEntity.setLv(currentLv);
+			dinoInfoEntity.changeLv(currentLv);
 
 		}
-		else dino.setExp(currentExp + upExp);
+		else dino.changeExp(currentExp + upExp);
 
-		dinoRepository.save(dino);
-
-		return new GetUserDinoResponse(
-			dino.getUser().getId(),
-			dino.getName(),
-			dino.getColor(),
-			dino.getExp(),
-			dino.getDino().getLv(),
-			dino.getPoint()
-		);
+		return result(dino);
 	}
 
 	/**
@@ -126,7 +112,6 @@ public class DinoServiceImpl implements DinoService {
 	 * @author 김은서
 	 */
 	@Override
-	@Transactional
 	public GetUserDinoResponse usePoint(Long userId, Long itemId) {
 		UserEntity user = userRepository.findById(userId)
 			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
@@ -140,17 +125,9 @@ public class DinoServiceImpl implements DinoService {
 		if (itemPrice > point)
 			throw new ApplicationException(DinoErrorCode.NOT_ENOUGH_POINT);
 		else{
-			dino.setPoint(point - itemPrice);
+			dino.changePoint(point - itemPrice);
 		}
-		dinoRepository.save(dino);
 
-		return new GetUserDinoResponse(
-			dino.getUser().getId(),
-			dino.getName(),
-			dino.getColor(),
-			dino.getExp(),
-			dino.getDino().getLv(),
-			dino.getPoint()
-		);
+		return result(dino);
 	}
 }
