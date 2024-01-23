@@ -37,7 +37,7 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public GetItemInfoResponse getItemInfo(Long id) {
 		ItemEntity item = itemRepository.findById(id)
-			.orElseThrow(()-> new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
+			.orElseThrow(() -> new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
 		return new GetItemInfoResponse(
 			item.getId(),
 			item.getName(),
@@ -58,14 +58,16 @@ public class ItemServiceImpl implements ItemService {
 		UserEntity user = userRepository.findById(userId)
 			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
 		ItemEntity item = itemRepository.findById(itemId)
-			.orElseThrow(() ->new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
-		UserItemEntity userItem = userItemRepository.findByUserAndItem(user,item)
+			.orElseThrow(() -> new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
+		UserItemEntity userItem = userItemRepository.findByUserAndItem(user, item)
 			.orElseThrow(() -> new ApplicationException(ItemErrorCode.NOT_FOUND_USER_ITEM));
 		DinoEntity dino = dinoRepository.findByUserId(user.getId())
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 		int currentItemNum = userItem.getItem_num();
-		if(status.equals("구매")) userItem.setItem_num(currentItemNum + 1);
-		if(status.equals("사용") && dino.getPoint() >= item.getPrice()) userItem.setItem_num(currentItemNum - 1);
+		if (status.equals("구매"))
+			userItem.setItem_num(currentItemNum + 1);
+		if (status.equals("사용") && dino.getPoint() >= item.getPrice())
+			userItem.setItem_num(currentItemNum - 1);
 		userItemRepository.save(userItem);
 
 		return new UseItemNumResponse(

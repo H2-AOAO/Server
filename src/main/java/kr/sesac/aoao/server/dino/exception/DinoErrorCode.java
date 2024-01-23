@@ -11,6 +11,7 @@ public enum DinoErrorCode implements ErrorCode {
 
 	private final HttpStatus httpStatus;
 	private final String message;
+
 	@Override
 	public HttpStatus getStatusCode() {
 		return httpStatus;

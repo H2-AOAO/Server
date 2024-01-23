@@ -1,9 +1,5 @@
 package kr.sesac.aoao.server.dino.service;
 
-import static kr.sesac.aoao.server.dino.exception.DinoErrorCode.*;
-
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +36,8 @@ public class DinoServiceImpl implements DinoService {
 	@Override
 	public GetUserDinoResponse getDinoInfo(Long userId) {
 		UserEntity user = userRepository.findById(userId)
-			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));;
+			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
+		;
 		DinoEntity dino = dinoRepository.findByUserId(user.getId())
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 		return new GetUserDinoResponse(

@@ -3,7 +3,6 @@ package kr.sesac.aoao.server.dino.controller.dto;
 import lombok.Builder;
 import lombok.Getter;
 
-
 @Getter
 public class GetUserDinoResponse {
 

@@ -2,18 +2,13 @@ package kr.sesac.aoao.server.user.repository;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import kr.sesac.aoao.server.dino.domain.Dino;
 import kr.sesac.aoao.server.dino.repository.DinoEntity;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
-import kr.sesac.aoao.server.item.repository.ItemEntity;
 import kr.sesac.aoao.server.item.repository.UserItemEntity;
 import kr.sesac.aoao.server.user.domain.User;
 import lombok.AccessLevel;
@@ -42,9 +37,6 @@ public class UserEntity extends BaseEntity {
 	@Column
 	private String profile;
 
-	@Enumerated(EnumType.STRING)
-	private Role role;
-
 	@OneToOne(mappedBy = "user")
 	private DinoEntity dino;
 
@@ -57,7 +49,6 @@ public class UserEntity extends BaseEntity {
 		this.password = user.getPassword();
 		this.email = user.getEmail();
 		this.profile = user.getProfile();
-		this.role = user.getRole();
 	}
 
 	public User toModel() {

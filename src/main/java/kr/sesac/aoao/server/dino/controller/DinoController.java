@@ -1,14 +1,10 @@
 package kr.sesac.aoao.server.dino.controller;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.sesac.aoao.server.dino.controller.dto.GetFriendDinoResponse;
 import kr.sesac.aoao.server.dino.controller.dto.GetUserDinoResponse;
 import kr.sesac.aoao.server.dino.service.DinoService;
 import lombok.RequiredArgsConstructor;

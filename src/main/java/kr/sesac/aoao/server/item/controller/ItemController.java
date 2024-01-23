@@ -27,7 +27,7 @@ public class ItemController {
 	 * @author 김은서
 	 */
 	@GetMapping("/items")
-	public ResponseEntity<GetItemInfoResponse> getItemInfo(Long id){
+	public ResponseEntity<GetItemInfoResponse> getItemInfo(Long id) {
 		GetItemInfoResponse itemInfoResponse = itemService.getItemInfo(id);
 		return ResponseEntity.ok(itemInfoResponse);
 	}
@@ -39,8 +39,8 @@ public class ItemController {
 	 * @author 김은서
 	 */
 	@PostMapping("/items/num")
-	public ResponseEntity<UseItemNumResponse> calItemNum(Long userId, Long itemId, String status){
-		UseItemNumResponse useItemNumResponse = itemService.calItemNum(userId,itemId, status);
+	public ResponseEntity<UseItemNumResponse> calItemNum(Long userId, Long itemId, String status) {
+		UseItemNumResponse useItemNumResponse = itemService.calItemNum(userId, itemId, status);
 		return ResponseEntity.ok(useItemNumResponse);
 	}
 }

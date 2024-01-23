@@ -10,16 +10,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import lombok.RequiredArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.*;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+import kr.sesac.aoao.server.user.jwt.JwtAuthenticationEntryPoint;
+import kr.sesac.aoao.server.user.jwt.JwtAuthenticationFilter;
+import kr.sesac.aoao.server.user.jwt.JwtTokenProvider;
+import kr.sesac.aoao.server.user.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -29,8 +25,11 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-
 public class SecurityConfig {
+
+	private final JwtTokenProvider jwtTokenProvider;
+	private final CustomUserDetailsService customUserDetailsService;
+	private final JwtAuthenticationEntryPoint authenticationEntryPoint;
 
 	@Bean
 	public WebSecurityCustomizer configure() {
@@ -43,9 +42,14 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http
 			.csrf(AbstractHttpConfigurer::disable)// CSRF 토큰 비활성화
-			.authorizeRequests()
-			.requestMatchers("*").permitAll()
-			.and()
+			.authorizeHttpRequests(request -> request
+				.requestMatchers("*").permitAll()
+				.anyRequest().authenticated() //어떠한 요청이라도 인증 필요
+			)
+			.exceptionHandling(exception -> exception
+				.authenticationEntryPoint(authenticationEntryPoint))
+			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, customUserDetailsService),
+				UsernamePasswordAuthenticationFilter.class)
 			.build();
 	}
 
