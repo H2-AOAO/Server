@@ -69,7 +69,6 @@ public class ItemServiceImpl implements ItemService {
 		int currentItemNum = userItem.getItem_num();
 		if(status.equals("구매")) userItem.changeItemNum(currentItemNum + 1);
 		if(status.equals("사용")) userItem.changeItemNum(currentItemNum - 1);
-		userItemRepository.save(userItem);
 
 		return new UseItemNumResponse(
 			userItem.getUser().getId(),

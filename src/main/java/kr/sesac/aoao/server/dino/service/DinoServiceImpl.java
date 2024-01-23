@@ -102,8 +102,6 @@ public class DinoServiceImpl implements DinoService {
 		}
 		else dino.changeExp(currentExp + upExp);
 
-		dinoRepository.save(dino);
-
 		return result(dino);
 	}
 
@@ -129,7 +127,6 @@ public class DinoServiceImpl implements DinoService {
 		else{
 			dino.changePoint(point - itemPrice);
 		}
-		dinoRepository.save(dino);
 
 		return result(dino);
 	}
