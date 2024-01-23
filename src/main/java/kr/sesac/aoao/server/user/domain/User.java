@@ -6,7 +6,6 @@ import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 @AllArgsConstructor
@@ -28,6 +27,11 @@ public class User {
 		this.profile = null;
 	}
 
+
+	public void encodePassword(String checkedPassword) {
+		this.password = checkedPassword;
+	}
+
 	public User(UserEntity userEntity) {
 		this.id = userEntity.getId();
 		this.email = userEntity.getEmail();
@@ -37,22 +41,10 @@ public class User {
 	}
 
 	/**
-	 * 비밀번호 암호화
-	 *
-	 * @author 이상민
-	 * @since 2024.01.19
-	 */
-	public void encodePassword(String checkedPassword) {
-		this.password = checkedPassword;
-	}
-
-
-	/**
 	 * 비밀번호 확인
-	 *
+	 * @since 2024.01.19
 	 * @return boolean
 	 * @author 이상민
-	 * @since 2024.01.19
 	 */
 	public boolean checkPassword(PasswordEncoder passwordEncoder, String password) {
 		return passwordEncoder.matches(password, this.password);
