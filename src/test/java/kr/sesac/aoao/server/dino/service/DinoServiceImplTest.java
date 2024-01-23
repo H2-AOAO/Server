@@ -17,6 +17,7 @@ import kr.sesac.aoao.server.dino.controller.dto.GetUserDinoResponse;
 import kr.sesac.aoao.server.dino.repository.DinoEntity;
 import kr.sesac.aoao.server.dino.repository.DinoInfoEntity;
 import kr.sesac.aoao.server.dino.repository.DinoJpaRepository;
+import kr.sesac.aoao.server.item.repository.ItemJpaRepository;
 import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import kr.sesac.aoao.server.user.repository.UserJpaRepository;
@@ -31,10 +32,13 @@ public class DinoServiceImplTest {
 	@Mock
 	private UserJpaRepository userRepository;
 
+	@Mock
+	private ItemJpaRepository itemRepository;
+
 	@BeforeEach
 	void setUp(){
 		dinoService = new DinoServiceImpl(
-			dinoRepository,userRepository
+			dinoRepository,userRepository,itemRepository
 		);
 	}
 
