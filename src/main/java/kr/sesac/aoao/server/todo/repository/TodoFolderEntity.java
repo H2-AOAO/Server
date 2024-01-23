@@ -26,40 +26,40 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TodoFolderEntity extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column
-    private String content;
+	@Column
+	private String content;
 
-    @Column
-    private LocalDate date;
+	@Column
+	private LocalDate date;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private UserEntity user;
 
-    @ManyToOne
-    @JoinColumn(name = "palette_id")
-    private PaletteEntity palette;
+	@ManyToOne
+	@JoinColumn(name = "palette_id")
+	private PaletteEntity palette;
 
-    public TodoFolderEntity(String content, LocalDate date, UserEntity user, PaletteEntity palette) {
-        this.content = content;
-        this.date = date;
-        this.user = user;
-        this.palette = palette;
-    }
+	public TodoFolderEntity(String content, LocalDate date, UserEntity user, PaletteEntity palette) {
+		this.content = content;
+		this.date = date;
+		this.user = user;
+		this.palette = palette;
+	}
 
-    public void update(UserEntity user, String content, PaletteEntity palette) {
-        validateUserIsWriter(user);
-        this.content = content;
-        this.palette = palette;
-    }
+	public void update(UserEntity user, String content, PaletteEntity palette) {
+		validateUserIsWriter(user);
+		this.content = content;
+		this.palette = palette;
+	}
 
-    public void validateUserIsWriter(UserEntity user) {
-        if (!this.user.isWriter(user)) {
-            throw new ApplicationException(TodoFolderErrorCode.IS_NOT_WRITER);
-        }
-    }
+	public void validateUserIsWriter(UserEntity user) {
+		if (!this.user.isWriter(user)) {
+			throw new ApplicationException(TodoFolderErrorCode.IS_NOT_WRITER);
+		}
+	}
 }

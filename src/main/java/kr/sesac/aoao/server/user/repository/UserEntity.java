@@ -54,16 +54,24 @@ public class UserEntity extends BaseEntity {
 		this.profile = user.getProfile();
 	}
 
+	/**
+	 * UserEntity 를 User domain 으로 변경
+	 *
+	 * @return user
+	 * @author 이상민
+	 * @since 2024.01.19
+	 */
 	public User toModel() {
 		return new User(this);
 	}
 
 	/**
 	 * 작성자 검증
-	 * @since 2024.01.22
-	 * @parameter UserEntity
+	 *
 	 * @return boolean
+	 * @parameter UserEntity
 	 * @author 김유빈
+	 * @since 2024.01.22
 	 */
 	public boolean isWriter(UserEntity user) {
 		return this.id.equals(user.id);

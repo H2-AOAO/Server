@@ -8,7 +8,7 @@ import kr.sesac.aoao.server.user.repository.UserEntity;
 
 public interface DinoJpaRepository extends JpaRepository<DinoEntity, Long> {
 
-	Optional<DinoEntity>findByUserId(Long userID);
+	Optional<DinoEntity> findByUserId(Long userID);
 
 	Optional<DinoEntity> findByUser(UserEntity user);
 }

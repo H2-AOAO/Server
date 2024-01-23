@@ -12,10 +12,8 @@ import jakarta.persistence.Table;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
@@ -40,7 +38,7 @@ public class DinoInfoEntity extends BaseEntity {
 	@OneToMany(mappedBy = "dino")
 	private List<DinoEntity> dinos;
 
-	public void changeLv(int Lv){
+	public void changeLv(int Lv) {
 		this.Lv = Lv;
 	}
 }

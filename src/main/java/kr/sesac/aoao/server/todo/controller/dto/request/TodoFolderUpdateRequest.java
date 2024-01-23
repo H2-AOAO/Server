@@ -7,6 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TodoFolderUpdateRequest {
 
-    private final String content;
-    private final Long paletteId;
+	private final String content;
+	private final Long paletteId;
 }
