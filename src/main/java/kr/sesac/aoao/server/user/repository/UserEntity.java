@@ -70,4 +70,14 @@ public class UserEntity extends BaseEntity {
 		return new User(this);
 	}
 
+	/**
+	 * 작성자 검증
+	 * @since 2024.01.22
+	 * @parameter UserEntity
+	 * @return boolean
+	 * @author 김유빈
+	 */
+	public boolean isWriter(UserEntity user) {
+		return this.id.equals(user.id);
+	}
 }
