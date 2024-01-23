@@ -13,8 +13,8 @@ import kr.sesac.aoao.server.item.service.ItemService;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @author 김은서
  * @since 2024.01.22
+ * @author 김은서
  */
 
 @RestController
@@ -25,27 +25,25 @@ public class ItemController {
 
 	/**
 	 * 아이템 정보 조회
-	 *
+	 * @since 2024.01.19
 	 * @return ItemInfoResponse
 	 * @author 김은서
-	 * @since 2024.01.19
 	 */
 	@GetMapping("/")
-	public ResponseEntity<ApplicationResponse<GetItemInfoResponse>> getItemInfo(Long id) {
+	public ResponseEntity<ApplicationResponse<GetItemInfoResponse>> getItemInfo(Long id){
 		GetItemInfoResponse itemInfoResponse = itemService.getItemInfo(id);
 		return ResponseEntity.ok(ApplicationResponse.success(itemInfoResponse));
 	}
 
 	/**
 	 * 아이템 사용 - 개수 조절
-	 *
+	 * @since 2024.01.22
 	 * @return UseItemNumResponse
 	 * @author 김은서
-	 * @since 2024.01.22
 	 */
 	@PostMapping("/num")
-	public ResponseEntity<ApplicationResponse<UseItemNumResponse>> calItemNum(Long userId, Long itemId, String status) {
-		UseItemNumResponse useItemNumResponse = itemService.calItemNum(userId, itemId, status);
+	public ResponseEntity<ApplicationResponse<UseItemNumResponse>> calItemNum(Long userId, Long itemId, String status){
+		UseItemNumResponse useItemNumResponse = itemService.calItemNum(userId,itemId, status);
 		return ResponseEntity.ok(ApplicationResponse.success(useItemNumResponse));
 	}
 }
