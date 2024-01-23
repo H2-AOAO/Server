@@ -2,16 +2,12 @@ package kr.sesac.aoao.server.user.repository;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -19,18 +15,8 @@ import lombok.NoArgsConstructor;
 public class RefreshTokenEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(nullable = false)
-	private Long id;
-
 	@Column(nullable = false)
 	private String email;
 
-	@Column(nullable = false, length = 300)
 	private String refreshToken;
-
-	public RefreshTokenEntity(String email, String refreshToken) {
-		this.email = email;
-		this.refreshToken = refreshToken;
-	}
 }
