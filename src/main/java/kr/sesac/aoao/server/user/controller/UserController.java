@@ -37,10 +37,11 @@ public class UserController {
 
 	/**
 	 * 회원가입
-	 * @since 2024.01.18
+	 *
 	 * @param signUpRequest
 	 * @return User
 	 * @author 이상민
+	 * @since 2024.01.18
 	 */
 	@PostMapping("/signup")
 	public ResponseEntity<ApplicationResponse<SignUpResponse>> signup(@Valid @RequestBody SignUpRequest signUpRequest) {

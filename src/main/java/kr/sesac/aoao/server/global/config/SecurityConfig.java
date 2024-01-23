@@ -15,12 +15,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import kr.sesac.aoao.server.user.jwt.JwtAuthenticationEntryPoint;
 import kr.sesac.aoao.server.user.jwt.JwtAuthenticationFilter;
 import kr.sesac.aoao.server.user.jwt.JwtTokenProvider;
-import kr.sesac.aoao.server.user.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @since 2024.01.18
  * @author 이상민
+ * @since 2024.01.18
  */
 @Configuration
 @EnableWebSecurity
@@ -28,7 +27,6 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
 	private final JwtTokenProvider jwtTokenProvider;
-	private final CustomUserDetailsService customUserDetailsService;
 	private final JwtAuthenticationEntryPoint authenticationEntryPoint;
 
 	@Bean
@@ -43,13 +41,11 @@ public class SecurityConfig {
 		return http
 			.csrf(AbstractHttpConfigurer::disable)// CSRF 토큰 비활성화
 			.authorizeHttpRequests(request -> request
-				.requestMatchers("*").permitAll()
+				.requestMatchers("/login", "/signup", "/user/reissue").permitAll()
 				.anyRequest().authenticated() //어떠한 요청이라도 인증 필요
 			)
-			.exceptionHandling(exception -> exception
-				.authenticationEntryPoint(authenticationEntryPoint))
-			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, customUserDetailsService),
-				UsernamePasswordAuthenticationFilter.class)
+			.exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint))
+			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
 			.build();
 	}
 
