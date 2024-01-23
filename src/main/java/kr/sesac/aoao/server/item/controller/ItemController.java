@@ -3,8 +3,10 @@ package kr.sesac.aoao.server.item.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
 import kr.sesac.aoao.server.item.controller.dto.GetItemInfoResponse;
 import kr.sesac.aoao.server.item.controller.dto.UseItemNumResponse;
 import kr.sesac.aoao.server.item.service.ItemService;
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/items")
 public class ItemController {
 	private final ItemService itemService;
 
@@ -26,10 +29,10 @@ public class ItemController {
 	 * @return ItemInfoResponse
 	 * @author 김은서
 	 */
-	@GetMapping("/items")
-	public ResponseEntity<GetItemInfoResponse> getItemInfo(Long id) {
+	@GetMapping("/")
+	public ResponseEntity<ApplicationResponse<GetItemInfoResponse>> getItemInfo(Long id){
 		GetItemInfoResponse itemInfoResponse = itemService.getItemInfo(id);
-		return ResponseEntity.ok(itemInfoResponse);
+		return ResponseEntity.ok(ApplicationResponse.success(itemInfoResponse));
 	}
 
 	/**
@@ -38,9 +41,9 @@ public class ItemController {
 	 * @return UseItemNumResponse
 	 * @author 김은서
 	 */
-	@PostMapping("/items/num")
-	public ResponseEntity<UseItemNumResponse> calItemNum(Long userId, Long itemId, String status) {
-		UseItemNumResponse useItemNumResponse = itemService.calItemNum(userId, itemId, status);
-		return ResponseEntity.ok(useItemNumResponse);
+	@PostMapping("/num")
+	public ResponseEntity<ApplicationResponse<UseItemNumResponse>> calItemNum(Long userId, Long itemId, String status){
+		UseItemNumResponse useItemNumResponse = itemService.calItemNum(userId,itemId, status);
+		return ResponseEntity.ok(ApplicationResponse.success(useItemNumResponse));
 	}
 }
