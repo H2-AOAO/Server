@@ -5,7 +5,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.sesac.aoao.server.global.exception.ApplicationException;
 import kr.sesac.aoao.server.todo.controller.dto.request.TodoFolderSaveRequest;
+import kr.sesac.aoao.server.todo.controller.dto.request.TodoFolderUpdateRequest;
 import kr.sesac.aoao.server.todo.exception.PaletteErrorCode;
+import kr.sesac.aoao.server.todo.exception.TodoFolderErrorCode;
 import kr.sesac.aoao.server.todo.repository.PaletteEntity;
 import kr.sesac.aoao.server.todo.repository.PaletteJpaRepository;
 import kr.sesac.aoao.server.todo.repository.TodoFolderEntity;
@@ -37,10 +39,8 @@ public class TodoFolderServiceImpl implements TodoFolderService {
      */
     @Override
     public Long save(Long userId, TodoFolderSaveRequest request) {
-        UserEntity savedUser = userJpaRepository.findById(userId)
-            .orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_EXIST));
-        PaletteEntity savedPalette = paletteJpaRepository.findById(request.getPaletteId())
-            .orElseThrow(() -> new ApplicationException(PaletteErrorCode.NOT_EXIST));
+        UserEntity savedUser = findUserById(userId);
+        PaletteEntity savedPalette = findPaletteById(request.getPaletteId());
 
         TodoFolderEntity todoFolder = new TodoFolderEntity(
             request.getContent(),
@@ -49,5 +49,50 @@ public class TodoFolderServiceImpl implements TodoFolderService {
             savedPalette
         );
         return todoFolderJpaRepository.save(todoFolder).getId();
+    }
+
+    /**
+     * 투두 폴더 수정
+     * @since 2024.01.22
+     * @parameter Long, Long, TodoFolderSaveRequest
+     * @author 김유빈
+     */
+    @Override
+    public void update(Long userId, Long folderId, TodoFolderUpdateRequest request) {
+        UserEntity savedUser = findUserById(userId);
+        PaletteEntity savedPalette = findPaletteById(request.getPaletteId());
+        TodoFolderEntity savedTodoFolder = findTodoFolderById(folderId);
+
+        savedTodoFolder.update(savedUser, request.getContent(), savedPalette);
+    }
+
+    /**
+     * 투두 폴더 삭제
+     * @since 2024.01.22
+     * @parameter Long, Long
+     * @author 김유빈
+     */
+    @Override
+    public void delete(Long userId, Long folderId) {
+        UserEntity savedUser = findUserById(userId);
+        TodoFolderEntity savedTodoFolder = findTodoFolderById(folderId);
+
+        savedTodoFolder.validateUserIsWriter(savedUser);
+        todoFolderJpaRepository.deleteById(savedTodoFolder.getId());
+    }
+
+    private UserEntity findUserById(Long userId) {
+        return userJpaRepository.findById(userId)
+            .orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_EXIST));
+    }
+
+    private PaletteEntity findPaletteById(Long paletteId) {
+        return paletteJpaRepository.findById(paletteId)
+            .orElseThrow(() -> new ApplicationException(PaletteErrorCode.NOT_EXIST));
+    }
+
+    private TodoFolderEntity findTodoFolderById(Long folderId) {
+        return todoFolderJpaRepository.findById(folderId)
+            .orElseThrow(() -> new ApplicationException(TodoFolderErrorCode.NOT_EXIST));
     }
 }
