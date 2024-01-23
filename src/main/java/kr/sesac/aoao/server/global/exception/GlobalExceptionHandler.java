@@ -11,8 +11,8 @@ import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
 import lombok.extern.java.Log;
 
 /**
- * @author 김유빈
  * @since 2024.01.17
+ * @author 김유빈
  */
 @Log
 @RestControllerAdvice
@@ -20,11 +20,10 @@ public class GlobalExceptionHandler {
 
 	/**
 	 * 어플리케이션 exception 처리 추가
-	 *
-	 * @return ResponseEntity<ApplicationResponse < Void>>
-	 * @parameter ApplicationException
-	 * @author 김유빈
 	 * @since 2024.01.17
+	 * @parameter ApplicationException
+	 * @return ResponseEntity<ApplicationResponse<Void>>
+	 * @author 김유빈
 	 */
 	@ExceptionHandler(ApplicationException.class)
 	public ResponseEntity<ApplicationResponse<Void>> handleApplicationException(ApplicationException e) {
@@ -36,26 +35,23 @@ public class GlobalExceptionHandler {
 
 	/**
 	 * spring validation exception 처리 추가
-	 *
-	 * @return ResponseEntity<ApplicationResponse < Void>>
-	 * @parameter MethodArgumentNotValidException
-	 * @author 김유빈
 	 * @since 2024.01.22
+	 * @parameter MethodArgumentNotValidException
+	 * @return ResponseEntity<ApplicationResponse<Void>>
+	 * @author 김유빈
 	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ApplicationResponse<Void>> handleValidationException(MethodArgumentNotValidException e) {
-		ApplicationResponse<Void> response = ApplicationResponse.fail(
-			e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+		ApplicationResponse<Void> response = ApplicationResponse.fail(e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
 		return ResponseEntity.badRequest().body(response);
 	}
 
 	/**
 	 * jpa entity column exception 처리 추가
-	 *
-	 * @return ResponseEntity<ApplicationResponse < Void>>
-	 * @parameter DataIntegrityViolationException
-	 * @author 김유빈
 	 * @since 2024.01.22
+	 * @parameter DataIntegrityViolationException
+	 * @return ResponseEntity<ApplicationResponse<Void>>
+	 * @author 김유빈
 	 */
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<ApplicationResponse<Void>> handleEntityException(DataIntegrityViolationException e) {
@@ -66,11 +62,10 @@ public class GlobalExceptionHandler {
 
 	/**
 	 * global exception 처리 추가
-	 *
-	 * @return ResponseEntity<ApplicationResponse < Void>>
-	 * @parameter Exception
-	 * @author 김유빈
 	 * @since 2024.01.22
+	 * @parameter Exception
+	 * @return ResponseEntity<ApplicationResponse<Void>>
+	 * @author 김유빈
 	 */
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ApplicationResponse<Void>> handleGlobalException(Exception e) {
@@ -78,5 +73,4 @@ public class GlobalExceptionHandler {
 		ApplicationResponse<Void> response = ApplicationResponse.fail("서버에 문제가 발생하였습니다. 관리자에게 문의해주세요.");
 		return ResponseEntity.internalServerError().body(response);
 	}
-
 }

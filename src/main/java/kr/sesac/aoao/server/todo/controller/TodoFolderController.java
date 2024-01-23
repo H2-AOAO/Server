@@ -26,48 +26,48 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TodoFolderController {
 
-	private final TodoFolderService todoFolderService;
+    private final TodoFolderService todoFolderService;
 
-	// todo: userId -> token
-	/**
-	 * 투두 폴더 생성 API
-	 * @since 2024.01.19
-	 * @parameter TodoFolderSaveRequest
-	 * @return ResponseEntity<ApplicationResponse<Void>>
-	 * @author 김유빈
-	 */
-	@PostMapping
-	public ResponseEntity<ApplicationResponse<Void>> save(@RequestParam Long userId, @RequestBody TodoFolderSaveRequest request) {
-		Long folderId = todoFolderService.save(userId, request);
-		return ResponseEntity.created(URI.create("/folders/" + folderId)).build();
-	}
+    // todo: userId -> token
+    /**
+     * 투두 폴더 생성 API
+     * @since 2024.01.19
+     * @parameter TodoFolderSaveRequest
+     * @return ResponseEntity<ApplicationResponse<Void>>
+     * @author 김유빈
+     */
+    @PostMapping
+    public ResponseEntity<ApplicationResponse<Void>> save(@RequestParam Long userId, @RequestBody TodoFolderSaveRequest request) {
+        Long folderId = todoFolderService.save(userId, request);
+        return ResponseEntity.created(URI.create("/folders/" + folderId)).build();
+    }
 
-	/**
-	 * 투두 폴더 수정 API
-	 * @since 2024.01.22
-	 * @parameter Long, TodoFolderUpdateRequest
-	 * @return ResponseEntity<ApplicationResponse<Void>>
-	 * @author 김유빈
-	 */
-	@PostMapping("/{folderId}")
-	public ResponseEntity<ApplicationResponse<Void>> update(
-		@RequestParam Long userId, @PathVariable Long folderId,
-		@RequestBody TodoFolderUpdateRequest request) {
-		todoFolderService.update(userId, folderId, request);
-		return ResponseEntity.ok().build();
-	}
+    /**
+     * 투두 폴더 수정 API
+     * @since 2024.01.22
+     * @parameter Long, TodoFolderUpdateRequest
+     * @return ResponseEntity<ApplicationResponse<Void>>
+     * @author 김유빈
+     */
+    @PostMapping("/{folderId}")
+    public ResponseEntity<ApplicationResponse<Void>> update(
+        @RequestParam Long userId, @PathVariable Long folderId,
+        @RequestBody TodoFolderUpdateRequest request) {
+        todoFolderService.update(userId, folderId, request);
+        return ResponseEntity.ok().build();
+    }
 
-	/**
-	 * 투두 폴더 삭제 API
-	 * @since 2024.01.22
-	 * @parameter Long
-	 * @return ResponseEntity<ApplicationResponse<Void>>
-	 * @author 김유빈
-	 */
-	@DeleteMapping("/{folderId}")
-	public ResponseEntity<ApplicationResponse<Void>> update(
-		@RequestParam Long userId, @PathVariable Long folderId) {
-		todoFolderService.delete(userId, folderId);
-		return ResponseEntity.noContent().build();
-	}
+    /**
+     * 투두 폴더 삭제 API
+     * @since 2024.01.22
+     * @parameter Long
+     * @return ResponseEntity<ApplicationResponse<Void>>
+     * @author 김유빈
+     */
+    @DeleteMapping("/{folderId}")
+    public ResponseEntity<ApplicationResponse<Void>> update(
+        @RequestParam Long userId, @PathVariable Long folderId) {
+        todoFolderService.delete(userId, folderId);
+        return ResponseEntity.noContent().build();
+    }
 }

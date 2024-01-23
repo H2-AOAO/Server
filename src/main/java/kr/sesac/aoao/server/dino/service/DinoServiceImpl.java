@@ -18,8 +18,8 @@ import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @author 김은서
  * @since 2024.01.19
+ * @author 김은서
  */
 @Service
 @Transactional
@@ -30,7 +30,7 @@ public class DinoServiceImpl implements DinoService {
 	private final UserJpaRepository userRepository;
 	private final ItemJpaRepository itemRepository;
 
-	private GetUserDinoResponse result(DinoEntity dino) {
+	private GetUserDinoResponse result(DinoEntity dino){
 		return new GetUserDinoResponse(
 			dino.getUser().getId(),
 			dino.getName(),
@@ -43,17 +43,15 @@ public class DinoServiceImpl implements DinoService {
 
 	/**
 	 * 다이노 정보 가져오기
-	 *
-	 * @return GetUserDinoResponse
-	 * @parameter userId
-	 * @author 김은서
 	 * @since 2024.01.18
+	 * @parameter userId
+	 * @return GetUserDinoResponse
+	 * @author 김은서
 	 */
 	@Override
 	public GetUserDinoResponse getDinoInfo(Long userId) {
 		UserEntity user = userRepository.findById(userId)
-			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
-		;
+			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));;
 		DinoEntity dino = dinoRepository.findByUser(user)
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 		return result(dino);
@@ -61,10 +59,9 @@ public class DinoServiceImpl implements DinoService {
 
 	/**
 	 * 다이노 이름 변경
-	 *
+	 * @since 2024.01.22
 	 * @return GetUserDinoResponse
 	 * @author 김은서
-	 * @since 2024.01.22
 	 */
 	@Override
 	public GetUserDinoResponse renameDino(Long dinoId, String name) {
@@ -77,17 +74,16 @@ public class DinoServiceImpl implements DinoService {
 
 	/**
 	 * 다이노 경험치 변경 - 레벨업 포함
-	 *
+	 * @since 2024.01.22
 	 * @return GetUserDinoResponse
 	 * @author 김은서
-	 * @since 2024.01.22
 	 */
 	@Override
 	public GetUserDinoResponse expChange(Long userId, Long dinoId, Long itemId) {
 		UserEntity user = userRepository.findById(userId)
-			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
+		.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
 		ItemEntity item = itemRepository.findById(itemId)
-			.orElseThrow(() -> new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
+			.orElseThrow(() ->new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
 		DinoEntity dino = dinoRepository.findByUserId(user.getId())
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 
@@ -96,32 +92,31 @@ public class DinoServiceImpl implements DinoService {
 		int levelLimit = dino.getDino().getAllExp();
 		int currentLv = dino.getDino().getLv();
 
-		if (currentExp + upExp > levelLimit) {
+		if(currentExp + upExp > levelLimit){
 			int leftExp = currentExp + upExp - levelLimit;
 			currentLv += 1;
 			dino.changeExp(leftExp);
 			DinoInfoEntity dinoInfoEntity = dino.getDino();
 			dinoInfoEntity.changeLv(currentLv);
 
-		} else
-			dino.changeExp(currentExp + upExp);
+		}
+		else dino.changeExp(currentExp + upExp);
 
 		return result(dino);
 	}
 
 	/**
 	 * 다이노 포인트 변경
-	 *
+	 * @since 2024.01.22
 	 * @return GetUserDinoResponse
 	 * @author 김은서
-	 * @since 2024.01.22
 	 */
 	@Override
 	public GetUserDinoResponse usePoint(Long userId, Long itemId) {
 		UserEntity user = userRepository.findById(userId)
 			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
 		ItemEntity item = itemRepository.findById(itemId)
-			.orElseThrow(() -> new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
+			.orElseThrow(() ->new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
 		DinoEntity dino = dinoRepository.findByUserId(user.getId())
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 
@@ -129,7 +124,7 @@ public class DinoServiceImpl implements DinoService {
 		int point = dino.getPoint();
 		if (itemPrice > point)
 			throw new ApplicationException(DinoErrorCode.NOT_ENOUGH_POINT);
-		else {
+		else{
 			dino.changePoint(point - itemPrice);
 		}
 
