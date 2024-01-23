@@ -16,10 +16,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Entity
-@Builder
 @Table(name = "raise_dino")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -48,4 +49,16 @@ public class DinoEntity extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "Lv")
 	private DinoInfoEntity dino;
+
+	public void changeName(String name){
+		this.name = name;
+	}
+
+	public void changeExp(int exp){
+		this.exp = exp;
+	}
+
+	public void changePoint(int point){
+		this.point = point;
+	}
 }

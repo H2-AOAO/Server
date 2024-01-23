@@ -1,5 +1,7 @@
 package kr.sesac.aoao.server.user.repository;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,13 +9,11 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import kr.sesac.aoao.server.dino.domain.Dino;
 import kr.sesac.aoao.server.dino.repository.DinoEntity;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
-import kr.sesac.aoao.server.item.repository.ItemEntity;
 import kr.sesac.aoao.server.item.repository.UserItemEntity;
 import kr.sesac.aoao.server.user.domain.User;
 import lombok.AccessLevel;
@@ -48,8 +48,8 @@ public class UserEntity extends BaseEntity {
 	@OneToOne(mappedBy = "user")
 	private DinoEntity dino;
 
-	@OneToOne(mappedBy = "user")
-	private UserItemEntity userItem;
+	@OneToMany(mappedBy = "user")
+	private List<UserItemEntity> userItems;
 
 	public UserEntity(User user) {
 		this.id = user.getId();

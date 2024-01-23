@@ -15,9 +15,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Builder
 @Getter
 @Table(name = "dino_info")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,7 +26,7 @@ public class DinoInfoEntity extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long Lv;
+	private Long id;
 
 	@Column(nullable = false)
 	private int allExp;
@@ -34,6 +34,13 @@ public class DinoInfoEntity extends BaseEntity {
 	@Column(nullable = false, length = 30)
 	private String lvName;
 
+	@Column(nullable = false)
+	private int Lv;
+
 	@OneToMany(mappedBy = "dino")
 	private List<DinoEntity> dinos;
+
+	public void changeLv(int Lv){
+		this.Lv = Lv;
+	}
 }
