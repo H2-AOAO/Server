@@ -17,11 +17,25 @@ public class Subject {
 		this.type = type;
 	}
 
-	public static Subject atk(Long userId, String email, String nickname) {
+	/**
+	 * accessToken user 객체 생성
+	 *
+	 * @return TokenResponse
+	 * @author 이상민
+	 * @since 2024.01.22
+	 */
+	public static Subject accessToken(Long userId, String email, String nickname) {
 		return new Subject(userId, email, nickname, "AccessToken");
 	}
 
-	public static Subject rtk(Long userId, String email, String nickname) {
+	/**
+	 * refreshToken user 객체 생성
+	 *
+	 * @return TokenResponse
+	 * @author 이상민
+	 * @since 2024.01.22
+	 */
+	public static Subject refreshToken(Long userId, String email, String nickname) {
 		return new Subject(userId, email, nickname, "RefreshToken");
 	}
 }
