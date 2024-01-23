@@ -27,6 +27,7 @@ public class User {
 		this.profile = null;
 	}
 
+
 	public void encodePassword(String checkedPassword) {
 		this.password = checkedPassword;
 	}

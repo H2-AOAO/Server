@@ -17,6 +17,7 @@ public enum UserErrorCode implements ErrorCode {
 	JWT_FORBIDDEN_EXCEPTION(HttpStatus.BAD_REQUEST, "인증정보가 만료되었습니다."),
 	CHECK_TOKEN(HttpStatus.BAD_REQUEST, "토큰을 확인하세요.");
 
+
 	private final HttpStatus httpStatus;
 	private final String message;
 
