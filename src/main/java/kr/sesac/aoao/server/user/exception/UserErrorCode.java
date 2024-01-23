@@ -22,6 +22,7 @@ public enum UserErrorCode implements ErrorCode {
 	UNSUPPORTED_TOKEN(HttpStatus.FORBIDDEN, "지원되지 않는 JWT TOKEN입니다."),
 	WRONG_TOKEN(HttpStatus.FORBIDDEN, "잘못 설계된 TOKEN입니다.");
 
+
 	private final HttpStatus httpStatus;
 	private final String message;
 

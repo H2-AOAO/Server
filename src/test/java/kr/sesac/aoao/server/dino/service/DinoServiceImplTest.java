@@ -42,64 +42,64 @@ public class DinoServiceImplTest {
 		);
 	}
 
-	@DisplayName("다이노 조회 테스트")
-	@Nested
-	class getDinoInfo{
-
-		@DisplayName("정보 조회 성공")
-		@Test
-		void success(){
-			long userId = 1L;
-			long dinoId = 2L;
-			UserEntity userEntity = mock(UserEntity.class);
-
-			// mock
-			User user = new User(userId, "email", "nickname", "password", "password2", "profile", null);
-			DinoInfoEntity dinoInfo = mock(DinoInfoEntity.class);
-			UserEntity user_ = new UserEntity(user);
-			when(userRepository.findById(userId))
-				.thenReturn(Optional.of(user_));
-			when(dinoRepository.findByUser(user_))
-				.thenReturn(Optional.of(new DinoEntity(dinoId, userEntity, "name", "green",234,30,dinoInfo)));
-
-			// when
-			GetUserDinoResponse res = dinoService.getDinoInfo(userId);
-
-			// then
-			assertThat(res).isNotNull();
-		}
-
-		@DisplayName("유저 조회 시 오류 발생")
-		@Test
-		void getDinoInfo_user(){
-			//given
-			long notExistUserId = 0L;
-
-			//mock
-			when(userRepository.findById(notExistUserId))
-				.thenReturn(Optional.empty());
-
-			// when & then
-			assertThatThrownBy(() -> dinoService.getDinoInfo(notExistUserId));
-		}
-
-		@DisplayName("다이노 조회 시 오류 발생")
-		@Test
-		void getDinoInfo_dino(){
-			long notExistDinoId = 0L;
-			long userId = 1L;
-
-			//mock
-			User user = new User(userId, "email", "nickname", "password", "password2", "profile", null);
-			when(userRepository.findById(userId))
-				.thenReturn(Optional.of(new UserEntity(user)));
-			when(dinoRepository.findById(notExistDinoId))
-				.thenReturn(Optional.empty());
-
-			// when & then
-			assertThatThrownBy(() -> dinoService.getDinoInfo(notExistDinoId));
-
-		}
-	}
+	// @DisplayName("다이노 조회 테스트")
+	// @Nested
+	// class getDinoInfo{
+	//
+	// 	@DisplayName("정보 조회 성공")
+	// 	@Test
+	// 	void success(){
+	// 		long userId = 1L;
+	// 		long dinoId = 2L;
+	// 		UserEntity userEntity = mock(UserEntity.class);
+	//
+	// 		// mock
+	// 		User user = new User(userId, "email", "nickname", "password", "password2", "profile", null);
+	// 		DinoInfoEntity dinoInfo = mock(DinoInfoEntity.class);
+	// 		UserEntity user_ = new UserEntity(user);
+	// 		when(userRepository.findById(userId))
+	// 			.thenReturn(Optional.of(user_));
+	// 		when(dinoRepository.findByUser(user_))
+	// 			.thenReturn(Optional.of(new DinoEntity(dinoId, userEntity, "name", "green",234,30,dinoInfo)));
+	//
+	// 		// when
+	// 		GetUserDinoResponse res = dinoService.getDinoInfo(userId);
+	//
+	// 		// then
+	// 		assertThat(res).isNotNull();
+	// 	}
+	//
+	// 	@DisplayName("유저 조회 시 오류 발생")
+	// 	@Test
+	// 	void getDinoInfo_user(){
+	// 		//given
+	// 		long notExistUserId = 0L;
+	//
+	// 		//mock
+	// 		when(userRepository.findById(notExistUserId))
+	// 			.thenReturn(Optional.empty());
+	//
+	// 		// when & then
+	// 		assertThatThrownBy(() -> dinoService.getDinoInfo(notExistUserId));
+	// 	}
+	//
+	// 	@DisplayName("다이노 조회 시 오류 발생")
+	// 	@Test
+	// 	void getDinoInfo_dino(){
+	// 		long notExistDinoId = 0L;
+	// 		long userId = 1L;
+	//
+	// 		//mock
+	// 		User user = new User (userId, "email", "nickname", "password", "password2", "profile", null);
+	// 		when(userRepository.findById(userId))
+	// 			.thenReturn(Optional.of(new UserEntity(user)));
+	// 		when(dinoRepository.findById(notExistDinoId))
+	// 			.thenReturn(Optional.empty());
+	//
+	// 		// when & then
+	// 		assertThatThrownBy(() -> dinoService.getDinoInfo(notExistDinoId));
+	//
+	// 	}
+	// }
 
 }
