@@ -14,7 +14,7 @@ import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @since 2024.01.23
+ * @since 2024.01.24
  * @author 김유빈
  */
 @RestController

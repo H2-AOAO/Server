@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,7 +39,7 @@ public class TodoFolderEntity extends BaseEntity {
     @Column
     private LocalDate date;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
@@ -46,7 +47,7 @@ public class TodoFolderEntity extends BaseEntity {
     @JoinColumn(name = "palette_id")
     private PaletteEntity palette;
 
-    @OneToMany(mappedBy = "todoFolder")
+    @OneToMany(mappedBy = "todoFolder", fetch = FetchType.LAZY)
     private List<TodoEntity> todos;
 
     public TodoFolderEntity(String content, LocalDate date, UserEntity user, PaletteEntity palette) {
