@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
 import kr.sesac.aoao.server.todo.controller.dto.response.FolderQueryDetailResponse;
+import kr.sesac.aoao.server.todo.controller.dto.response.PaletteQueryDetailResponse;
 import kr.sesac.aoao.server.todo.controller.dto.response.TodoQueryDetailResponse;
 import kr.sesac.aoao.server.todo.service.TodoQueryService;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
@@ -50,6 +51,19 @@ public class TodoQueryController {
         @AuthenticationPrincipal UserCustomDetails userDetails,
         @RequestParam String date) {
         FolderQueryDetailResponse response = todoQueryService.findAllFolders(userDetails, date);
+        return ResponseEntity.ok(ApplicationResponse.success(response));
+    }
+
+    /**
+     * 팔레트 리스트 조회 API
+     * @since 2024.01.24
+     * @parameter
+     * @return ResponseEntity<ApplicationResponse<PaletteQueryDetailResponse>>
+     * @author 김유빈
+     */
+    @GetMapping("/palettes")
+    public ResponseEntity<ApplicationResponse<PaletteQueryDetailResponse>> findAllPalettes() {
+        PaletteQueryDetailResponse response = todoQueryService.findAllPalettes();
         return ResponseEntity.ok(ApplicationResponse.success(response));
     }
 }

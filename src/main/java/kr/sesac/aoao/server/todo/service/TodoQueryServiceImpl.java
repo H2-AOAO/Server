@@ -10,9 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.sesac.aoao.server.global.exception.ApplicationException;
 import kr.sesac.aoao.server.todo.controller.dto.response.FolderDetailResponse;
 import kr.sesac.aoao.server.todo.controller.dto.response.FolderQueryDetailResponse;
+import kr.sesac.aoao.server.todo.controller.dto.response.PaletteDetailResponse;
+import kr.sesac.aoao.server.todo.controller.dto.response.PaletteQueryDetailResponse;
 import kr.sesac.aoao.server.todo.controller.dto.response.TodoQueryDetailResponse;
 import kr.sesac.aoao.server.todo.controller.dto.response.TodoFolderDetailResponse;
 import kr.sesac.aoao.server.todo.exception.TodoErrorCode;
+import kr.sesac.aoao.server.todo.repository.PaletteEntity;
+import kr.sesac.aoao.server.todo.repository.PaletteJpaRepository;
 import kr.sesac.aoao.server.todo.repository.TodoEntity;
 import kr.sesac.aoao.server.todo.repository.TodoFolderEntity;
 import kr.sesac.aoao.server.todo.repository.TodoFolderJpaRepository;
@@ -33,6 +37,7 @@ public class TodoQueryServiceImpl implements TodoQueryService {
 
     private final TodoFolderJpaRepository todoFolderJpaRepository;
     private final UserJpaRepository userJpaRepository;
+    private final PaletteJpaRepository paletteJpaRepository;
 
     /**
      * 투두리스트 조회
@@ -68,6 +73,22 @@ public class TodoQueryServiceImpl implements TodoQueryService {
         return new FolderQueryDetailResponse(
             folders.stream()
                 .map(FolderDetailResponse::from)
+                .toList()
+        );
+    }
+
+    /**
+     * 팔레트 리스트 조회
+     * @since 2024.01.24
+     * @parameter
+     * @author 김유빈
+     */
+    @Override
+    public PaletteQueryDetailResponse findAllPalettes() {
+        List<PaletteEntity> palettes = paletteJpaRepository.findAll();
+        return new PaletteQueryDetailResponse(
+            palettes.stream()
+                .map(PaletteDetailResponse::from)
                 .toList()
         );
     }
