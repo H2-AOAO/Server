@@ -2,7 +2,6 @@ package kr.sesac.aoao.server.user.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -88,7 +87,8 @@ public class UserController {
 	@GetMapping("/user/{userId}")
 	public ResponseEntity<ApplicationResponse<UserProfileResponse>> getProfile(
 		@AuthenticationPrincipal UserCustomDetails userDetails, @PathVariable Long userId) {
-		UserProfileResponse userProfileResponse = userService.getProfile(userDetails.getUserEntity().getEmail(), userId);
+		UserProfileResponse userProfileResponse = userService.getProfile(userDetails.getUserEntity().getEmail(),
+			userId);
 		return ResponseEntity.ok(ApplicationResponse.success(userProfileResponse));
 	}
 

@@ -6,7 +6,6 @@ import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 @AllArgsConstructor
@@ -45,7 +44,6 @@ public class User {
 	public void encodePassword(String checkedPassword) {
 		this.password = checkedPassword;
 	}
-
 
 	/**
 	 * 비밀번호 확인
