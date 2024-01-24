@@ -3,10 +3,10 @@ package kr.sesac.aoao.server.user.domain;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
-import kr.sesac.aoao.server.user.repository.Role;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 @AllArgsConstructor
@@ -18,7 +18,6 @@ public class User {
 	private String password;
 	private String checkedPassword;
 	private final String profile;
-	private final Role role;
 
 	public User(SignUpRequest signUpRequest) {
 		this.id = null;
@@ -26,12 +25,7 @@ public class User {
 		this.nickname = signUpRequest.getNickname();
 		this.password = signUpRequest.getPassword();
 		this.checkedPassword = signUpRequest.getCheckedPassword();
-		this.role = Role.USER;
 		this.profile = null;
-	}
-
-	public void encodePassword(String checkedPassword) {
-		this.password = checkedPassword;
 	}
 
 	public User(UserEntity userEntity) {
@@ -39,15 +33,26 @@ public class User {
 		this.email = userEntity.getEmail();
 		this.nickname = userEntity.getNickname();
 		this.password = userEntity.getPassword();
-		this.role = userEntity.getRole();
 		this.profile = userEntity.getProfile();
 	}
 
 	/**
-	 * 비밀번호 확인
+	 * 비밀번호 암호화
+	 *
+	 * @author 이상민
 	 * @since 2024.01.19
+	 */
+	public void encodePassword(String checkedPassword) {
+		this.password = checkedPassword;
+	}
+
+
+	/**
+	 * 비밀번호 확인
+	 *
 	 * @return boolean
 	 * @author 이상민
+	 * @since 2024.01.19
 	 */
 	public boolean checkPassword(PasswordEncoder passwordEncoder, String password) {
 		return passwordEncoder.matches(password, this.password);
