@@ -1,6 +1,7 @@
 package kr.sesac.aoao.server.item.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
 import kr.sesac.aoao.server.item.controller.dto.GetItemInfoResponse;
 import kr.sesac.aoao.server.item.controller.dto.UseItemNumResponse;
 import kr.sesac.aoao.server.item.service.ItemService;
+import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import lombok.RequiredArgsConstructor;
 
 /**
