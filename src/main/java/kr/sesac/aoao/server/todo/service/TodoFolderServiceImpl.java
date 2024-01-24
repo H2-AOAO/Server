@@ -82,6 +82,8 @@ public class TodoFolderServiceImpl implements TodoFolderService {
         TodoFolderEntity savedTodoFolder = findTodoFolderById(folderId);
 
         savedTodoFolder.validateUserIsWriter(savedUser);
+        savedTodoFolder.validateTodoIsNotContain();
+
         todoFolderJpaRepository.deleteById(savedTodoFolder.getId());
     }
 

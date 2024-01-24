@@ -68,4 +68,10 @@ public class TodoFolderEntity extends BaseEntity {
             throw new ApplicationException(TodoFolderErrorCode.IS_NOT_WRITER);
         }
     }
+
+    public void validateTodoIsNotContain() {
+        if (!this.todos.isEmpty()) {
+            throw new ApplicationException(TodoFolderErrorCode.IS_NOT_EMPTY);
+        }
+    }
 }
