@@ -30,13 +30,14 @@ public class DinoServiceImpl implements DinoService {
 	private final UserJpaRepository userRepository;
 	private final ItemJpaRepository itemRepository;
 
-	private GetUserDinoResponse result(DinoEntity dino) {
+	private GetUserDinoResponse result(DinoEntity dino){
 		return new GetUserDinoResponse(
 			dino.getUser().getId(),
 			dino.getName(),
 			dino.getColor(),
 			dino.getExp(),
-			dino.getDino().getLv()
+			dino.getDino().getLv(),
+			dino.getUser().getPoint().getPoint()
 		);
 	}
 
@@ -50,8 +51,7 @@ public class DinoServiceImpl implements DinoService {
 	@Override
 	public GetUserDinoResponse getDinoInfo(Long userId) {
 		UserEntity user = userRepository.findById(userId)
-			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
-		;
+			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));;
 		DinoEntity dino = dinoRepository.findByUser(user)
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 		return result(dino);
@@ -64,8 +64,11 @@ public class DinoServiceImpl implements DinoService {
 	 * @author 김은서
 	 */
 	@Override
-	public GetUserDinoResponse renameDino(Long dinoId, String name) {
-		DinoEntity dino = dinoRepository.findById(dinoId)
+	public GetUserDinoResponse renameDino(UserCustomDetails userDetails, String name) {
+		Long userId = extractUserId(userDetails);
+		UserEntity user = userRepository.findById(userId)
+			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));;
+		DinoEntity dino = dinoRepository.findByUser(user)
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 		dino.changeName(name);
 		dinoRepository.save(dino);
@@ -79,9 +82,10 @@ public class DinoServiceImpl implements DinoService {
 	 * @author 김은서
 	 */
 	@Override
-	public GetUserDinoResponse expChange(Long userId, Integer currLv, Integer currExp) {
+	public GetUserDinoResponse expChange(UserCustomDetails userDetails, Integer currLv, Integer currExp) {
+		Long userId = extractUserId(userDetails);
 		UserEntity user = userRepository.findById(userId)
-			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
+		.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
 		DinoEntity dino = dinoRepository.findByUserId(user.getId())
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 
@@ -99,22 +103,26 @@ public class DinoServiceImpl implements DinoService {
 	 * @author 김은서
 	 */
 	@Override
-	public GetUserDinoResponse usePoint(Long userId, Long itemId) {
+	public GetUserDinoResponse usePoint(UserCustomDetails userDetails, Long itemId) {
+		Long userId = extractUserId(userDetails);
 		UserEntity user = userRepository.findById(userId)
 			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
 		ItemEntity item = itemRepository.findById(itemId)
-			.orElseThrow(() -> new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
+			.orElseThrow(() ->new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
 		DinoEntity dino = dinoRepository.findByUserId(user.getId())
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 
 		int itemPrice = item.getPrice();
-		// int point = dino.getPoint();
-		// if (itemPrice > point)
-		// 	throw new ApplicationException(DinoErrorCode.NOT_ENOUGH_POINT);
-		// else {
-		// 	dino.changePoint(point - itemPrice);
-		// }
+		int point = dino.getPoint();
+		if (itemPrice > point)
+			throw new ApplicationException(DinoErrorCode.NOT_ENOUGH_POINT);
+		else{
+			dino.changePoint(point - itemPrice);
+		}
 
 		return result(dino);
+	}
+	private Long extractUserId(UserCustomDetails userCustomDetails) {
+		return userCustomDetails.getUserEntity().getId();
 	}
 }
