@@ -13,4 +13,6 @@ public interface TodoService {
     void delete(UserCustomDetails userDetails, Long folderId, Long todoId);
 
     void check(UserCustomDetails userDetails, Long folderId, Long todoId);
+
+    void uncheck(UserCustomDetails userDetails, Long folderId, Long todoId);
 }

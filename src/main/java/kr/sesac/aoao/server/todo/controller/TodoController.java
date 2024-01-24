@@ -93,4 +93,20 @@ public class TodoController {
         todoService.check(userDetails, folderId, todoId);
         return ResponseEntity.ok().build();
     }
+
+    /**
+     * 투두 체크 취소 API
+     * @since 2024.01.24
+     * @parameter UserCustomDetails, Long, Long
+     * @return ResponseEntity<ApplicationResponse<Void>>
+     * @author 김유빈
+     */
+    @PostMapping("/{todoId}/uncheck")
+    public ResponseEntity<ApplicationResponse<Void>> uncheck(
+        @AuthenticationPrincipal UserCustomDetails userDetails,
+        @PathVariable Long folderId,
+        @PathVariable Long todoId) {
+        todoService.uncheck(userDetails, folderId, todoId);
+        return ResponseEntity.ok().build();
+    }
 }
