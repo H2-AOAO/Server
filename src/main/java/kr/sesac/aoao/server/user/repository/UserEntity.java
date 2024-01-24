@@ -83,4 +83,12 @@ public class UserEntity extends BaseEntity {
 	public boolean isWriter(UserEntity user) {
 		return this.id.equals(user.id);
 	}
+
+	public void todoCheck() {
+		this.point.todoCheck();
+	}
+
+	public void todoUncheck() {
+		this.point.todoUncheck();
+	}
 }

@@ -21,6 +21,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PointEntity extends BaseEntity {
 
+    private static final int CHECK_POINT = 10;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,4 +32,12 @@ public class PointEntity extends BaseEntity {
 
     @OneToOne(mappedBy = "point")
     private UserEntity user;
+
+    public void todoCheck() {
+        this.point += CHECK_POINT;
+    }
+
+    public void todoUncheck() {
+        this.point -= CHECK_POINT;
+    }
 }

@@ -52,17 +52,19 @@ public class TodoEntity extends BaseEntity {
         this.content = content;
     }
 
-    public void validateUserIsWriter(TodoFolderEntity todoFolder, UserEntity user) {
-        todoFolder.validateUserIsWriter(user);
-    }
-
     public void check(TodoFolderEntity todoFolder, UserEntity user) {
         todoFolder.validateUserIsWriter(user);
-        this.checked = true;
+        if (!this.checked) {
+            user.todoCheck();
+            this.checked = true;
+        }
     }
 
     public void uncheck(TodoFolderEntity todoFolder, UserEntity user) {
         todoFolder.validateUserIsWriter(user);
-        this.checked = false;
+        if (this.checked) {
+            user.todoUncheck();
+            this.checked = false;
+        }
     }
 }
