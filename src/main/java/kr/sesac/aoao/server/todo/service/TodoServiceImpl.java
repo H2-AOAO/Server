@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.sesac.aoao.server.global.exception.ApplicationException;
 import kr.sesac.aoao.server.todo.controller.dto.request.TodoSaveRequest;
+import kr.sesac.aoao.server.todo.controller.dto.request.TodoUpdateRequest;
+import kr.sesac.aoao.server.todo.exception.TodoErrorCode;
 import kr.sesac.aoao.server.todo.exception.TodoFolderErrorCode;
 import kr.sesac.aoao.server.todo.repository.TodoEntity;
 import kr.sesac.aoao.server.todo.repository.TodoFolderEntity;
@@ -43,6 +45,21 @@ public class TodoServiceImpl implements TodoService {
         return todoJpaRepository.save(todo).getId();
     }
 
+    /**
+     * 투두 수정
+     * @since 2024.01.24
+     * @parameter Long, Long, Long, TodoUpdateRequest
+     * @author 김유빈
+     */
+    @Override
+    public void update(Long userId, Long folderId, Long todoId, TodoUpdateRequest request) {
+        UserEntity savedUser = findUserById(userId);
+        TodoFolderEntity savedTodoFolder = findTodoFolderById(folderId);
+        TodoEntity savedTodo = findTodoById(todoId);
+
+        savedTodo.update(request.getContent(), savedTodoFolder, savedUser);
+    }
+
     private UserEntity findUserById(Long userId) {
         return userJpaRepository.findById(userId)
             .orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_EXIST));
@@ -51,5 +68,10 @@ public class TodoServiceImpl implements TodoService {
     private TodoFolderEntity findTodoFolderById(Long folderId) {
         return todoFolderJpaRepository.findById(folderId)
             .orElseThrow(() -> new ApplicationException(TodoFolderErrorCode.NOT_EXIST));
+    }
+
+    private TodoEntity findTodoById(Long todoId) {
+        return todoJpaRepository.findById(todoId)
+            .orElseThrow(() -> new ApplicationException(TodoErrorCode.NOT_EXIST));
     }
 }
