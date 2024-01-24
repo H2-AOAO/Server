@@ -15,6 +15,7 @@ import kr.sesac.aoao.server.item.repository.ItemJpaRepository;
 import kr.sesac.aoao.server.item.repository.UserItemEntity;
 import kr.sesac.aoao.server.item.repository.UserItemJpaRepository;
 import kr.sesac.aoao.server.user.exception.UserErrorCode;
+import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,8 @@ public class ItemServiceImpl implements ItemService {
 	 * @author 김은서
 	 */
 	@Override
-	public UseItemNumResponse calItemNum(Long userId, Long itemId, String status) {
+	public UseItemNumResponse calItemNum(UserCustomDetails userDetails, Long itemId, String status) {
+		Long userId = extractUserId(userDetails);
 		UserEntity user = userRepository.findById(userId)
 			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
 		ItemEntity item = itemRepository.findById(itemId)
@@ -85,5 +87,8 @@ public class ItemServiceImpl implements ItemService {
 			userItem.getItem().getId(),
 			userItem.getItem_num()
 		);
+	}
+	private Long extractUserId(UserCustomDetails userCustomDetails) {
+		return userCustomDetails.getUserEntity().getId();
 	}
 }

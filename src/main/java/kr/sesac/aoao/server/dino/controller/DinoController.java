@@ -1,6 +1,7 @@
 package kr.sesac.aoao.server.dino.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kr.sesac.aoao.server.dino.controller.dto.GetUserDinoResponse;
 import kr.sesac.aoao.server.dino.service.DinoService;
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
+import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -42,8 +44,10 @@ public class DinoController {
 	 * @author 김은서
 	 */
 	@PostMapping("/rename")
-	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> renameDino(Long dinoId, String name){
-		GetUserDinoResponse userDinoResponse = dinoService.renameDino(dinoId, name);
+	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> renameDino(
+		@AuthenticationPrincipal UserCustomDetails userDetails,
+		String name){
+		GetUserDinoResponse userDinoResponse = dinoService.renameDino(userDetails, name);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}
 
@@ -54,8 +58,9 @@ public class DinoController {
 	 * @author 김은서
 	 */
 	@PostMapping("/exp")
-	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> expChange(Long userId, Integer currLv, Integer currExp){
-		GetUserDinoResponse userDinoResponse = dinoService.expChange(userId,currLv,currExp);
+	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> expChange(
+		@AuthenticationPrincipal UserCustomDetails userDetails, Integer currLv, Integer currExp){
+		GetUserDinoResponse userDinoResponse = dinoService.expChange(userDetails,currLv,currExp);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}
 
@@ -66,8 +71,9 @@ public class DinoController {
 	 * @author 김은서
 	 */
 	@PostMapping("/point")
-	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> usePoint(Long userId, Long itemId){
-		GetUserDinoResponse userDinoResponse = dinoService.usePoint(userId, itemId);
+	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> usePoint(
+		@AuthenticationPrincipal UserCustomDetails userDetails, Long itemId){
+		GetUserDinoResponse userDinoResponse = dinoService.usePoint(userDetails, itemId);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}
 }

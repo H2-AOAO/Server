@@ -13,6 +13,7 @@ import kr.sesac.aoao.server.item.exception.ItemErrorCode;
 import kr.sesac.aoao.server.item.repository.ItemEntity;
 import kr.sesac.aoao.server.item.repository.ItemJpaRepository;
 import kr.sesac.aoao.server.user.exception.UserErrorCode;
+import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class DinoServiceImpl implements DinoService {
 			dino.getColor(),
 			dino.getExp(),
 			dino.getDino().getLv(),
-			dino.getPoint()
+			dino.getUser().getPoint().getPoint()
 		);
 	}
 
@@ -64,8 +65,11 @@ public class DinoServiceImpl implements DinoService {
 	 * @author 김은서
 	 */
 	@Override
-	public GetUserDinoResponse renameDino(Long dinoId, String name) {
-		DinoEntity dino = dinoRepository.findById(dinoId)
+	public GetUserDinoResponse renameDino(UserCustomDetails userDetails, String name) {
+		Long userId = extractUserId(userDetails);
+		UserEntity user = userRepository.findById(userId)
+			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));;
+		DinoEntity dino = dinoRepository.findByUser(user)
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 		dino.changeName(name);
 		dinoRepository.save(dino);
@@ -79,7 +83,8 @@ public class DinoServiceImpl implements DinoService {
 	 * @author 김은서
 	 */
 	@Override
-	public GetUserDinoResponse expChange(Long userId, Integer currLv, Integer currExp) {
+	public GetUserDinoResponse expChange(UserCustomDetails userDetails, Integer currLv, Integer currExp) {
+		Long userId = extractUserId(userDetails);
 		UserEntity user = userRepository.findById(userId)
 		.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
 		DinoEntity dino = dinoRepository.findByUserId(user.getId())
@@ -99,7 +104,8 @@ public class DinoServiceImpl implements DinoService {
 	 * @author 김은서
 	 */
 	@Override
-	public GetUserDinoResponse usePoint(Long userId, Long itemId) {
+	public GetUserDinoResponse usePoint(UserCustomDetails userDetails, Long itemId) {
+		Long userId = extractUserId(userDetails);
 		UserEntity user = userRepository.findById(userId)
 			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
 		ItemEntity item = itemRepository.findById(itemId)
@@ -116,5 +122,8 @@ public class DinoServiceImpl implements DinoService {
 		}
 
 		return result(dino);
+	}
+	private Long extractUserId(UserCustomDetails userCustomDetails) {
+		return userCustomDetails.getUserEntity().getId();
 	}
 }
