@@ -13,6 +13,7 @@ import kr.sesac.aoao.server.todo.repository.TodoFolderEntity;
 import kr.sesac.aoao.server.todo.repository.TodoFolderJpaRepository;
 import kr.sesac.aoao.server.todo.repository.TodoJpaRepository;
 import kr.sesac.aoao.server.user.exception.UserErrorCode;
+import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,12 +34,13 @@ public class TodoServiceImpl implements TodoService {
     /**
      * 투두 생성
      * @since 2024.01.23
-     * @parameter Long, Long, TodoFolderSaveRequest
+     * @parameter UserCustomDetails, Long, TodoFolderSaveRequest
      * @return Long
      * @author 김유빈
      */
     @Override
-    public Long save(Long userId, Long folderId, TodoSaveRequest request) {
+    public Long save(UserCustomDetails userDetails, Long folderId, TodoSaveRequest request) {
+        Long userId = extractUserId(userDetails);
         UserEntity savedUser = findUserById(userId);
         TodoFolderEntity savedTodoFolder = findTodoFolderById(folderId);
         TodoEntity todo = TodoEntity.save(request.getContent(), savedTodoFolder, savedUser);
@@ -48,11 +50,12 @@ public class TodoServiceImpl implements TodoService {
     /**
      * 투두 수정
      * @since 2024.01.24
-     * @parameter Long, Long, Long, TodoUpdateRequest
+     * @parameter UserCustomDetails, Long, Long, TodoUpdateRequest
      * @author 김유빈
      */
     @Override
-    public void update(Long userId, Long folderId, Long todoId, TodoUpdateRequest request) {
+    public void update(UserCustomDetails userDetails, Long folderId, Long todoId, TodoUpdateRequest request) {
+        Long userId = extractUserId(userDetails);
         UserEntity savedUser = findUserById(userId);
         TodoFolderEntity savedTodoFolder = findTodoFolderById(folderId);
         TodoEntity savedTodo = findTodoById(todoId);
@@ -63,11 +66,12 @@ public class TodoServiceImpl implements TodoService {
     /**
      * 투두 삭제
      * @since 2024.01.24
-     * @parameter Long, Long, Long
+     * @parameter UserCustomDetails, Long, Long
      * @author 김유빈
      */
     @Override
-    public void delete(Long userId, Long folderId, Long todoId) {
+    public void delete(UserCustomDetails userDetails, Long folderId, Long todoId) {
+        Long userId = extractUserId(userDetails);
         UserEntity savedUser = findUserById(userId);
         TodoFolderEntity savedTodoFolder = findTodoFolderById(folderId);
         TodoEntity savedTodo = findTodoById(todoId);
@@ -89,5 +93,9 @@ public class TodoServiceImpl implements TodoService {
     private TodoEntity findTodoById(Long todoId) {
         return todoJpaRepository.findById(todoId)
             .orElseThrow(() -> new ApplicationException(TodoErrorCode.NOT_EXIST));
+    }
+
+    private Long extractUserId(UserCustomDetails userCustomDetails) {
+        return userCustomDetails.getUserEntity().getId();
     }
 }
