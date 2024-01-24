@@ -63,9 +63,15 @@ public class TodoFolderEntity extends BaseEntity {
 		this.palette = palette;
 	}
 
-	public void validateUserIsWriter(UserEntity user) {
-		if (!this.user.isWriter(user)) {
-			throw new ApplicationException(TodoFolderErrorCode.IS_NOT_WRITER);
-		}
-	}
+    public void validateUserIsWriter(UserEntity user) {
+        if (!this.user.isWriter(user)) {
+            throw new ApplicationException(TodoFolderErrorCode.IS_NOT_WRITER);
+        }
+    }
+
+    public void validateTodoIsNotContain() {
+        if (!this.todos.isEmpty()) {
+            throw new ApplicationException(TodoFolderErrorCode.IS_NOT_EMPTY);
+        }
+    }
 }
