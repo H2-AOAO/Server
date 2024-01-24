@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.sesac.aoao.server.global.exception.ApplicationException;
+import kr.sesac.aoao.server.todo.controller.dto.response.FolderDetailResponse;
+import kr.sesac.aoao.server.todo.controller.dto.response.FolderQueryDetailResponse;
 import kr.sesac.aoao.server.todo.controller.dto.response.TodoQueryDetailResponse;
 import kr.sesac.aoao.server.todo.controller.dto.response.TodoFolderDetailResponse;
 import kr.sesac.aoao.server.todo.exception.TodoErrorCode;
@@ -48,6 +50,24 @@ public class TodoQueryServiceImpl implements TodoQueryService {
             check,
             folders.stream()
                 .map(TodoFolderDetailResponse::from)
+                .toList()
+        );
+    }
+
+    /**
+     * 폴더리스트 조회
+     * @since 2024.01.24
+     * @parameter UserCustomDetails, String
+     * @author 김유빈
+     */
+    @Override
+    public FolderQueryDetailResponse findAllFolders(UserCustomDetails userDetails, String date) {
+        Long userId = extractUserId(userDetails);
+        UserEntity savedUser = findUserById(userId);
+        List<TodoFolderEntity> folders = todoFolderJpaRepository.findByDateAndUser(convertDate(date), savedUser);
+        return new FolderQueryDetailResponse(
+            folders.stream()
+                .map(FolderDetailResponse::from)
                 .toList()
         );
     }

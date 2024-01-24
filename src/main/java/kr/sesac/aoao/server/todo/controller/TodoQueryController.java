@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
+import kr.sesac.aoao.server.todo.controller.dto.response.FolderQueryDetailResponse;
 import kr.sesac.aoao.server.todo.controller.dto.response.TodoQueryDetailResponse;
 import kr.sesac.aoao.server.todo.service.TodoQueryService;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
@@ -26,7 +27,7 @@ public class TodoQueryController {
      * 투두리스트 조회 API
      * @since 2024.01.24
      * @parameter UserCustomDetails, String
-     * @return ResponseEntity<ApplicationResponse<TodoFindDetailResponse>>
+     * @return ResponseEntity<ApplicationResponse<TodoQueryDetailResponse>>
      * @author 김유빈
      */
     @GetMapping("/todos")
@@ -34,6 +35,21 @@ public class TodoQueryController {
         @AuthenticationPrincipal UserCustomDetails userDetails,
         @RequestParam String date) {
         TodoQueryDetailResponse response = todoQueryService.findAllTodos(userDetails, date);
+        return ResponseEntity.ok(ApplicationResponse.success(response));
+    }
+
+    /**
+     * 폴더리스트 조회 API
+     * @since 2024.01.24
+     * @parameter UserCustomDetails, String
+     * @return ResponseEntity<ApplicationResponse<FolderQueryDetailResponse>>
+     * @author 김유빈
+     */
+    @GetMapping("/folders")
+    public ResponseEntity<ApplicationResponse<FolderQueryDetailResponse>> findAllFolders(
+        @AuthenticationPrincipal UserCustomDetails userDetails,
+        @RequestParam String date) {
+        FolderQueryDetailResponse response = todoQueryService.findAllFolders(userDetails, date);
         return ResponseEntity.ok(ApplicationResponse.success(response));
     }
 }
