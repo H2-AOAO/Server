@@ -46,4 +46,9 @@ public class TodoEntity extends BaseEntity {
         todoFolder.validateUserIsWriter(user);
         return new TodoEntity(content, false, todoFolder);
     }
+
+    public void update(String content, TodoFolderEntity todoFolder, UserEntity user) {
+        todoFolder.validateUserIsWriter(user);
+        this.content = content;
+    }
 }
