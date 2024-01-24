@@ -77,4 +77,20 @@ public class TodoController {
         todoService.delete(userDetails, folderId, todoId);
         return ResponseEntity.noContent().build();
     }
+
+    /**
+     * 투두 체크 API
+     * @since 2024.01.24
+     * @parameter UserCustomDetails, Long, Long
+     * @return ResponseEntity<ApplicationResponse<Void>>
+     * @author 김유빈
+     */
+    @PostMapping("/{todoId}/check")
+    public ResponseEntity<ApplicationResponse<Void>> check(
+        @AuthenticationPrincipal UserCustomDetails userDetails,
+        @PathVariable Long folderId,
+        @PathVariable Long todoId) {
+        todoService.check(userDetails, folderId, todoId);
+        return ResponseEntity.ok().build();
+    }
 }

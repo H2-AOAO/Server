@@ -80,6 +80,22 @@ public class TodoServiceImpl implements TodoService {
         todoJpaRepository.deleteById(savedTodo.getId());
     }
 
+    /**
+     * 투두 체크
+     * @since 2024.01.24
+     * @parameter UserCustomDetails, Long, Long
+     * @author 김유빈
+     */
+    @Override
+    public void check(UserCustomDetails userDetails, Long folderId, Long todoId) {
+        Long userId = extractUserId(userDetails);
+        UserEntity savedUser = findUserById(userId);
+        TodoFolderEntity savedTodoFolder = findTodoFolderById(folderId);
+        TodoEntity savedTodo = findTodoById(todoId);
+
+        savedTodo.check(savedTodoFolder, savedUser);
+    }
+
     private UserEntity findUserById(Long userId) {
         return userJpaRepository.findById(userId)
             .orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_EXIST));

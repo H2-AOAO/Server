@@ -11,4 +11,6 @@ public interface TodoService {
     void update(UserCustomDetails userDetails, Long folderId, Long todoId, TodoUpdateRequest request);
 
     void delete(UserCustomDetails userDetails, Long folderId, Long todoId);
+
+    void check(UserCustomDetails userDetails, Long folderId, Long todoId);
 }
