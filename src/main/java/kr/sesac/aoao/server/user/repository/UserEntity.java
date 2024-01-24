@@ -8,12 +8,14 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import kr.sesac.aoao.server.dino.repository.DinoEntity;
 import kr.sesac.aoao.server.item.repository.UserItemEntity;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
+import kr.sesac.aoao.server.point.repository.PointEntity;
 import kr.sesac.aoao.server.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -46,6 +48,10 @@ public class UserEntity extends BaseEntity {
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<UserItemEntity> userItems;
+
+	@OneToOne
+	@JoinColumn(name = "point_id")
+	private PointEntity point;
 
 	public UserEntity(User user) {
 		this.id = user.getId();
