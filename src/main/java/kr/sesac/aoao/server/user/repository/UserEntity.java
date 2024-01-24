@@ -51,7 +51,7 @@ public class UserEntity extends BaseEntity {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	public List<UserItemEntity> userItems;
-	
+
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private PointEntity point;
 
@@ -87,4 +87,12 @@ public class UserEntity extends BaseEntity {
 	}
 
 	public void saveUserItems(List<UserItemEntity> userItems) {this.userItems = userItems;}
+
+    public void todoCheck() {
+        this.point.todoCheck();
+    }
+
+    public void todoUncheck() {
+        this.point.todoUncheck();
+    }
 }
