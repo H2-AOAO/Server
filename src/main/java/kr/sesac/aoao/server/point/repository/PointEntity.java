@@ -22,9 +22,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PointEntity extends BaseEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    private static final int CHECK_POINT = 10;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
 	@Column
 	private int point = 0;
@@ -38,4 +40,12 @@ public class PointEntity extends BaseEntity {
     }
 
     public void changePoint(int point){ this.point = point; }
+
+    public void todoCheck() {
+        this.point += CHECK_POINT;
+    }
+
+    public void todoUncheck() {
+        this.point -= CHECK_POINT;
+    }
 }
