@@ -57,7 +57,6 @@ public class ItemServiceImpl implements ItemService {
 			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
 		ItemEntity item = itemRepository.findById(itemId)
 			.orElseThrow(() ->new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
-
 		Optional<UserItemEntity> optionalUserItem = userItemRepository.findByUserAndItem(user,item);
 		UserItemEntity userItem;
 		if(optionalUserItem.isPresent()) userItem = optionalUserItem.get();
@@ -67,9 +66,20 @@ public class ItemServiceImpl implements ItemService {
 		}
 
 		int currentItemNum = userItem.getItem_num();
-		if(status.equals("구매")) userItem.changeItemNum(currentItemNum + 1);
+		if(status.equals("구매")) {
+			if(itemId == 5){
+				for(Long i = 1L; i < 5; i++){
+					item = itemRepository.findById(i)
+						.orElseThrow(() ->new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
+					optionalUserItem = userItemRepository.findByUserAndItem(user,item);
+					if(optionalUserItem.isPresent()) userItem = optionalUserItem.get();
+					currentItemNum = userItem.getItem_num();
+					userItem.changeItemNum(currentItemNum + 1);
+				}
+			}
+			else userItem.changeItemNum(currentItemNum + 1);
+		}
 		if(status.equals("사용")) userItem.changeItemNum(currentItemNum - 1);
-
 		return new UseItemNumResponse(
 			userItem.getUser().getId(),
 			userItem.getItem().getId(),
