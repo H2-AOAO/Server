@@ -79,28 +79,15 @@ public class DinoServiceImpl implements DinoService {
 	 * @author 김은서
 	 */
 	@Override
-	public GetUserDinoResponse expChange(Long userId, Long dinoId, Long itemId) {
+	public GetUserDinoResponse expChange(Long userId, Integer currLv, Integer currExp) {
 		UserEntity user = userRepository.findById(userId)
 		.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
-		ItemEntity item = itemRepository.findById(itemId)
-			.orElseThrow(() ->new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
 		DinoEntity dino = dinoRepository.findByUserId(user.getId())
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 
-		int upExp = item.getExp();
-		int currentExp = dino.getExp();
-		int levelLimit = dino.getDino().getAllExp();
-		int currentLv = dino.getDino().getLv();
-
-		if(currentExp + upExp > levelLimit){
-			int leftExp = currentExp + upExp - levelLimit;
-			currentLv += 1;
-			dino.changeExp(leftExp);
-			DinoInfoEntity dinoInfoEntity = dino.getDino();
-			dinoInfoEntity.changeLv(currentLv);
-
-		}
-		else dino.changeExp(currentExp + upExp);
+		dino.changeExp(currExp);
+		DinoInfoEntity dinoInfoEntity = dino.getDino();
+		dinoInfoEntity.changeLv(currLv);
 
 		return result(dino);
 	}

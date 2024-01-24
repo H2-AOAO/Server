@@ -54,8 +54,8 @@ public class DinoController {
 	 * @author 김은서
 	 */
 	@PostMapping("/exp")
-	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> expChange(Long userId, Long dinoId, Long itemId){
-		GetUserDinoResponse userDinoResponse = dinoService.expChange(userId,dinoId,itemId);
+	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> expChange(Long userId, Integer currLv, Integer currExp){
+		GetUserDinoResponse userDinoResponse = dinoService.expChange(userId,currLv,currExp);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}
 
