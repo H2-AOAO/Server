@@ -41,7 +41,7 @@ public class SecurityConfig {
 		return http
 			.csrf(AbstractHttpConfigurer::disable)// CSRF 토큰 비활성화
 			.authorizeHttpRequests(request -> request
-				.requestMatchers("/login", "/signup", "/user/reissue").permitAll()
+				.requestMatchers("/login", "/signup", "/user/reissue", "/palettes").permitAll()
 				.anyRequest().authenticated() //어떠한 요청이라도 인증 필요
 			)
 			.exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint))
