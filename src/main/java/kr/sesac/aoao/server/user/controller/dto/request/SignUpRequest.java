@@ -1,5 +1,6 @@
 package kr.sesac.aoao.server.user.controller.dto.request;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 public class SignUpRequest {
 
 	@NotBlank(message = "이메일을 입력해주세요")
+	@Email
 	private final String email;
 
 	@NotBlank(message = "닉네임을 입력해주세요.")

@@ -2,6 +2,7 @@ package kr.sesac.aoao.server.user.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,7 +57,7 @@ public class UserController {
 	 * @since 2024.01.19
 	 */
 	@PostMapping("/login")
-	public ResponseEntity<ApplicationResponse<TokenResponse>> login(@RequestBody LoginRequest loginRequest) {
+	public ResponseEntity<ApplicationResponse<TokenResponse>> login(@Valid @RequestBody LoginRequest loginRequest) {
 		User user = userService.login(loginRequest);
 		TokenResponse tokenResponse = jwtTokenProvider.createTokensLogin(user);
 		return ResponseEntity.ok(ApplicationResponse.success(tokenResponse));
