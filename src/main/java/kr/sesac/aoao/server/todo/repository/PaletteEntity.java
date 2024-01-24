@@ -9,8 +9,10 @@ import jakarta.persistence.Table;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
 @Table(name = "palette")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

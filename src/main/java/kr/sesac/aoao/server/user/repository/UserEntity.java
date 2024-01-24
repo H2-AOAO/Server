@@ -4,8 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,8 +12,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import kr.sesac.aoao.server.dino.repository.DinoEntity;
-import kr.sesac.aoao.server.global.entity.BaseEntity;
 import kr.sesac.aoao.server.item.repository.UserItemEntity;
+import kr.sesac.aoao.server.global.entity.BaseEntity;
 import kr.sesac.aoao.server.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -42,13 +41,10 @@ public class UserEntity extends BaseEntity {
 	@Column
 	private String profile;
 
-	@Enumerated(EnumType.STRING)
-	private Role role;
-
-	@OneToOne(mappedBy = "user")
+	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
 	private DinoEntity dino;
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<UserItemEntity> userItems;
 
 	public UserEntity(User user) {
@@ -57,19 +53,26 @@ public class UserEntity extends BaseEntity {
 		this.password = user.getPassword();
 		this.email = user.getEmail();
 		this.profile = user.getProfile();
-		this.role = user.getRole();
 	}
 
+	/**
+	 * UserEntity 를 User domain 으로 변경
+	 *
+	 * @return user
+	 * @author 이상민
+	 * @since 2024.01.19
+	 */
 	public User toModel() {
 		return new User(this);
 	}
 
 	/**
 	 * 작성자 검증
-	 * @since 2024.01.22
-	 * @parameter UserEntity
+	 *
 	 * @return boolean
+	 * @parameter UserEntity
 	 * @author 김유빈
+	 * @since 2024.01.22
 	 */
 	public boolean isWriter(UserEntity user) {
 		return this.id.equals(user.id);

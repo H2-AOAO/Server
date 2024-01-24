@@ -2,25 +2,22 @@ package kr.sesac.aoao.server.user.service;
 
 import static kr.sesac.aoao.server.user.exception.UserErrorCode.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.sesac.aoao.server.global.exception.ApplicationException;
+import kr.sesac.aoao.server.user.controller.dto.request.LoginRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
+import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
 import kr.sesac.aoao.server.user.domain.User;
-import kr.sesac.aoao.server.user.jwt.JwtTokenProvider;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @since 2024.01.18
  * @author 이상민
+ * @since 2024.01.18
  */
 @RequiredArgsConstructor
 @Transactional
@@ -28,14 +25,14 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 
 	private final UserJpaRepository userRepository;
-	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordEncoder passwordEncoder;
 
 	/**
 	 * 회원가입
-	 * @since 2024.01.18
+	 *
 	 * @return User
 	 * @author 이상민
+	 * @since 2024.01.18
 	 */
 	@Override
 	public User signUp(SignUpRequest signUpRequest) {
@@ -55,21 +52,34 @@ public class UserServiceImpl implements UserService {
 
 	/**
 	 * 로그인
-	 * @since 2024.01.19
+	 *
 	 * @return String
 	 * @author 이상민
+	 * @since 2024.01.19
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public String login(Map<String, String> users) {
-		User user = userRepository.findByEmail(users.get("email"))
+	public User login(LoginRequest loginRequest) {
+		User user = userRepository.findByEmail(loginRequest.getEmail())
 			.orElseThrow(() -> new ApplicationException(NOT_EXISTENT_EMAIL)).toModel();
-		String password = users.get("password");
-		if (!user.checkPassword(passwordEncoder, password)) {
+		if (!user.checkPassword(passwordEncoder, loginRequest.getPassword())) {
 			throw new ApplicationException(NOT_CORRECTED_PASSWORD);
 		}
-		List<String> roles = new ArrayList<>();
-		roles.add(user.getRole().name());
-		return jwtTokenProvider.createToken(user.getEmail(), roles);
+		return user;
 	}
+
+	/**
+	 * 프로필 조회
+	 *
+	 * @return UserProfileResponse
+	 * @author 이상민
+	 * @since 2024.01.22
+	 */
+	@Override
+	public UserProfileResponse getProfile(String username, Long userId) {
+		User user = userRepository.findByEmail(username)
+			.orElseThrow(() -> new ApplicationException(NOT_EXISTENT_EMAIL)).toModel();
+		return new UserProfileResponse(user.getNickname(), user.getProfile());
+	}
+
 }
