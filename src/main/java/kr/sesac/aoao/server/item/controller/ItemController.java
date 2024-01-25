@@ -3,7 +3,9 @@ package kr.sesac.aoao.server.item.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,9 +34,9 @@ public class ItemController {
 	 * @return ItemInfoResponse
 	 * @author 김은서
 	 */
-	@GetMapping("/")
-	public ResponseEntity<ApplicationResponse<GetItemInfoResponse>> getItemInfo(GetItemInfoResponse useItemInfo){
-		GetItemInfoResponse itemInfoResponse = itemService.getItemInfo(useItemInfo);
+	@GetMapping("/{itemId}")
+	public ResponseEntity<ApplicationResponse<GetItemInfoResponse>> getItemInfo(@PathVariable Long itemId){
+		GetItemInfoResponse itemInfoResponse = itemService.getItemInfo(itemId);
 		return ResponseEntity.ok(ApplicationResponse.success(itemInfoResponse));
 	}
 
@@ -46,7 +48,7 @@ public class ItemController {
 	 */
 	@PostMapping("/num")
 	public ResponseEntity<ApplicationResponse<UseItemNumResponse>> calItemNum(
-		@AuthenticationPrincipal UserCustomDetails userDetails, ItemNumRequest useItem){
+		@AuthenticationPrincipal UserCustomDetails userDetails, @RequestBody ItemNumRequest useItem){
 		UseItemNumResponse useItemNumResponse = itemService.calItemNum(userDetails,useItem);
 		return ResponseEntity.ok(ApplicationResponse.success(useItemNumResponse));
 	}

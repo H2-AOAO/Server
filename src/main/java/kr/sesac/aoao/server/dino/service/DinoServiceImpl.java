@@ -96,8 +96,7 @@ public class DinoServiceImpl implements DinoService {
 		UserEntity user = getUserEntitiy(userId);
 		DinoEntity dino = getDinoEntity(user);
 		dino.changeExp(currentExp.getCurrExp());
-		DinoInfoEntity dinoInfoEntity = dino.getDino();
-		dinoInfoEntity.changeLv(currentExp.getCurrLv());
+		dino.getDino().changeLv(currentExp.getCurrLv());
 
 		int user_point = user.getPoint().getPoint();
 		return result((dino), user_point);

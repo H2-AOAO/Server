@@ -6,7 +6,7 @@ import kr.sesac.aoao.server.item.controller.dto.response.UseItemNumResponse;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 
 public interface ItemService {
-	GetItemInfoResponse getItemInfo(GetItemInfoResponse useItemInfo);
+	GetItemInfoResponse getItemInfo(Long itemId);
 
 	UseItemNumResponse calItemNum(UserCustomDetails userDetails, ItemNumRequest useItem);
 

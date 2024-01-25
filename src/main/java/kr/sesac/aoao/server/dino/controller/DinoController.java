@@ -63,7 +63,7 @@ public class DinoController {
 	 */
 	@PostMapping("/exp")
 	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> expChange(
-		@AuthenticationPrincipal UserCustomDetails userDetails, ExpChangeRequest currentExp){
+		@AuthenticationPrincipal UserCustomDetails userDetails, @RequestBody ExpChangeRequest currentExp){
 		GetUserDinoResponse userDinoResponse = dinoService.expChange(userDetails,currentExp);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}
@@ -76,7 +76,7 @@ public class DinoController {
 	 */
 	@PostMapping("/point")
 	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> usePoint(
-		@AuthenticationPrincipal UserCustomDetails userDetails, UsePointRequest useItem){
+		@AuthenticationPrincipal UserCustomDetails userDetails, @RequestBody UsePointRequest useItem){
 		GetUserDinoResponse userDinoResponse = dinoService.usePoint(userDetails, useItem);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}
