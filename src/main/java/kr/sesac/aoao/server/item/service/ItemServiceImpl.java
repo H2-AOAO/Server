@@ -35,8 +35,8 @@ public class ItemServiceImpl implements ItemService {
 	 * @author 김은서
 	 */
 	@Override
-	public GetItemInfoResponse getItemInfo(Long itemId) {
-		ItemEntity item = itemRepository.findById(itemId)
+	public GetItemInfoResponse getItemInfo(Long id) {
+		ItemEntity item = itemRepository.findById(id)
 			.orElseThrow(()-> new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
 		return new GetItemInfoResponse(
 			item.getId(),

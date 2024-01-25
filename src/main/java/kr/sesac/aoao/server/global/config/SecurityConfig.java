@@ -42,15 +42,9 @@ public class SecurityConfig {
 			.csrf(AbstractHttpConfigurer::disable)// CSRF 토큰 비활성화
 			.authorizeHttpRequests(request -> request
 				.requestMatchers("/login"
-<<<<<<< HEAD
 					, "/signup"
 					, "/user/reissue"
 					, "/palettes"
-=======
-					,"/signup"
-					, "/user/reissue"
-					,"/palettes"
->>>>>>> 89da7ad ([FEATURE] 유저 관련 API (#47))
 					, "/duplicated/*").permitAll()
 				.anyRequest().authenticated() //어떠한 요청이라도 인증 필요
 			)
