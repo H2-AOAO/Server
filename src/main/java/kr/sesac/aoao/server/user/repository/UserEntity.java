@@ -50,7 +50,12 @@ public class UserEntity extends BaseEntity {
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<UserItemEntity> userItems;
 
+<<<<<<< HEAD
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+=======
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "point_id")
+>>>>>>> 89da7ad ([FEATURE] 유저 관련 API (#47))
 	private PointEntity point;
 
 	public UserEntity(User user) {

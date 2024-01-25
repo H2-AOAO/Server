@@ -94,7 +94,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void duplicatedEmail(String email) {
 		Optional<UserEntity> user = userRepository.findByEmail(email);
+<<<<<<< HEAD
 		if (user.isPresent()) {
+=======
+		if(user.isPresent()) {
+>>>>>>> 89da7ad ([FEATURE] 유저 관련 API (#47))
 			throw new ApplicationException(EXISTENT_EMAIL);
 		}
 	}
@@ -102,7 +106,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void duplicationNickname(String nickname) {
 		Optional<UserEntity> user = userRepository.findByNickname(nickname);
+<<<<<<< HEAD
 		if (user.isPresent()) {
+=======
+		if(user.isPresent()) {
+>>>>>>> 89da7ad ([FEATURE] 유저 관련 API (#47))
 			throw new ApplicationException(EXISTENT_NICKNAME);
 		}
 	}

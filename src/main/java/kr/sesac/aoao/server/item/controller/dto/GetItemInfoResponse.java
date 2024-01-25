@@ -11,4 +11,8 @@ public class GetItemInfoResponse {
 	private final String name;
 	private final int price;
 	private final int exp;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 89da7ad ([FEATURE] 유저 관련 API (#47))
 }

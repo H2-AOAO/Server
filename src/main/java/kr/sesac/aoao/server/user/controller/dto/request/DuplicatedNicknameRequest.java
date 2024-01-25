@@ -1,8 +1,17 @@
 package kr.sesac.aoao.server.user.controller.dto.request;
 
+<<<<<<< HEAD
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+=======
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+>>>>>>> 89da7ad ([FEATURE] 유저 관련 API (#47))
 import lombok.RequiredArgsConstructor;
 
 @Getter
