@@ -12,5 +12,4 @@ public class Dino {
 	private final int exp;
 	private final Long userId;
 	private final int Lv;
-	private final int point;
 }
