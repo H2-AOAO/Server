@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
-import kr.sesac.aoao.server.item.controller.dto.GetItemInfoResponse;
-import kr.sesac.aoao.server.item.controller.dto.UseItemNumResponse;
+import kr.sesac.aoao.server.item.controller.dto.request.ItemNumRequest;
+import kr.sesac.aoao.server.item.controller.dto.response.GetItemInfoResponse;
+import kr.sesac.aoao.server.item.controller.dto.response.UseItemNumResponse;
 import kr.sesac.aoao.server.item.service.ItemService;
 import lombok.RequiredArgsConstructor;
 
@@ -30,8 +31,8 @@ public class ItemController {
 	 * @author 김은서
 	 */
 	@GetMapping("/")
-	public ResponseEntity<ApplicationResponse<GetItemInfoResponse>> getItemInfo(Long id){
-		GetItemInfoResponse itemInfoResponse = itemService.getItemInfo(id);
+	public ResponseEntity<ApplicationResponse<GetItemInfoResponse>> getItemInfo(GetItemInfoResponse useItemInfo){
+		GetItemInfoResponse itemInfoResponse = itemService.getItemInfo(useItemInfo);
 		return ResponseEntity.ok(ApplicationResponse.success(itemInfoResponse));
 	}
 
@@ -43,8 +44,8 @@ public class ItemController {
 	 */
 	@PostMapping("/num")
 	public ResponseEntity<ApplicationResponse<UseItemNumResponse>> calItemNum(
-		@AuthenticationPrincipal UserCustomDetails userDetails, Long itemId, String status){
-		UseItemNumResponse useItemNumResponse = itemService.calItemNum(userDetails,itemId, status);
+		@AuthenticationPrincipal UserCustomDetails userDetails, ItemNumRequest useItem){
+		UseItemNumResponse useItemNumResponse = itemService.calItemNum(userDetails,useItem);
 		return ResponseEntity.ok(ApplicationResponse.success(useItemNumResponse));
 	}
 }
