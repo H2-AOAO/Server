@@ -12,6 +12,4 @@ public class GetUserDinoResponse {
 	private final String color;
 	private final Integer exp;
 	private final int Lv;
-	private final Integer point;
-
 }
