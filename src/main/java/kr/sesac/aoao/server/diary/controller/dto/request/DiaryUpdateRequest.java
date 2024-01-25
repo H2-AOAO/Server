@@ -10,4 +10,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DiaryUpdateRequest {
 	private final String content;
+	private final boolean flag;
 }
