@@ -1,6 +1,5 @@
 package kr.sesac.aoao.server.diary.repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -10,13 +9,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import kr.sesac.aoao.server.diary.controller.dto.request.DiaryCreateRequest;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
 import kr.sesac.aoao.server.global.exception.ApplicationException;
 import kr.sesac.aoao.server.todo.exception.TodoFolderErrorCode;
-import kr.sesac.aoao.server.todo.repository.PaletteEntity;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

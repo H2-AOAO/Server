@@ -7,6 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TodoSaveRequest {
 
-    private final String content;
-    private final String dummy;
+	private final String content;
+	private final String dummy;
 }

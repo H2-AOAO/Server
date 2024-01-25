@@ -22,48 +22,48 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TodoQueryController {
 
-    private final TodoQueryService todoQueryService;
+	private final TodoQueryService todoQueryService;
 
-    /**
-     * 투두리스트 조회 API
-     * @since 2024.01.24
-     * @parameter UserCustomDetails, String
-     * @return ResponseEntity<ApplicationResponse<TodoQueryDetailResponse>>
-     * @author 김유빈
-     */
-    @GetMapping("/todos")
-    public ResponseEntity<ApplicationResponse<TodoQueryDetailResponse>> findAllTodos(
-        @AuthenticationPrincipal UserCustomDetails userDetails,
-        @RequestParam String date) {
-        TodoQueryDetailResponse response = todoQueryService.findAllTodos(userDetails, date);
-        return ResponseEntity.ok(ApplicationResponse.success(response));
-    }
+	/**
+	 * 투두리스트 조회 API
+	 * @since 2024.01.24
+	 * @parameter UserCustomDetails, String
+	 * @return ResponseEntity<ApplicationResponse < TodoQueryDetailResponse>>
+	 * @author 김유빈
+	 */
+	@GetMapping("/todos")
+	public ResponseEntity<ApplicationResponse<TodoQueryDetailResponse>> findAllTodos(
+		@AuthenticationPrincipal UserCustomDetails userDetails,
+		@RequestParam String date) {
+		TodoQueryDetailResponse response = todoQueryService.findAllTodos(userDetails, date);
+		return ResponseEntity.ok(ApplicationResponse.success(response));
+	}
 
-    /**
-     * 폴더리스트 조회 API
-     * @since 2024.01.24
-     * @parameter UserCustomDetails, String
-     * @return ResponseEntity<ApplicationResponse<FolderQueryDetailResponse>>
-     * @author 김유빈
-     */
-    @GetMapping("/folders")
-    public ResponseEntity<ApplicationResponse<FolderQueryDetailResponse>> findAllFolders(
-        @AuthenticationPrincipal UserCustomDetails userDetails,
-        @RequestParam String date) {
-        FolderQueryDetailResponse response = todoQueryService.findAllFolders(userDetails, date);
-        return ResponseEntity.ok(ApplicationResponse.success(response));
-    }
+	/**
+	 * 폴더리스트 조회 API
+	 * @since 2024.01.24
+	 * @parameter UserCustomDetails, String
+	 * @return ResponseEntity<ApplicationResponse < FolderQueryDetailResponse>>
+	 * @author 김유빈
+	 */
+	@GetMapping("/folders")
+	public ResponseEntity<ApplicationResponse<FolderQueryDetailResponse>> findAllFolders(
+		@AuthenticationPrincipal UserCustomDetails userDetails,
+		@RequestParam String date) {
+		FolderQueryDetailResponse response = todoQueryService.findAllFolders(userDetails, date);
+		return ResponseEntity.ok(ApplicationResponse.success(response));
+	}
 
-    /**
-     * 팔레트 리스트 조회 API
-     * @since 2024.01.24
-     * @parameter
-     * @return ResponseEntity<ApplicationResponse<PaletteQueryDetailResponse>>
-     * @author 김유빈
-     */
-    @GetMapping("/palettes")
-    public ResponseEntity<ApplicationResponse<PaletteQueryDetailResponse>> findAllPalettes() {
-        PaletteQueryDetailResponse response = todoQueryService.findAllPalettes();
-        return ResponseEntity.ok(ApplicationResponse.success(response));
-    }
+	/**
+	 * 팔레트 리스트 조회 API
+	 * @since 2024.01.24
+	 * @parameter
+	 * @return ResponseEntity<ApplicationResponse < PaletteQueryDetailResponse>>
+	 * @author 김유빈
+	 */
+	@GetMapping("/palettes")
+	public ResponseEntity<ApplicationResponse<PaletteQueryDetailResponse>> findAllPalettes() {
+		PaletteQueryDetailResponse response = todoQueryService.findAllPalettes();
+		return ResponseEntity.ok(ApplicationResponse.success(response));
+	}
 }

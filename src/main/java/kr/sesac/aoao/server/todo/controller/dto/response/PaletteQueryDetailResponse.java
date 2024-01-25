@@ -9,5 +9,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PaletteQueryDetailResponse {
 
-    private final List<PaletteDetailResponse> palettes;
+	private final List<PaletteDetailResponse> palettes;
 }

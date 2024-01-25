@@ -11,5 +11,4 @@ public class GetItemInfoResponse {
 	private final String name;
 	private final int price;
 	private final int exp;
-
 }
