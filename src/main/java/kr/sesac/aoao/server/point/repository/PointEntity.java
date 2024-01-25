@@ -33,6 +33,10 @@ public class PointEntity extends BaseEntity {
     @OneToOne(mappedBy = "point")
     private UserEntity user;
 
+    public PointEntity(UserEntity userEntity) {
+        this.user = userEntity;
+    }
+
     public void todoCheck() {
         this.point += CHECK_POINT;
     }

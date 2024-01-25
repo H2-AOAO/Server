@@ -13,13 +13,11 @@ import kr.sesac.aoao.server.global.entity.BaseEntity;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "raise_dino")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -43,22 +41,15 @@ public class DinoEntity extends BaseEntity {
 	@Column(nullable = false)
 	private int exp;
 
-	@Column(nullable = false)
-	private int point;
-
 	@ManyToOne
 	@JoinColumn(name = "Lv")
 	private DinoInfoEntity dino;
 
-	public void changeName(String name){
+	public void changeName(String name) {
 		this.name = name;
 	}
 
-	public void changeExp(int exp){
+	public void changeExp(int exp) {
 		this.exp = exp;
-	}
-
-	public void changePoint(int point){
-		this.point = point;
 	}
 }
