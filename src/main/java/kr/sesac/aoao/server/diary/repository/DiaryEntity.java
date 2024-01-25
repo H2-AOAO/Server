@@ -1,5 +1,6 @@
 package kr.sesac.aoao.server.diary.repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -43,10 +44,10 @@ public class DiaryEntity extends BaseEntity {
 	@JoinColumn(name = "user_id")
 	private UserEntity user; // 일기 작성자
 
-	public DiaryEntity(DiaryCreateRequest request) {
-		this.id = request.getUserId();
-		this.content = request.getContent();
-		this.date = request.getDate();
+	public DiaryEntity(String content, LocalDateTime date, UserEntity user) {
+		this.content = content;
+		this.date = date;
+		this.user = user;
 	}
 
 	public void diaryUpdate(UserEntity user, String content) {
@@ -58,12 +59,6 @@ public class DiaryEntity extends BaseEntity {
 		if (!this.user.isWriter(user)) {
 			throw new ApplicationException(TodoFolderErrorCode.IS_NOT_WRITER);
 		}
-	}
-
-	public void diary(DiaryCreateRequest request) {
-		this.id = request.getUserId();
-		this.content = request.getContent();
-		// this.date = request.getDate();
 	}
 
 }
