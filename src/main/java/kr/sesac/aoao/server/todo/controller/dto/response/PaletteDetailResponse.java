@@ -8,13 +8,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PaletteDetailResponse {
 
-    private final long paletteId;
-    private final String colorCode;
+	private final long paletteId;
+	private final String colorCode;
 
-    public static PaletteDetailResponse from(PaletteEntity palette) {
-        return new PaletteDetailResponse(
-            palette.getId(),
-            palette.getColorCode()
-        );
-    }
+	public static PaletteDetailResponse from(PaletteEntity palette) {
+		return new PaletteDetailResponse(
+			palette.getId(),
+			palette.getColorCode()
+		);
+	}
 }

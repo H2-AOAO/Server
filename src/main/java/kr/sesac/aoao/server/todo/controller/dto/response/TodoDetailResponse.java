@@ -8,15 +8,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TodoDetailResponse {
 
-    private final long todoId;
-    private final String content;
-    private final boolean checked;
+	private final long todoId;
+	private final String content;
+	private final boolean checked;
 
-    public static TodoDetailResponse from(TodoEntity todo) {
-        return new TodoDetailResponse(
-            todo.getId(),
-            todo.getContent(),
-            todo.isChecked()
-        );
-    }
+	public static TodoDetailResponse from(TodoEntity todo) {
+		return new TodoDetailResponse(
+			todo.getId(),
+			todo.getContent(),
+			todo.isChecked()
+		);
+	}
 }

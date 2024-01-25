@@ -1,8 +1,6 @@
 package kr.sesac.aoao.server.diary.domain;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

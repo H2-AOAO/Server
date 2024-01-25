@@ -9,5 +9,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FolderQueryDetailResponse {
 
-    private final List<FolderDetailResponse> folders;
+	private final List<FolderDetailResponse> folders;
 }

@@ -9,13 +9,12 @@ import kr.sesac.aoao.server.diary.controller.dto.response.GetDiaryResponse;
 @Service
 public interface DiaryService {
 
-	GetDiaryResponse getDiaryInfo(Long userId);
+	GetDiaryResponse getDiaryInfo(Long userId, String date);
 
-	Long createDiary(Long userId, Long date, DiaryCreateRequest request);
+	Long createDiary(Long userId, DiaryCreateRequest request);
 
 	void updateDiary(Long userId, Long diaryId, DiaryUpdateRequest request);
 
 	void deleteDiary(Long userId, Long diaryId);
-
 
 }

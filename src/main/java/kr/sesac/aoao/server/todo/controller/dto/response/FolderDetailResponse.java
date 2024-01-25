@@ -8,15 +8,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FolderDetailResponse {
 
-    private final long folderId;
-    private final String colorCode;
-    private final String content;
+	private final long folderId;
+	private final String colorCode;
+	private final String content;
 
-    public static FolderDetailResponse from(TodoFolderEntity todoFolder) {
-        return new FolderDetailResponse(
-            todoFolder.getId(),
-            todoFolder.getPalette().getColorCode(),
-            todoFolder.getContent()
-        );
-    }
+	public static FolderDetailResponse from(TodoFolderEntity todoFolder) {
+		return new FolderDetailResponse(
+			todoFolder.getId(),
+			todoFolder.getPalette().getColorCode(),
+			todoFolder.getContent()
+		);
+	}
 }

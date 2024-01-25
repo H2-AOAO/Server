@@ -9,6 +9,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TodoQueryDetailResponse {
 
-    private final int check;
-    private final List<TodoFolderDetailResponse> folders;
+	private final int check;
+	private final List<TodoFolderDetailResponse> folders;
 }
