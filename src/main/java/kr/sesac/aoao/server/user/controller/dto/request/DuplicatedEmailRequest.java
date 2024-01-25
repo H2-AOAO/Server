@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class DuplicatedEmailRequest {
 
 	@Email(message = "이메일 형식을 지켜주세요")
-	private String email;
+	private final String email;
+	private final boolean flag;
 }

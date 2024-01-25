@@ -66,7 +66,7 @@ public class UserController {
 	 * @since 2024.01.22
 	 */
 	@GetMapping("/duplicated/nickname")
-	public ResponseEntity<ApplicationResponse<String>> duplicationNickname(@Validated @RequestBody DuplicatedNicknameRequest duplicatedNicknameRequest) {
+	public ResponseEntity<ApplicationResponse<String>> duplicationNickname(@Valid @RequestBody DuplicatedNicknameRequest duplicatedNicknameRequest) {
 		userService.duplicationNickname(duplicatedNicknameRequest.getNickname());
 		return ResponseEntity.ok(ApplicationResponse.success("사용가능한 넥네임입니다."));
 	}

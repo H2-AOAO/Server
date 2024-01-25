@@ -49,7 +49,7 @@ class DiaryServiceImplTest {
 	void createDiary(){
 		// given
 		long date = 20240124;
-		User user = new User(1L, "email", "nickname", "password", "password2", "profile", null);
+		User user = new User(1L, "email", "nickname", "password", "password2", "profile");
 		// DiaryCreateRequest diaryCreateRequest = new DiaryCreateRequest(1L, date, "hi");
 
 		// when

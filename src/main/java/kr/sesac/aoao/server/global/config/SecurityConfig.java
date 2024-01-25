@@ -45,7 +45,7 @@ public class SecurityConfig {
 					,"/signup"
 					, "/user/reissue"
 					,"/palettes"
-					, "/duplicated/email").permitAll()
+					, "/duplicated/*").permitAll()
 				.anyRequest().authenticated() //어떠한 요청이라도 인증 필요
 			)
 			.exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint))

@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
 		// signUpRequest -> user
 		User user = new User(signUpRequest);
 		duplicatedEmail(user.getEmail()); // 이메일 중복확인
+		duplicationNickname(user.getNickname()); // 넥네임 중복확인
 		if (!user.getPassword().equals(user.getCheckedPassword())) {  // 비밀번호 중복확인
 			throw new ApplicationException(INVALID_PASSWORD);
 		}
@@ -51,6 +52,7 @@ public class UserServiceImpl implements UserService {
 		String encodePassword = passwordEncoder.encode(user.getPassword());
 		user.encodePassword(encodePassword);
 
+		// 아이템 추가
 		UserEntity userEntity = userRepository.save(new UserEntity(user));
 		pointJpaRepository.save(new PointEntity(userEntity));
 
