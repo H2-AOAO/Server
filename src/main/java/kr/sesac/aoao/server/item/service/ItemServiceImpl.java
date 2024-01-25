@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.sesac.aoao.server.global.exception.ApplicationException;
-import kr.sesac.aoao.server.item.controller.dto.request.ItemNumRequest;
 import kr.sesac.aoao.server.item.controller.dto.response.GetItemInfoResponse;
+import kr.sesac.aoao.server.item.controller.dto.request.ItemNumRequest;
 import kr.sesac.aoao.server.item.controller.dto.response.UseItemNumResponse;
 import kr.sesac.aoao.server.item.exception.ItemErrorCode;
 import kr.sesac.aoao.server.item.repository.ItemEntity;
@@ -37,7 +37,7 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public GetItemInfoResponse getItemInfo(Long id) {
 		ItemEntity item = itemRepository.findById(id)
-			.orElseThrow(()-> new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
+			.orElseThrow(() -> new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
 		return new GetItemInfoResponse(
 			item.getId(),
 			item.getName(),
