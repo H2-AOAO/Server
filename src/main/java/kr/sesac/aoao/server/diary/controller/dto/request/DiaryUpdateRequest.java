@@ -9,7 +9,5 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class DiaryUpdateRequest {
-	private final Long userId;
-	private final LocalDateTime date;
 	private final String content;
 }
