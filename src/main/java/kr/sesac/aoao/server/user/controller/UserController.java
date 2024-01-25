@@ -5,13 +5,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
-import kr.sesac.aoao.server.user.controller.dto.request.DuplicatedEmailRequest;
-import kr.sesac.aoao.server.user.controller.dto.request.DuplicatedNicknameRequest;
+import kr.sesac.aoao.server.user.controller.dto.request.*;
 import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.service.UserService;
@@ -85,5 +86,6 @@ public class UserController {
 		userService.deleteUser(userDetails.getUserEntity().getId());
 		return ResponseEntity.ok().build();
 	}
+
 
 }

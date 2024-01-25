@@ -2,8 +2,6 @@ package kr.sesac.aoao.server.user.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +12,6 @@ import kr.sesac.aoao.server.user.controller.dto.request.LoginRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
 import kr.sesac.aoao.server.user.controller.dto.response.SignUpResponse;
 import kr.sesac.aoao.server.user.controller.dto.response.TokenResponse;
-import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
 import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.jwt.JwtTokenProvider;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
