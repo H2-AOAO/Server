@@ -42,7 +42,7 @@ public class DinoController {
 	 * @author 김은서
 	 */
 	@PostMapping("/rename")
-	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> renameDino(Long dinoId, String name){
+	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> renameDino(Long dinoId, String name) {
 		GetUserDinoResponse userDinoResponse = dinoService.renameDino(dinoId, name);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}
@@ -54,8 +54,9 @@ public class DinoController {
 	 * @author 김은서
 	 */
 	@PostMapping("/exp")
-	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> expChange(Long userId, Integer currLv, Integer currExp){
-		GetUserDinoResponse userDinoResponse = dinoService.expChange(userId,currLv,currExp);
+	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> expChange(Long userId, Integer currLv,
+		Integer currExp) {
+		GetUserDinoResponse userDinoResponse = dinoService.expChange(userId, currLv, currExp);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}
 
@@ -66,7 +67,7 @@ public class DinoController {
 	 * @author 김은서
 	 */
 	@PostMapping("/point")
-	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> usePoint(Long userId, Long itemId){
+	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> usePoint(Long userId, Long itemId) {
 		GetUserDinoResponse userDinoResponse = dinoService.usePoint(userId, itemId);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}

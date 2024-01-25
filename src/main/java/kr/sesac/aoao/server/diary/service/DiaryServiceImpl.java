@@ -1,10 +1,10 @@
 package kr.sesac.aoao.server.diary.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.stereotype.Service;
+
 import jakarta.transaction.Transactional;
 import kr.sesac.aoao.server.diary.controller.dto.request.DiaryCreateRequest;
 import kr.sesac.aoao.server.diary.controller.dto.request.DiaryUpdateRequest;
@@ -25,13 +25,13 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class DiaryServiceImpl implements DiaryService{
+public class DiaryServiceImpl implements DiaryService {
 
 	private final DiaryJpaRepository diaryJpaRepository;
 	private final UserJpaRepository userRepository;
 	private final DiaryJpaRepository diaryRepository;
 
-	private GetDiaryResponse result(DiaryEntity diary){
+	private GetDiaryResponse result(DiaryEntity diary) {
 		return new GetDiaryResponse(
 			diary.getId(),
 			diary.getContent(),
@@ -82,7 +82,6 @@ public class DiaryServiceImpl implements DiaryService{
 		DiaryEntity diary = diaryRepository.findByUserAndDate(user, localDate.atStartOfDay())
 			.orElseThrow(() -> new ApplicationException(DiaryErrorCode.NO_DIARY));
 
-
 		return result(diary);
 	}
 
@@ -100,7 +99,6 @@ public class DiaryServiceImpl implements DiaryService{
 
 		savedDiary.diaryUpdate(savedUser, request.getContent());
 	}
-
 
 	/**
 	 * 다이어리 삭제

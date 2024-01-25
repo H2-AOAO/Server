@@ -39,7 +39,8 @@ public class DiaryController {
 	 * @author 최정윤
 	 */
 	@PostMapping
-	public ResponseEntity<ApplicationResponse<Void>> createDiary(@AuthenticationPrincipal UserCustomDetails userDetails, @RequestBody DiaryCreateRequest request) {
+	public ResponseEntity<ApplicationResponse<Void>> createDiary(@AuthenticationPrincipal UserCustomDetails userDetails,
+		@RequestBody DiaryCreateRequest request) {
 		Long diaryId = diaryService.createDiary(userDetails.getUserEntity().getId(), request);
 		return ResponseEntity.created(URI.create("/diary/" + diaryId)).build();
 	}
@@ -52,7 +53,8 @@ public class DiaryController {
 	 * 완료
 	 */
 	@GetMapping
-	public ResponseEntity<ApplicationResponse<GetDiaryResponse>> getDiaryInfo(@AuthenticationPrincipal UserCustomDetails userDetails, @RequestParam("date") String date) {
+	public ResponseEntity<ApplicationResponse<GetDiaryResponse>> getDiaryInfo(
+		@AuthenticationPrincipal UserCustomDetails userDetails, @RequestParam("date") String date) {
 		GetDiaryResponse userDiaryResponse = diaryService.getDiaryInfo(userDetails.getUserEntity().getId(), date);
 		return ResponseEntity.ok(ApplicationResponse.success(userDiaryResponse));
 	}

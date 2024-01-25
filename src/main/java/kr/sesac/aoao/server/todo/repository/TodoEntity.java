@@ -22,47 +22,47 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TodoEntity extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column
-    private String content;
+	@Column
+	private String content;
 
-    @Column
-    private boolean checked;
+	@Column
+	private boolean checked;
 
-    @ManyToOne
-    @JoinColumn(name = "folder_id")
-    private TodoFolderEntity todoFolder;
+	@ManyToOne
+	@JoinColumn(name = "folder_id")
+	private TodoFolderEntity todoFolder;
 
-    private TodoEntity(String content, boolean checked, TodoFolderEntity todoFolder) {
-        this.content = content;
-        this.checked = checked;
-        this.todoFolder = todoFolder;
-    }
+	private TodoEntity(String content, boolean checked, TodoFolderEntity todoFolder) {
+		this.content = content;
+		this.checked = checked;
+		this.todoFolder = todoFolder;
+	}
 
-    public static TodoEntity save(String content, TodoFolderEntity todoFolder, UserEntity user) {
-        todoFolder.validateUserIsWriter(user);
-        return new TodoEntity(content, false, todoFolder);
-    }
+	public static TodoEntity save(String content, TodoFolderEntity todoFolder, UserEntity user) {
+		todoFolder.validateUserIsWriter(user);
+		return new TodoEntity(content, false, todoFolder);
+	}
 
-    public void update(String content, TodoFolderEntity todoFolder, UserEntity user) {
-        todoFolder.validateUserIsWriter(user);
-        this.content = content;
-    }
+	public void update(String content, TodoFolderEntity todoFolder, UserEntity user) {
+		todoFolder.validateUserIsWriter(user);
+		this.content = content;
+	}
 
-    public void validateUserIsWriter(TodoFolderEntity todoFolder, UserEntity user) {
-        todoFolder.validateUserIsWriter(user);
-    }
+	public void validateUserIsWriter(TodoFolderEntity todoFolder, UserEntity user) {
+		todoFolder.validateUserIsWriter(user);
+	}
 
-    public void check(TodoFolderEntity todoFolder, UserEntity user) {
-        todoFolder.validateUserIsWriter(user);
-        this.checked = true;
-    }
+	public void check(TodoFolderEntity todoFolder, UserEntity user) {
+		todoFolder.validateUserIsWriter(user);
+		this.checked = true;
+	}
 
-    public void uncheck(TodoFolderEntity todoFolder, UserEntity user) {
-        todoFolder.validateUserIsWriter(user);
-        this.checked = false;
-    }
+	public void uncheck(TodoFolderEntity todoFolder, UserEntity user) {
+		todoFolder.validateUserIsWriter(user);
+		this.checked = false;
+	}
 }

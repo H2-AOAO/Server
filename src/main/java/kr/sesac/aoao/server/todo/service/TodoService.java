@@ -6,13 +6,13 @@ import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 
 public interface TodoService {
 
-    Long save(UserCustomDetails userDetails, Long folderId, TodoSaveRequest request);
+	Long save(UserCustomDetails userDetails, Long folderId, TodoSaveRequest request);
 
-    void update(UserCustomDetails userDetails, Long folderId, Long todoId, TodoUpdateRequest request);
+	void update(UserCustomDetails userDetails, Long folderId, Long todoId, TodoUpdateRequest request);
 
-    void delete(UserCustomDetails userDetails, Long folderId, Long todoId);
+	void delete(UserCustomDetails userDetails, Long folderId, Long todoId);
 
-    void check(UserCustomDetails userDetails, Long folderId, Long todoId);
+	void check(UserCustomDetails userDetails, Long folderId, Long todoId);
 
-    void uncheck(UserCustomDetails userDetails, Long folderId, Long todoId);
+	void uncheck(UserCustomDetails userDetails, Long folderId, Long todoId);
 }

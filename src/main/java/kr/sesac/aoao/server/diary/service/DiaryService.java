@@ -17,5 +17,4 @@ public interface DiaryService {
 
 	void deleteDiary(Long userId, Long diaryId);
 
-
 }
