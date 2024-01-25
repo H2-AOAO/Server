@@ -3,12 +3,15 @@ package kr.sesac.aoao.server.dino.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.sesac.aoao.server.dino.controller.dto.GetUserDinoResponse;
+import kr.sesac.aoao.server.dino.controller.dto.request.ExpChangeRequest;
+import kr.sesac.aoao.server.dino.controller.dto.request.UsePointRequest;
+import kr.sesac.aoao.server.dino.controller.dto.response.GetUserDinoResponse;
+import kr.sesac.aoao.server.dino.controller.dto.request.RenameRequest;
 import kr.sesac.aoao.server.dino.service.DinoService;
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
@@ -31,9 +34,10 @@ public class DinoController {
 	 * @return GetUserDinoResponse
 	 * @author 김은서
 	 */
-	@GetMapping("/{userId}")
-	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> getDinoInfo(@PathVariable Long userId) {
-		GetUserDinoResponse userDinoResponse = dinoService.getDinoInfo(userId);
+	@GetMapping("/")
+	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> getDinoInfo(
+		@AuthenticationPrincipal UserCustomDetails userDetails) {
+		GetUserDinoResponse userDinoResponse = dinoService.getDinoInfo(userDetails);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}
 
@@ -44,10 +48,10 @@ public class DinoController {
 	 * @author 김은서
 	 */
 	@PostMapping("/rename")
-	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> renameDino(
+	public ResponseEntity<ApplicationResponse<String>> renameDino(
 		@AuthenticationPrincipal UserCustomDetails userDetails,
-		String name){
-		GetUserDinoResponse userDinoResponse = dinoService.renameDino(userDetails, name);
+		@RequestBody RenameRequest name){
+		String userDinoResponse = dinoService.renameDino(userDetails, name);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}
 
@@ -59,8 +63,8 @@ public class DinoController {
 	 */
 	@PostMapping("/exp")
 	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> expChange(
-		@AuthenticationPrincipal UserCustomDetails userDetails, Integer currLv, Integer currExp){
-		GetUserDinoResponse userDinoResponse = dinoService.expChange(userDetails,currLv,currExp);
+		@AuthenticationPrincipal UserCustomDetails userDetails, ExpChangeRequest currentExp){
+		GetUserDinoResponse userDinoResponse = dinoService.expChange(userDetails,currentExp);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}
 
@@ -72,8 +76,8 @@ public class DinoController {
 	 */
 	@PostMapping("/point")
 	public ResponseEntity<ApplicationResponse<GetUserDinoResponse>> usePoint(
-		@AuthenticationPrincipal UserCustomDetails userDetails, Long itemId){
-		GetUserDinoResponse userDinoResponse = dinoService.usePoint(userDetails, itemId);
+		@AuthenticationPrincipal UserCustomDetails userDetails, UsePointRequest useItem){
+		GetUserDinoResponse userDinoResponse = dinoService.usePoint(userDetails, useItem);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
 	}
 }

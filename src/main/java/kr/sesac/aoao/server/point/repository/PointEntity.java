@@ -21,17 +21,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PointEntity extends BaseEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column
-	private int point = 0;
+    @Column
+    private int point = 0;
 
-	@OneToOne(mappedBy = "point")
-	private UserEntity user;
+    @OneToOne(mappedBy = "point")
+    private UserEntity user;
 
-	public PointEntity(UserEntity userEntity) {
-		this.user = userEntity;
-	}
+    public PointEntity(UserEntity userEntity) {
+        this.user = userEntity;
+    }
+
+    public void changePoint(int point){ this.point = point; }
 }
