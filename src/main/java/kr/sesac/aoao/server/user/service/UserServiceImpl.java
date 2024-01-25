@@ -2,6 +2,8 @@ package kr.sesac.aoao.server.user.service;
 
 import static kr.sesac.aoao.server.user.exception.UserErrorCode.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,6 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.sesac.aoao.server.global.exception.ApplicationException;
+import kr.sesac.aoao.server.item.repository.ItemEntity;
+import kr.sesac.aoao.server.item.repository.ItemJpaRepository;
+import kr.sesac.aoao.server.item.repository.UserItemEntity;
+import kr.sesac.aoao.server.item.repository.UserItemJpaRepository;
 import kr.sesac.aoao.server.point.repository.PointEntity;
 import kr.sesac.aoao.server.point.repository.PointJpaRepository;
 import kr.sesac.aoao.server.user.controller.dto.request.LoginRequest;
@@ -31,6 +37,7 @@ public class UserServiceImpl implements UserService {
 	private final PointJpaRepository pointJpaRepository;
 	private final UserJpaRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final ItemJpaRepository itemJpaRepository;
 
 	/**
 	 * 회원가입
@@ -55,6 +62,20 @@ public class UserServiceImpl implements UserService {
 		// 아이템 추가
 		UserEntity userEntity = userRepository.save(new UserEntity(user));
 		pointJpaRepository.save(new PointEntity(userEntity));
+		/**
+		 * 사용자 아이템 객체 추가
+		 * @author 김은서
+		 * @since 2024.01.26
+		 */
+		List<UserItemEntity> userItems = new ArrayList<>();
+		for (int i = 1; i <= 5; i++) {
+			ItemEntity itemEntity = itemJpaRepository.findById((long) i).orElse(null);
+			UserItemEntity userItem = new UserItemEntity(userEntity, itemEntity, 0);
+			userItems.add(userItem);
+		}
+		userEntity.saveUserItems(userItems);
+		userRepository.save(userEntity);
+
 
 		return userEntity.toModel();
 	}

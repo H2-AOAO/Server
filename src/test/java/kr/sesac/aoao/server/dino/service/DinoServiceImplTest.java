@@ -11,23 +11,23 @@ import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class DinoServiceImplTest {
-	private DinoService dinoService;
-
-	@Mock
-	private DinoJpaRepository dinoRepository;
-
-	@Mock
-	private UserJpaRepository userRepository;
-
-	@Mock
-	private ItemJpaRepository itemRepository;
-
-	@BeforeEach
-	void setUp() {
-		dinoService = new DinoServiceImpl(
-			dinoRepository, userRepository, itemRepository
-		);
-	}
+	// private DinoService dinoService;
+	//
+	// @Mock
+	// private DinoJpaRepository dinoRepository;
+	//
+	// @Mock
+	// private UserJpaRepository userRepository;
+	//
+	// @Mock
+	// private ItemJpaRepository itemRepository;
+	//
+	// @BeforeEach
+	// void setUp() {
+	// 	dinoService = new DinoServiceImpl(
+	// 		dinoRepository, userRepository, itemRepository
+	// 	);
+	// }
 
 	// @DisplayName("다이노 조회 테스트")
 	// @Nested

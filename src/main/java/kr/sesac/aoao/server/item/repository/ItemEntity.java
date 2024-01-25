@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import kr.sesac.aoao.server.user.repository.UserEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,4 +36,10 @@ public class ItemEntity {
 
 	@OneToMany(mappedBy = "item")
 	private List<UserItemEntity> items;
+
+	public ItemEntity(String name, int price, int exp) {
+		this.name = name;
+		this.price = price;
+		this.exp = exp;
+	}
 }

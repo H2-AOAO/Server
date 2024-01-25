@@ -1,8 +1,11 @@
 package kr.sesac.aoao.server.dino.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.sesac.aoao.server.dino.controller.dto.GetUserDinoResponse;
 import kr.sesac.aoao.server.dino.controller.dto.request.ExpChangeRequest;
+import kr.sesac.aoao.server.dino.controller.dto.request.NewDinoRequest;
 import kr.sesac.aoao.server.dino.controller.dto.request.UsePointRequest;
 import kr.sesac.aoao.server.dino.controller.dto.request.RenameRequest;
+import kr.sesac.aoao.server.dino.controller.dto.response.DinoSimpleInfo;
 import kr.sesac.aoao.server.dino.service.DinoService;
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
@@ -79,5 +84,44 @@ public class DinoController {
 		@AuthenticationPrincipal UserCustomDetails userDetails, @RequestBody UsePointRequest useItem){
 		GetUserDinoResponse userDinoResponse = dinoService.usePoint(userDetails, useItem);
 		return ResponseEntity.ok(ApplicationResponse.success(userDinoResponse));
+	}
+
+	/**
+	 * 새로운 다이노 생성
+	 * @since 2024.01.25
+	 * @return GetUserDinoResponse
+	 * @author 김은서
+	 */
+	@PostMapping("/newdino")
+	public ResponseEntity<ApplicationResponse<Boolean>> newDino(
+		@AuthenticationPrincipal UserCustomDetails userDetails,@RequestBody NewDinoRequest newDino){
+		Boolean isNewDinoSaved = dinoService.newDino(userDetails, newDino);
+		return ResponseEntity.ok(ApplicationResponse.success(isNewDinoSaved));
+	}
+
+	/**
+	 * 과거 다이노 조회
+	 * @return List<DinoSimpleInfo>
+	 * @author 김은서
+	 * @since 2024.01.25
+	 */
+	@GetMapping("/past")
+	public ResponseEntity<ApplicationResponse<List<DinoSimpleInfo>>> pastDino(
+		@AuthenticationPrincipal UserCustomDetails userDetails){
+		List<DinoSimpleInfo> pastDino = dinoService.userPastDino(userDetails);
+		return ResponseEntity.ok(ApplicationResponse.success(pastDino));
+	}
+
+	/**
+	 * 친구 다이노 조회
+	 * @return List<DinoSimpleInfo>
+	 * @author 김은서
+	 * @since 2024.01.25
+	 */
+	@GetMapping("/friend/{friendId}")
+	public ResponseEntity<ApplicationResponse<DinoSimpleInfo>> firendDino(
+		@PathVariable Long friendId) {
+		DinoSimpleInfo friendDino = dinoService.friendDino(friendId);
+		return ResponseEntity.ok(ApplicationResponse.success(friendDino));
 	}
 }
