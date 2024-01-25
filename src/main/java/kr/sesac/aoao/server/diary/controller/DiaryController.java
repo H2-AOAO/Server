@@ -39,10 +39,10 @@ public class DiaryController {
 	 * @author 최정윤
 	 */
 	@PostMapping
-	public ResponseEntity<ApplicationResponse<Void>> createDiary(@AuthenticationPrincipal UserCustomDetails userDetails,
+	public ResponseEntity<ApplicationResponse<String>> createDiary(@AuthenticationPrincipal UserCustomDetails userDetails,
 		@RequestBody DiaryCreateRequest request) {
 		Long diaryId = diaryService.createDiary(userDetails.getUserEntity().getId(), request);
-		return ResponseEntity.created(URI.create("/diary/" + diaryId)).build();
+		return ResponseEntity.ok(ApplicationResponse.success(diaryId + "번 다이어리가 생성되었습니다."));
 	}
 
 	/**
@@ -66,12 +66,12 @@ public class DiaryController {
 	 * @author 최정윤
 	 */
 	@PostMapping("/{diaryId}")
-	public ResponseEntity<ApplicationResponse<Void>> updateDiary(
+	public ResponseEntity<ApplicationResponse<String>> updateDiary(
 		@AuthenticationPrincipal UserCustomDetails userDetails,
 		@PathVariable Long diaryId,
 		@RequestBody DiaryUpdateRequest request) {
 		diaryService.updateDiary(userDetails.getUserEntity().getId(), diaryId, request);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(ApplicationResponse.success(diaryId + "번 다이어리가 수정되었습니다."));
 	}
 
 	/**
@@ -81,10 +81,10 @@ public class DiaryController {
 	 * @author 최정윤
 	 */
 	@DeleteMapping("/{diaryId}")
-	public ResponseEntity<ApplicationResponse<Void>> deleteDiary(
+	public ResponseEntity<ApplicationResponse<String>> deleteDiary(
 		@AuthenticationPrincipal UserCustomDetails userDetails, @PathVariable Long diaryId) {
 		diaryService.deleteDiary(userDetails.getUserEntity().getId(), diaryId);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok(ApplicationResponse.success(diaryId + "번 다이어리가 삭제되었습니다."));
 	}
 
 }
