@@ -41,9 +41,6 @@ public class DinoEntity extends BaseEntity {
 	@Column(nullable = false)
 	private int exp;
 
-	@Column(nullable = false)
-	private int point;
-
 	@ManyToOne
 	@JoinColumn(name = "Lv")
 	private DinoInfoEntity dino;
@@ -54,9 +51,5 @@ public class DinoEntity extends BaseEntity {
 
 	public void changeExp(int exp) {
 		this.exp = exp;
-	}
-
-	public void changePoint(int point) {
-		this.point = point;
 	}
 }
