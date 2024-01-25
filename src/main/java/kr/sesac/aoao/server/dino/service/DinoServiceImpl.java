@@ -31,7 +31,7 @@ public class DinoServiceImpl implements DinoService {
 	private final UserJpaRepository userRepository;
 	private final ItemJpaRepository itemRepository;
 
-	private GetUserDinoResponse result(DinoEntity dino){
+	private GetUserDinoResponse result(DinoEntity dino) {
 		return new GetUserDinoResponse(
 			dino.getUser().getId(),
 			dino.getName(),
@@ -52,7 +52,8 @@ public class DinoServiceImpl implements DinoService {
 	@Override
 	public GetUserDinoResponse getDinoInfo(Long userId) {
 		UserEntity user = userRepository.findById(userId)
-			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));;
+			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
+		;
 		DinoEntity dino = dinoRepository.findByUser(user)
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 		return result(dino);
@@ -86,7 +87,7 @@ public class DinoServiceImpl implements DinoService {
 	public GetUserDinoResponse expChange(UserCustomDetails userDetails, Integer currLv, Integer currExp) {
 		Long userId = extractUserId(userDetails);
 		UserEntity user = userRepository.findById(userId)
-		.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
+			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
 		DinoEntity dino = dinoRepository.findByUserId(user.getId())
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 
@@ -109,7 +110,7 @@ public class DinoServiceImpl implements DinoService {
 		UserEntity user = userRepository.findById(userId)
 			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
 		ItemEntity item = itemRepository.findById(itemId)
-			.orElseThrow(() ->new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
+			.orElseThrow(() -> new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
 		DinoEntity dino = dinoRepository.findByUserId(user.getId())
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 
@@ -117,7 +118,7 @@ public class DinoServiceImpl implements DinoService {
 		int point = dino.getPoint();
 		if (itemPrice > point)
 			throw new ApplicationException(DinoErrorCode.NOT_ENOUGH_POINT);
-		else{
+		else {
 			dino.changePoint(point - itemPrice);
 		}
 
