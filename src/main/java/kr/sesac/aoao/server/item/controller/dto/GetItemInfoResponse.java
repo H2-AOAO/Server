@@ -12,10 +12,4 @@ public class GetItemInfoResponse {
 	private final int price;
 	private final int exp;
 
-	public GetItemInfoResponse(Long id, String name, int price, int exp) {
-		this.id = id;
-		this.name = name;
-		this.price = price;
-		this.exp = exp;
-	}
 }

@@ -30,4 +30,8 @@ public class PointEntity extends BaseEntity {
 
     @OneToOne(mappedBy = "point")
     private UserEntity user;
+
+    public PointEntity(UserEntity userEntity) {
+        this.user = userEntity;
+    }
 }
