@@ -2,6 +2,7 @@ package kr.sesac.aoao.server.user.repository;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -43,13 +44,13 @@ public class UserEntity extends BaseEntity {
 	@Column
 	private String profile;
 
-	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private DinoEntity dino;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<UserItemEntity> userItems;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "point_id")
 	private PointEntity point;
 

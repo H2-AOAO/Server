@@ -12,4 +12,10 @@ public interface UserService {
 	User login(LoginRequest loginRequest);
 
 	UserProfileResponse getProfile(String username, Long userId);
+
+	void duplicatedEmail(String email);
+
+	void duplicationNickname(String nickname);
+
+	void deleteUser(Long userId);
 }
