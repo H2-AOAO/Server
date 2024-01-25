@@ -55,11 +55,6 @@ public class DiaryServiceImpl implements DiaryService{
 		return result(diary);
 	}
 
-	@Override
-	public GetDiaryDetailResponse getDiaryDetail(Long diaryId) {
-		return null;
-	}
-
 	/**
 	 * 다이어리 세부정보 조회
 	 * @since 2024.01.123

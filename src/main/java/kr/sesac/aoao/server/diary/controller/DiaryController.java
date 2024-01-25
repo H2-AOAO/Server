@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,8 +26,9 @@ import lombok.RequiredArgsConstructor;
  * @author 최정윤
  */
 @RestController
+@RequestMapping("/diary")
 @RequiredArgsConstructor
-public class DiaryController<DiaryUpdateRequest> {
+public class DiaryController {
 
 	private final DiaryService diaryService;
 
@@ -64,7 +66,7 @@ public class DiaryController<DiaryUpdateRequest> {
 	@PostMapping("/diary/{date}")
 	public ResponseEntity<ApplicationResponse<Void>> createDiary(@PathVariable Long date, @RequestBody DiaryCreateRequest request) {
 		Long diaryId = diaryService.createDiary(date, request);
-		return ResponseEntity.created(URI.create(String.valueOf(diaryId))).build();
+		return ResponseEntity.created(URI.create("/diary/" + diaryId)).build();
 	}
 
 	/**
@@ -77,8 +79,7 @@ public class DiaryController<DiaryUpdateRequest> {
 	public ResponseEntity<ApplicationResponse<Void>> updateDiary(
 		@RequestParam Long userId, @PathVariable Long diaryId,
 		@RequestBody DiaryUpdateRequest request) {
-		diaryService.diaryUpdate(userId, diaryId,
-			(kr.sesac.aoao.server.diary.controller.dto.request.DiaryUpdateRequest)request);
+		diaryService.diaryUpdate(userId, diaryId, request);
 		return ResponseEntity.ok().build();
 	}
 

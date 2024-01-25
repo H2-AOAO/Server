@@ -4,9 +4,10 @@ import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DiaryUpdateRequest {
 	private final Long userId;
 	private final LocalDateTime date;
