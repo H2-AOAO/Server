@@ -36,8 +36,7 @@ public class DinoServiceImpl implements DinoService {
 			dino.getName(),
 			dino.getColor(),
 			dino.getExp(),
-			dino.getDino().getLv(),
-			dino.getPoint()
+			dino.getDino().getLv()
 		);
 	}
 
@@ -109,12 +108,12 @@ public class DinoServiceImpl implements DinoService {
 			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
 
 		int itemPrice = item.getPrice();
-		int point = dino.getPoint();
-		if (itemPrice > point)
-			throw new ApplicationException(DinoErrorCode.NOT_ENOUGH_POINT);
-		else {
-			dino.changePoint(point - itemPrice);
-		}
+		// int point = dino.getPoint();
+		// if (itemPrice > point)
+		// 	throw new ApplicationException(DinoErrorCode.NOT_ENOUGH_POINT);
+		// else {
+		// 	dino.changePoint(point - itemPrice);
+		// }
 
 		return result(dino);
 	}
