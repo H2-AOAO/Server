@@ -42,7 +42,8 @@ public class TodoController {
 		@PathVariable Long folderId,
 		@RequestBody TodoSaveRequest request) {
 		Long todoId = todoService.save(userDetails, folderId, request);
-		return ResponseEntity.created(URI.create(String.format("/folders/%d/todos/%d", folderId, todoId))).build();
+		return ResponseEntity.created(URI.create(String.format("/folders/%d/todos/%d", folderId, todoId)))
+			.body(ApplicationResponse.success(null));
 	}
 
 	/**
@@ -59,7 +60,7 @@ public class TodoController {
 		@PathVariable Long todoId,
 		@RequestBody TodoUpdateRequest request) {
 		todoService.update(userDetails, folderId, todoId, request);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok().body(ApplicationResponse.success(null));
 	}
 
 	/**
@@ -75,7 +76,7 @@ public class TodoController {
 		@PathVariable Long folderId,
 		@PathVariable Long todoId) {
 		todoService.delete(userDetails, folderId, todoId);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().body(ApplicationResponse.success(null));
 	}
 
 	/**
@@ -91,7 +92,7 @@ public class TodoController {
 		@PathVariable Long folderId,
 		@PathVariable Long todoId) {
 		todoService.check(userDetails, folderId, todoId);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok().body(ApplicationResponse.success(null));
 	}
 
 	/**
@@ -107,6 +108,6 @@ public class TodoController {
 		@PathVariable Long folderId,
 		@PathVariable Long todoId) {
 		todoService.uncheck(userDetails, folderId, todoId);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok().body(ApplicationResponse.success(null));
 	}
 }

@@ -43,6 +43,7 @@ public class DiaryController {
 		@RequestBody DiaryCreateRequest request) {
 		Long diaryId = diaryService.createDiary(userDetails.getUserEntity().getId(), request);
 		return ResponseEntity.ok(ApplicationResponse.success(diaryId + "번 다이어리가 생성되었습니다."));
+
 	}
 
 	/**

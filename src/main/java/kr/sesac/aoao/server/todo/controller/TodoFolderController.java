@@ -41,7 +41,7 @@ public class TodoFolderController {
 		@AuthenticationPrincipal UserCustomDetails userDetails,
 		@RequestBody TodoFolderSaveRequest request) {
 		Long folderId = todoFolderService.save(userDetails, request);
-		return ResponseEntity.created(URI.create("/folders/" + folderId)).build();
+		return ResponseEntity.created(URI.create("/folders/" + folderId)).body(ApplicationResponse.success(null));
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class TodoFolderController {
 		@PathVariable Long folderId,
 		@RequestBody TodoFolderUpdateRequest request) {
 		todoFolderService.update(userDetails, folderId, request);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok().body(ApplicationResponse.success(null));
 	}
 
 	/**
@@ -72,6 +72,6 @@ public class TodoFolderController {
 		@AuthenticationPrincipal UserCustomDetails userDetails,
 		@PathVariable Long folderId) {
 		todoFolderService.delete(userDetails, folderId);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().body(ApplicationResponse.success(null));
 	}
 }
