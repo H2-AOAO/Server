@@ -3,13 +3,16 @@ package kr.sesac.aoao.server.item.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
-import kr.sesac.aoao.server.item.controller.dto.GetItemInfoResponse;
-import kr.sesac.aoao.server.item.controller.dto.UseItemNumResponse;
+import kr.sesac.aoao.server.item.controller.dto.request.ItemNumRequest;
+import kr.sesac.aoao.server.item.controller.dto.response.GetItemInfoResponse;
+import kr.sesac.aoao.server.item.controller.dto.response.UseItemNumResponse;
 import kr.sesac.aoao.server.item.service.ItemService;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +34,9 @@ public class ItemController {
 	 * @return ItemInfoResponse
 	 * @author 김은서
 	 */
-	@GetMapping("/")
-	public ResponseEntity<ApplicationResponse<GetItemInfoResponse>> getItemInfo(Long id){
-		GetItemInfoResponse itemInfoResponse = itemService.getItemInfo(id);
+	@GetMapping("/{itemId}")
+	public ResponseEntity<ApplicationResponse<GetItemInfoResponse>> getItemInfo(@PathVariable Long itemId){
+		GetItemInfoResponse itemInfoResponse = itemService.getItemInfo(itemId);
 		return ResponseEntity.ok(ApplicationResponse.success(itemInfoResponse));
 	}
 
@@ -45,8 +48,8 @@ public class ItemController {
 	 */
 	@PostMapping("/num")
 	public ResponseEntity<ApplicationResponse<UseItemNumResponse>> calItemNum(
-		@AuthenticationPrincipal UserCustomDetails userDetails, Long itemId, String status){
-		UseItemNumResponse useItemNumResponse = itemService.calItemNum(userDetails,itemId, status);
+		@AuthenticationPrincipal UserCustomDetails userDetails, @RequestBody ItemNumRequest useItem){
+		UseItemNumResponse useItemNumResponse = itemService.calItemNum(userDetails,useItem);
 		return ResponseEntity.ok(ApplicationResponse.success(useItemNumResponse));
 	}
 }
