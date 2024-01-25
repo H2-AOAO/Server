@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void duplicatedEmail(String email) {
 		Optional<UserEntity> user = userRepository.findByEmail(email);
-		if(user.isPresent()) {
+		if (user.isPresent()) {
 			throw new ApplicationException(EXISTENT_EMAIL);
 		}
 	}
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void duplicationNickname(String nickname) {
 		Optional<UserEntity> user = userRepository.findByNickname(nickname);
-		if(user.isPresent()) {
+		if (user.isPresent()) {
 			throw new ApplicationException(EXISTENT_NICKNAME);
 		}
 	}

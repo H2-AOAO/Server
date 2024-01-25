@@ -10,19 +10,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TodoFolderDetailResponse {
 
-    private final long folderId;
-    private final String colorCode;
-    private final String content;
-    private final List<TodoDetailResponse> todos;
+	private final long folderId;
+	private final String colorCode;
+	private final String content;
+	private final List<TodoDetailResponse> todos;
 
-    public static TodoFolderDetailResponse from(TodoFolderEntity todoFolder) {
-        return new TodoFolderDetailResponse(
-            todoFolder.getId(),
-            todoFolder.getPalette().getColorCode(),
-            todoFolder.getContent(),
-            todoFolder.getTodos().stream()
-                .map(TodoDetailResponse::from)
-                .toList()
-        );
-    }
+	public static TodoFolderDetailResponse from(TodoFolderEntity todoFolder) {
+		return new TodoFolderDetailResponse(
+			todoFolder.getId(),
+			todoFolder.getPalette().getColorCode(),
+			todoFolder.getContent(),
+			todoFolder.getTodos().stream()
+				.map(TodoDetailResponse::from)
+				.toList()
+		);
+	}
 }

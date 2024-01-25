@@ -1,7 +1,6 @@
 package kr.sesac.aoao.server.dino.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
