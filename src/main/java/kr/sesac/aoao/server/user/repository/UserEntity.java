@@ -50,8 +50,7 @@ public class UserEntity extends BaseEntity {
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<UserItemEntity> userItems;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "point_id")
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private PointEntity point;
 
 	public UserEntity(User user) {

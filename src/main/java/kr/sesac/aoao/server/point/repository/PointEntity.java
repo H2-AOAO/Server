@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
@@ -28,7 +29,8 @@ public class PointEntity extends BaseEntity {
     @Column
     private int point = 0;
 
-    @OneToOne(mappedBy = "point")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     public PointEntity(UserEntity userEntity) {
