@@ -13,8 +13,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import kr.sesac.aoao.server.dino.repository.DinoEntity;
-import kr.sesac.aoao.server.global.entity.BaseEntity;
 import kr.sesac.aoao.server.item.repository.UserItemEntity;
+import kr.sesac.aoao.server.global.entity.BaseEntity;
 import kr.sesac.aoao.server.point.repository.PointEntity;
 import kr.sesac.aoao.server.user.domain.User;
 import lombok.AccessLevel;
@@ -43,10 +43,10 @@ public class UserEntity extends BaseEntity {
 	@Column
 	private String profile;
 
-	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
 	private DinoEntity dino;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<UserItemEntity> userItems;
 
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
