@@ -1,4 +1,4 @@
-package kr.sesac.aoao.server.dino.controller.dto.response;
+package kr.sesac.aoao.server.dino.controller.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,11 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GetUserDinoResponse {
 
-	private final long userId;
+	private final Long userId;
 	private final String name;
 	private final String color;
-	private final int exp;
+	private final Integer exp;
 	private final int Lv;
-	private final int point;
-
 }
