@@ -46,34 +46,6 @@ public class UserController {
 	}
 
 	/**
-	 * 이메일 중복확인 API
-	 *
-	 * @return
-	 * @author 이상민
-	 * @since 2024.01.22
-	 */
-	@PostMapping("/duplicated/email")
-	public ResponseEntity<ApplicationResponse<String>> duplicationEmail(
-		@Validated @RequestBody DuplicatedEmailRequest duplicatedEmailRequest) {
-		userService.duplicatedEmail(duplicatedEmailRequest.getEmail());
-		return ResponseEntity.ok(ApplicationResponse.success("사용가능한 이메일입니다."));
-	}
-
-	/**
-	 * 닉네임 중복확인 API
-	 *
-	 * @return
-	 * @author 이상민
-	 * @since 2024.01.22
-	 */
-	@PostMapping("/duplicated/nickname")
-	public ResponseEntity<ApplicationResponse<String>> duplicationNickname(
-		@Valid @RequestBody DuplicatedNicknameRequest duplicatedNicknameRequest) {
-		userService.duplicationNickname(duplicatedNicknameRequest.getNickname());
-		return ResponseEntity.ok(ApplicationResponse.success("사용가능한 넥네임입니다."));
-	}
-
-	/**
 	 * 유저 탈퇴하기 API
 	 *
 	 * @return
