@@ -95,6 +95,20 @@ public class UserController {
 	}
 
 	/**
+	 * 프로필 초기화 API
+	 * @since 2024.01.26
+	 * @parameter UserCustomDetails
+	 * @return ResponseEntity<ApplicationResponse<Void>>
+	 * @author 김유빈
+	 */
+	@DeleteMapping("/profile")
+	public ResponseEntity<ApplicationResponse<Void>> initProfile(
+		@AuthenticationPrincipal UserCustomDetails userDetails) {
+		userService.initProfile(userDetails);
+		return ResponseEntity.ok(ApplicationResponse.success(null));
+	}
+
+	/**
 	 * 유저 탈퇴하기 API
 	 *
 	 * @parameter UserCustomDetails

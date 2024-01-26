@@ -29,5 +29,7 @@ public interface UserService {
 
 	UserProfileUpdateResponse updateProfile(UserCustomDetails userDetails, MultipartFile newProfile);
 
+	void initProfile(UserCustomDetails userDetails);
+
 	void deleteUser(Long userId);
 }

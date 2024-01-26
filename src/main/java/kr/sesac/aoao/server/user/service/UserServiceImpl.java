@@ -199,6 +199,24 @@ public class UserServiceImpl implements UserService {
 		return new UserProfileUpdateResponse(response.getResourceUrl());
 	}
 
+	/**
+	 * 프로필 초기화
+	 * @since 2024.01.27
+	 * @parameter MultipartFile
+	 * @author 김유빈
+	 */
+	@Override
+	public void initProfile(UserCustomDetails userDetails) {
+		UserEntity savedUser = findUserById(userDetails.getUserEntity().getId());
+		Resource savedResource = savedUser.getResource();
+		if (savedResource == null) {
+			return;
+		}
+		savedUser.initProfile();
+		resourceRepository.deleteById(savedResource.getId());
+		s3Connector.delete(savedResource.getResourceKey());
+	}
+
 	@Override
 	public void deleteUser(Long userId) {
 		User user = findUserById(userId).toModel();
