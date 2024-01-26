@@ -2,22 +2,16 @@ package kr.sesac.aoao.server.user.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
-import kr.sesac.aoao.server.user.controller.dto.request.DuplicatedEmailRequest;
-import kr.sesac.aoao.server.user.controller.dto.request.DuplicatedNicknameRequest;
 import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author 이상민
@@ -25,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @RestController
 @RequiredArgsConstructor
-@Slf4j
+@RequestMapping("/users")
 public class UserController {
 
 	private final UserService userService;
@@ -33,11 +27,12 @@ public class UserController {
 	/**
 	 * 프로필 조회
 	 *
+	 * @parameter UserCustomDetails
 	 * @return UserProfileResponse
 	 * @author 이상민
 	 * @since 2024.01.22
 	 */
-	@GetMapping("/user")
+	@GetMapping
 	public ResponseEntity<ApplicationResponse<UserProfileResponse>> getProfile(
 		@AuthenticationPrincipal UserCustomDetails userDetails) {
 		UserProfileResponse userProfileResponse = userService.getProfile(userDetails.getUserEntity().getEmail(),
@@ -48,15 +43,15 @@ public class UserController {
 	/**
 	 * 유저 탈퇴하기 API
 	 *
-	 * @return
+	 * @parameter UserCustomDetails
+	 * @return String
 	 * @author 이상민
 	 * @since 2024.01.22
 	 */
-	@DeleteMapping("/user/delete")
+	@DeleteMapping("/delete")
 	public ResponseEntity<ApplicationResponse<String>> deleteUser(
 		@AuthenticationPrincipal UserCustomDetails userDetails) {
 		userService.deleteUser(userDetails.getUserEntity().getId());
 		return ResponseEntity.ok().body(ApplicationResponse.success("탈퇴에 성공하였습니다."));
 	}
-
 }
