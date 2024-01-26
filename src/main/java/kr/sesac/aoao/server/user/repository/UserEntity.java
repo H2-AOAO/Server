@@ -97,7 +97,13 @@ public class UserEntity extends BaseEntity {
 		return this.id.equals(user.id);
 	}
 
-	public void saveUserItems(List<UserItemEntity> userItems) {
-		this.userItems = userItems;
-	}
+	public void saveUserItems(List<UserItemEntity> userItems) {this.userItems = userItems;}
+
+    public void todoCheck() {
+        this.point.todoCheck();
+    }
+
+    public void todoUncheck() {
+        this.point.todoUncheck();
+    }
 }
