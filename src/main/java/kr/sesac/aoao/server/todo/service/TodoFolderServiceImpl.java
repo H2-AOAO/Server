@@ -81,9 +81,11 @@ public class TodoFolderServiceImpl implements TodoFolderService {
 		UserEntity savedUser = findUserById(userId);
 		TodoFolderEntity savedTodoFolder = findTodoFolderById(folderId);
 
-		savedTodoFolder.validateUserIsWriter(savedUser);
-		todoFolderJpaRepository.deleteById(savedTodoFolder.getId());
-	}
+        savedTodoFolder.validateUserIsWriter(savedUser);
+        savedTodoFolder.validateTodoIsNotContain();
+
+        todoFolderJpaRepository.deleteById(savedTodoFolder.getId());
+    }
 
 	private UserEntity findUserById(Long userId) {
 		return userJpaRepository.findById(userId)
