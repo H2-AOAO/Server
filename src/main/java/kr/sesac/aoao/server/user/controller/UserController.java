@@ -5,6 +5,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,7 +52,7 @@ public class UserController {
 	 * @author 이상민
 	 * @since 2024.01.22
 	 */
-	@GetMapping("/duplicated/email")
+	@PostMapping("/duplicated/email")
 	public ResponseEntity<ApplicationResponse<String>> duplicationEmail(
 		@Validated @RequestBody DuplicatedEmailRequest duplicatedEmailRequest) {
 		userService.duplicatedEmail(duplicatedEmailRequest.getEmail());
@@ -65,7 +66,7 @@ public class UserController {
 	 * @author 이상민
 	 * @since 2024.01.22
 	 */
-	@GetMapping("/duplicated/nickname")
+	@PostMapping("/duplicated/nickname")
 	public ResponseEntity<ApplicationResponse<String>> duplicationNickname(
 		@Valid @RequestBody DuplicatedNicknameRequest duplicatedNicknameRequest) {
 		userService.duplicationNickname(duplicatedNicknameRequest.getNickname());
