@@ -10,11 +10,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import java.util.ArrayList;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import kr.sesac.aoao.server.dino.repository.DinoEntity;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
+import kr.sesac.aoao.server.item.repository.ItemEntity;
 import kr.sesac.aoao.server.item.repository.UserItemEntity;
 import kr.sesac.aoao.server.point.repository.PointEntity;
 import kr.sesac.aoao.server.user.domain.User;
@@ -44,11 +46,11 @@ public class UserEntity extends BaseEntity {
 	@Column
 	private String profile;
 
-	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private DinoEntity dino;
-
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<UserItemEntity> userItems;
+	private List<DinoEntity> dino;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	public List<UserItemEntity> userItems;
 	
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private PointEntity point;
@@ -83,4 +85,6 @@ public class UserEntity extends BaseEntity {
 	public boolean isWriter(UserEntity user) {
 		return this.id.equals(user.id);
 	}
+
+	public void saveUserItems(List<UserItemEntity> userItems) {this.userItems = userItems;}
 }

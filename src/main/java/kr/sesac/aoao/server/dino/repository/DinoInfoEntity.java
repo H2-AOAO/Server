@@ -33,12 +33,12 @@ public class DinoInfoEntity extends BaseEntity {
 	private String lvName;
 
 	@Column(nullable = false)
-	private int Lv;
+	private int level;
 
 	@OneToMany(mappedBy = "dino")
 	private List<DinoEntity> dinos;
 
 	public void changeLv(int Lv) {
-		this.Lv = Lv;
+		this.level = Lv;
 	}
 }

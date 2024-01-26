@@ -59,25 +59,12 @@ public class ItemServiceImpl implements ItemService {
 		String status = useItem.getStatus();
 		UserEntity user = userRepository.findById(userId)
 			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
-		ItemEntity item = itemRepository.findById(itemId)
-			.orElseThrow(() ->new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
-		Optional<UserItemEntity> optionalUserItem = userItemRepository.findByUserAndItem(user,item);
-		UserItemEntity userItem;
-		if(optionalUserItem.isPresent()) userItem = optionalUserItem.get();
-		else{
-			UserItemEntity newUserItem = new UserItemEntity(itemId, user, item, 0);
-			userItem = userItemRepository.save(newUserItem);
-		}
-
+		UserItemEntity userItem = getUserItem(user, itemId);
 		int currentItemNum = userItem.getItem_num();
 		if(status.equals("구매")) {
 			if(itemId == 5){
 				for(Long i = 1L; i < 5; i++){
-					item = itemRepository.findById(i)
-						.orElseThrow(() ->new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
-					optionalUserItem = userItemRepository.findByUserAndItem(user,item);
-					if(optionalUserItem.isPresent()) userItem = optionalUserItem.get();
-					currentItemNum = userItem.getItem_num();
+					userItem = getUserItem(user, i);
 					userItem.changeItemNum(currentItemNum + 1);
 				}
 			}
@@ -89,6 +76,13 @@ public class ItemServiceImpl implements ItemService {
 			userItem.getItem().getId(),
 			userItem.getItem_num()
 		);
+	}
+
+	private UserItemEntity getUserItem(UserEntity user, Long itemId){
+		ItemEntity item = itemRepository.findById(itemId)
+			.orElseThrow(() ->new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
+		return userItemRepository.findByUserAndItem(user,item)
+			.orElseThrow(() ->new ApplicationException(ItemErrorCode.NOT_FOUND_ITEM));
 	}
 	private Long extractUserId(UserCustomDetails userCustomDetails) {
 		return userCustomDetails.getUserEntity().getId();
