@@ -81,10 +81,10 @@ public class UserController {
 	 * @since 2024.01.22
 	 */
 	@DeleteMapping("/user/delete")
-	public ResponseEntity<ApplicationResponse<Void>> deleteUser(
+	public ResponseEntity<ApplicationResponse<String>> deleteUser(
 		@AuthenticationPrincipal UserCustomDetails userDetails) {
 		userService.deleteUser(userDetails.getUserEntity().getId());
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok().body(ApplicationResponse.success("탈퇴에 성공하였습니다."));
 	}
 
 }
