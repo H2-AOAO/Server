@@ -19,6 +19,7 @@ import kr.sesac.aoao.server.point.repository.PointJpaRepository;
 import kr.sesac.aoao.server.user.controller.dto.request.LoginRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.UserNicknameUpdateRequest;
+import kr.sesac.aoao.server.user.controller.dto.request.UserPasswordUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
 import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
@@ -138,13 +139,33 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateNickname(UserCustomDetails userDetails, UserNicknameUpdateRequest request) {
 		UserEntity savedUser = findUserById(userDetails.getUserEntity().getId());
-		if (!passwordEncoder.matches(request.getPassword(), savedUser.getPassword())) {
-			throw new ApplicationException(UserErrorCode.INVALID_PASSWORD);
-		}
+		validatePasswordIsMatched(request.getPassword(), savedUser.getPassword());
 		if (userJpaRepository.existsByNickname(request.getNickname())) {
 			throw new ApplicationException(EXISTENT_NICKNAME);
 		}
 		savedUser.updateNickname(request.getNickname());
+	}
+
+	/**
+	 * 비밀번호 수정
+	 * @since 2024.01.26
+	 * @parameter UserCustomDetails, UserPasswordUpdateRequest
+	 * @author 김유빈
+	 */
+	@Override
+	public void updatePassword(UserCustomDetails userDetails, UserPasswordUpdateRequest request) {
+		UserEntity savedUser = findUserById(userDetails.getUserEntity().getId());
+		validatePasswordIsMatched(request.getPassword(), savedUser.getPassword());
+		if (!request.getNewPassword().equals(request.getCheckedPassword())) {
+			throw new ApplicationException(INVALID_PASSWORD);
+		}
+		savedUser.updatePassword(passwordEncoder.encode(request.getNewPassword()));
+	}
+
+	private void validatePasswordIsMatched(String rawPassword, String encodedPassword) {
+		if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
+			throw new ApplicationException(NOT_CORRECTED_PASSWORD);
+		}
 	}
 
 	@Override
@@ -156,5 +177,11 @@ public class UserServiceImpl implements UserService {
 	private UserEntity findUserById(Long userId) {
 		return userJpaRepository.findById(userId)
 			.orElseThrow(() -> new ApplicationException(NOT_EXIST));
+	}
+
+	private void validatePasswordIsMatched(String rawPassword, String encodedPassword) {
+		if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
+			throw new ApplicationException(NOT_CORRECTED_PASSWORD);
+		}
 	}
 }

@@ -3,6 +3,7 @@ package kr.sesac.aoao.server.user.service;
 import kr.sesac.aoao.server.user.controller.dto.request.LoginRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.UserNicknameUpdateRequest;
+import kr.sesac.aoao.server.user.controller.dto.request.UserPasswordUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
 import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
@@ -20,6 +21,8 @@ public interface UserService {
 	void duplicationNickname(String nickname);
 
 	void updateNickname(UserCustomDetails userDetails, UserNicknameUpdateRequest request);
+
+	void updatePassword(UserCustomDetails userDetails, UserPasswordUpdateRequest request);
 
 	void deleteUser(Long userId);
 }

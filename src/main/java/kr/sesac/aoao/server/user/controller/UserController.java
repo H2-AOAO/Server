@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
 import kr.sesac.aoao.server.user.controller.dto.request.UserNicknameUpdateRequest;
+import kr.sesac.aoao.server.user.controller.dto.request.UserPasswordUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.service.UserService;
@@ -55,6 +57,21 @@ public class UserController {
 		@AuthenticationPrincipal UserCustomDetails userDetails,
 		@RequestBody UserNicknameUpdateRequest request) {
 		userService.updateNickname(userDetails, request);
+		return ResponseEntity.ok(ApplicationResponse.success(null));
+	}
+
+	/**
+	 * 비밀번호 수정 API
+	 * @since 2024.01.26
+	 * @parameter UserCustomDetails, UserPasswordUpdateRequest
+	 * @return ResponseEntity<ApplicationResponse<Void>>
+	 * @author 김유빈
+	 */
+	@PostMapping("/password")
+	public ResponseEntity<ApplicationResponse<Void>> updatePassword(
+		@AuthenticationPrincipal UserCustomDetails userDetails,
+		@RequestBody @Valid UserPasswordUpdateRequest request) {
+		userService.updatePassword(userDetails, request);
 		return ResponseEntity.ok(ApplicationResponse.success(null));
 	}
 

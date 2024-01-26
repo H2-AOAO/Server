@@ -89,6 +89,10 @@ public class UserEntity extends BaseEntity {
 		this.nickname = nickname;
 	}
 
+	public void updatePassword(String password) {
+		this.password = password;
+	}
+
     public void todoCheck() {
         this.point.todoCheck();
     }
