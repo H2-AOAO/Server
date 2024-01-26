@@ -9,6 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -40,8 +41,9 @@ public class UserEntity extends BaseEntity {
 	@Column(nullable = false, length = 100)
 	private String password;
 
-	@Column
-	private String profile;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "resource_id")
+	private Resource resource;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<DinoEntity> dino;
@@ -57,7 +59,7 @@ public class UserEntity extends BaseEntity {
 		this.nickname = user.getNickname();
 		this.password = user.getPassword();
 		this.email = user.getEmail();
-		this.profile = user.getProfile();
+		this.resource = null;
 	}
 
 	/**
@@ -91,6 +93,14 @@ public class UserEntity extends BaseEntity {
 
 	public void updatePassword(String password) {
 		this.password = password;
+	}
+
+	public void updateProfile(Resource resource) {
+		this.resource = resource;
+	}
+
+	public void initProfile() {
+		this.resource = null;
 	}
 
     public void todoCheck() {
