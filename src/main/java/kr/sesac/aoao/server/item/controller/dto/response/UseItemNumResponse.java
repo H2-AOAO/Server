@@ -1,6 +1,5 @@
-package kr.sesac.aoao.server.item.controller.dto;
+package kr.sesac.aoao.server.item.controller.dto.response;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

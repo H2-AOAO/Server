@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum DinoErrorCode implements ErrorCode {
 	NO_DINO(HttpStatus.BAD_REQUEST, "공룡 정보가 존재하지 않습니다."),
+	NO_DINO_INFO(HttpStatus.BAD_REQUEST, "공룡 레벨 정보가 존재하지 않습니다."),
 	NOT_ENOUGH_POINT(HttpStatus.BAD_REQUEST, "포인트가 충분하지 않습니다.");
 
 	private final HttpStatus httpStatus;

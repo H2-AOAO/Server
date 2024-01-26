@@ -2,6 +2,7 @@ package kr.sesac.aoao.server.user.repository;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,12 +10,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import java.util.ArrayList;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import kr.sesac.aoao.server.dino.repository.DinoEntity;
-import kr.sesac.aoao.server.item.repository.UserItemEntity;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
+import kr.sesac.aoao.server.item.repository.ItemEntity;
+import kr.sesac.aoao.server.item.repository.UserItemEntity;
 import kr.sesac.aoao.server.point.repository.PointEntity;
 import kr.sesac.aoao.server.user.domain.User;
 import lombok.AccessLevel;
@@ -43,14 +46,13 @@ public class UserEntity extends BaseEntity {
 	@Column
 	private String profile;
 
-	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-	private DinoEntity dino;
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<DinoEntity> dino;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	private List<UserItemEntity> userItems;
-
-	@OneToOne
-	@JoinColumn(name = "point_id")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	public List<UserItemEntity> userItems;
+	
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private PointEntity point;
 
 	public UserEntity(User user) {
@@ -83,4 +85,14 @@ public class UserEntity extends BaseEntity {
 	public boolean isWriter(UserEntity user) {
 		return this.id.equals(user.id);
 	}
+
+	public void saveUserItems(List<UserItemEntity> userItems) {this.userItems = userItems;}
+
+    public void todoCheck() {
+        this.point.todoCheck();
+    }
+
+    public void todoUncheck() {
+        this.point.todoUncheck();
+    }
 }

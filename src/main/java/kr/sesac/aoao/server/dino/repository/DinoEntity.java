@@ -13,13 +13,10 @@ import kr.sesac.aoao.server.global.entity.BaseEntity;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "raise_dino")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,7 +27,7 @@ public class DinoEntity extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private UserEntity user;
 
@@ -44,21 +41,29 @@ public class DinoEntity extends BaseEntity {
 	private int exp;
 
 	@Column(nullable = false)
-	private int point;
+	private boolean flag;
 
 	@ManyToOne
-	@JoinColumn(name = "Lv")
+	@JoinColumn(name = "level")
 	private DinoInfoEntity dino;
 
-	public void changeName(String name){
+	public DinoEntity(UserEntity user, String name, String color, int exp, boolean flag,  DinoInfoEntity dino) {
+		this.user = user;
+		this.name = name;
+		this.color = color;
+		this.exp = exp;
+		this.flag = flag;
+		this.dino = dino;
+	}
+
+	public void changeName(String name) {
 		this.name = name;
 	}
 
-	public void changeExp(int exp){
+	public void changeExp(int exp) {
 		this.exp = exp;
 	}
 
-	public void changePoint(int point){
-		this.point = point;
-	}
+	public void saveFlag(boolean flag){ this.flag = flag;}
+	public void saveColor(String color){this.color = color;}
 }

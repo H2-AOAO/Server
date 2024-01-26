@@ -27,86 +27,87 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TodoController {
 
-    private final TodoService todoService;
+	private final TodoService todoService;
 
-    /**
-     * 투두 생성 API
-     * @since 2024.01.23
-     * @parameter UserCustomDetails, Long, TodoSaveRequest
-     * @return ResponseEntity<ApplicationResponse<Void>>
-     * @author 김유빈
-     */
-    @PostMapping
-    public ResponseEntity<ApplicationResponse<Void>> save(
-        @AuthenticationPrincipal UserCustomDetails userDetails,
-        @PathVariable Long folderId,
-        @RequestBody TodoSaveRequest request) {
-        Long todoId = todoService.save(userDetails, folderId, request);
-        return ResponseEntity.created(URI.create(String.format("/folders/%d/todos/%d", folderId, todoId))).build();
-    }
+	/**
+	 * 투두 생성 API
+	 * @since 2024.01.23
+	 * @parameter UserCustomDetails, Long, TodoSaveRequest
+	 * @return ResponseEntity<ApplicationResponse < Void>>
+	 * @author 김유빈
+	 */
+	@PostMapping
+	public ResponseEntity<ApplicationResponse<Void>> save(
+		@AuthenticationPrincipal UserCustomDetails userDetails,
+		@PathVariable Long folderId,
+		@RequestBody TodoSaveRequest request) {
+		Long todoId = todoService.save(userDetails, folderId, request);
+		return ResponseEntity.created(URI.create(String.format("/folders/%d/todos/%d", folderId, todoId)))
+			.body(ApplicationResponse.success(null));
+	}
 
-    /**
-     * 투두 수정 API
-     * @since 2024.01.24
-     * @parameter UserCustomDetails, Long, Long, TodoUpdateRequest
-     * @return ResponseEntity<ApplicationResponse<Void>>
-     * @author 김유빈
-     */
-    @PostMapping("/{todoId}")
-    public ResponseEntity<ApplicationResponse<Void>> update(
-        @AuthenticationPrincipal UserCustomDetails userDetails,
-        @PathVariable Long folderId,
-        @PathVariable Long todoId,
-        @RequestBody TodoUpdateRequest request) {
-        todoService.update(userDetails, folderId, todoId, request);
-        return ResponseEntity.ok().build();
-    }
+	/**
+	 * 투두 수정 API
+	 * @since 2024.01.24
+	 * @parameter UserCustomDetails, Long, Long, TodoUpdateRequest
+	 * @return ResponseEntity<ApplicationResponse < Void>>
+	 * @author 김유빈
+	 */
+	@PostMapping("/{todoId}")
+	public ResponseEntity<ApplicationResponse<Void>> update(
+		@AuthenticationPrincipal UserCustomDetails userDetails,
+		@PathVariable Long folderId,
+		@PathVariable Long todoId,
+		@RequestBody TodoUpdateRequest request) {
+		todoService.update(userDetails, folderId, todoId, request);
+		return ResponseEntity.ok().body(ApplicationResponse.success(null));
+	}
 
-    /**
-     * 투두 삭제 API
-     * @since 2024.01.24
-     * @parameter UserCustomDetails, Long, Long
-     * @return ResponseEntity<ApplicationResponse<Void>>
-     * @author 김유빈
-     */
-    @DeleteMapping("/{todoId}")
-    public ResponseEntity<ApplicationResponse<Void>> delete(
-        @AuthenticationPrincipal UserCustomDetails userDetails,
-        @PathVariable Long folderId,
-        @PathVariable Long todoId) {
-        todoService.delete(userDetails, folderId, todoId);
-        return ResponseEntity.noContent().build();
-    }
+	/**
+	 * 투두 삭제 API
+	 * @since 2024.01.24
+	 * @parameter UserCustomDetails, Long, Long
+	 * @return ResponseEntity<ApplicationResponse < Void>>
+	 * @author 김유빈
+	 */
+	@DeleteMapping("/{todoId}")
+	public ResponseEntity<ApplicationResponse<Void>> delete(
+		@AuthenticationPrincipal UserCustomDetails userDetails,
+		@PathVariable Long folderId,
+		@PathVariable Long todoId) {
+		todoService.delete(userDetails, folderId, todoId);
+		return ResponseEntity.ok().body(ApplicationResponse.success(null));
+	}
 
-    /**
-     * 투두 체크 API
-     * @since 2024.01.24
-     * @parameter UserCustomDetails, Long, Long
-     * @return ResponseEntity<ApplicationResponse<Void>>
-     * @author 김유빈
-     */
-    @PostMapping("/{todoId}/check")
-    public ResponseEntity<ApplicationResponse<Void>> check(
-        @AuthenticationPrincipal UserCustomDetails userDetails,
-        @PathVariable Long folderId,
-        @PathVariable Long todoId) {
-        todoService.check(userDetails, folderId, todoId);
-        return ResponseEntity.ok().build();
-    }
+	/**
+	 * 투두 체크 API
+	 * @since 2024.01.24
+	 * @parameter UserCustomDetails, Long, Long
+	 * @return ResponseEntity<ApplicationResponse < Void>>
+	 * @author 김유빈
+	 */
+	@PostMapping("/{todoId}/check")
+	public ResponseEntity<ApplicationResponse<Void>> check(
+		@AuthenticationPrincipal UserCustomDetails userDetails,
+		@PathVariable Long folderId,
+		@PathVariable Long todoId) {
+		todoService.check(userDetails, folderId, todoId);
+		return ResponseEntity.ok().body(ApplicationResponse.success(null));
+	}
 
-    /**
-     * 투두 체크 취소 API
-     * @since 2024.01.24
-     * @parameter UserCustomDetails, Long, Long
-     * @return ResponseEntity<ApplicationResponse<Void>>
-     * @author 김유빈
-     */
-    @PostMapping("/{todoId}/uncheck")
-    public ResponseEntity<ApplicationResponse<Void>> uncheck(
-        @AuthenticationPrincipal UserCustomDetails userDetails,
-        @PathVariable Long folderId,
-        @PathVariable Long todoId) {
-        todoService.uncheck(userDetails, folderId, todoId);
-        return ResponseEntity.ok().build();
-    }
+	/**
+	 * 투두 체크 취소 API
+	 * @since 2024.01.24
+	 * @parameter UserCustomDetails, Long, Long
+	 * @return ResponseEntity<ApplicationResponse < Void>>
+	 * @author 김유빈
+	 */
+	@PostMapping("/{todoId}/uncheck")
+	public ResponseEntity<ApplicationResponse<Void>> uncheck(
+		@AuthenticationPrincipal UserCustomDetails userDetails,
+		@PathVariable Long folderId,
+		@PathVariable Long todoId) {
+		todoService.uncheck(userDetails, folderId, todoId);
+		return ResponseEntity.ok().body(ApplicationResponse.success(null));
+	}
 }

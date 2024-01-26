@@ -7,9 +7,9 @@ import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 
 public interface TodoQueryService {
 
-    TodoQueryDetailResponse findAllTodos(UserCustomDetails userDetails, String date);
+	TodoQueryDetailResponse findAllTodos(UserCustomDetails userDetails, String date);
 
-    FolderQueryDetailResponse findAllFolders(UserCustomDetails userDetails, String date);
+	FolderQueryDetailResponse findAllFolders(UserCustomDetails userDetails, String date);
 
-    PaletteQueryDetailResponse findAllPalettes();
+	PaletteQueryDetailResponse findAllPalettes();
 }

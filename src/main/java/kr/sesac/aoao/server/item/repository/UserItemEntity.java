@@ -1,7 +1,5 @@
 package kr.sesac.aoao.server.item.repository;
 
-import org.springframework.stereotype.Service;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +13,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
@@ -38,6 +35,11 @@ public class UserItemEntity {
 	@Column
 	private int item_num;
 
+	public UserItemEntity(UserEntity userEntity, ItemEntity itemEntity, int item_num) {
+		this.user = userEntity;
+		this.item = itemEntity;
+		this.item_num = item_num;
+	}
 	public void changeItemNum(int num) {
 		this.item_num = num;
 	}

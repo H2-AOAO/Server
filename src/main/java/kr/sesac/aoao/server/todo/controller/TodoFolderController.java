@@ -27,51 +27,51 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TodoFolderController {
 
-    private final TodoFolderService todoFolderService;
+	private final TodoFolderService todoFolderService;
 
-    /**
-     * 투두 폴더 생성 API
-     * @since 2024.01.19
-     * @parameter UserCustomDetails, TodoFolderSaveRequest
-     * @return ResponseEntity<ApplicationResponse<Void>>
-     * @author 김유빈
-     */
-    @PostMapping
-    public ResponseEntity<ApplicationResponse<Void>> save(
-        @AuthenticationPrincipal UserCustomDetails userDetails,
-        @RequestBody TodoFolderSaveRequest request) {
-        Long folderId = todoFolderService.save(userDetails, request);
-        return ResponseEntity.created(URI.create("/folders/" + folderId)).build();
-    }
+	/**
+	 * 투두 폴더 생성 API
+	 * @since 2024.01.19
+	 * @parameter UserCustomDetails, TodoFolderSaveRequest
+	 * @return ResponseEntity<ApplicationResponse < Void>>
+	 * @author 김유빈
+	 */
+	@PostMapping
+	public ResponseEntity<ApplicationResponse<Void>> save(
+		@AuthenticationPrincipal UserCustomDetails userDetails,
+		@RequestBody TodoFolderSaveRequest request) {
+		Long folderId = todoFolderService.save(userDetails, request);
+		return ResponseEntity.created(URI.create("/folders/" + folderId)).body(ApplicationResponse.success(null));
+	}
 
-    /**
-     * 투두 폴더 수정 API
-     * @since 2024.01.22
-     * @parameter UserCustomDetails, Long, TodoFolderUpdateRequest
-     * @return ResponseEntity<ApplicationResponse<Void>>
-     * @author 김유빈
-     */
-    @PostMapping("/{folderId}")
-    public ResponseEntity<ApplicationResponse<Void>> update(
-        @AuthenticationPrincipal UserCustomDetails userDetails,
-        @PathVariable Long folderId,
-        @RequestBody TodoFolderUpdateRequest request) {
-        todoFolderService.update(userDetails, folderId, request);
-        return ResponseEntity.ok().build();
-    }
+	/**
+	 * 투두 폴더 수정 API
+	 * @since 2024.01.22
+	 * @parameter UserCustomDetails, Long, TodoFolderUpdateRequest
+	 * @return ResponseEntity<ApplicationResponse < Void>>
+	 * @author 김유빈
+	 */
+	@PostMapping("/{folderId}")
+	public ResponseEntity<ApplicationResponse<Void>> update(
+		@AuthenticationPrincipal UserCustomDetails userDetails,
+		@PathVariable Long folderId,
+		@RequestBody TodoFolderUpdateRequest request) {
+		todoFolderService.update(userDetails, folderId, request);
+		return ResponseEntity.ok().body(ApplicationResponse.success(null));
+	}
 
-    /**
-     * 투두 폴더 삭제 API
-     * @since 2024.01.22
-     * @parameter UserCustomDetails, Long
-     * @return ResponseEntity<ApplicationResponse<Void>>
-     * @author 김유빈
-     */
-    @DeleteMapping("/{folderId}")
-    public ResponseEntity<ApplicationResponse<Void>> delete(
-        @AuthenticationPrincipal UserCustomDetails userDetails,
-        @PathVariable Long folderId) {
-        todoFolderService.delete(userDetails, folderId);
-        return ResponseEntity.noContent().build();
-    }
+	/**
+	 * 투두 폴더 삭제 API
+	 * @since 2024.01.22
+	 * @parameter UserCustomDetails, Long
+	 * @return ResponseEntity<ApplicationResponse < Void>>
+	 * @author 김유빈
+	 */
+	@DeleteMapping("/{folderId}")
+	public ResponseEntity<ApplicationResponse<Void>> delete(
+		@AuthenticationPrincipal UserCustomDetails userDetails,
+		@PathVariable Long folderId) {
+		todoFolderService.delete(userDetails, folderId);
+		return ResponseEntity.ok().body(ApplicationResponse.success(null));
+	}
 }
