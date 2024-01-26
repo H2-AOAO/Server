@@ -35,6 +35,11 @@ public class UserItemEntity {
 	@Column
 	private int item_num;
 
+	public UserItemEntity(UserEntity userEntity, ItemEntity itemEntity, int item_num) {
+		this.user = userEntity;
+		this.item = itemEntity;
+		this.item_num = item_num;
+	}
 	public void changeItemNum(int num) {
 		this.item_num = num;
 	}

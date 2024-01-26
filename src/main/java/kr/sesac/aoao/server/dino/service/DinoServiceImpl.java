@@ -1,15 +1,22 @@
 package kr.sesac.aoao.server.dino.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.sesac.aoao.server.dino.controller.dto.GetUserDinoResponse;
+import kr.sesac.aoao.server.dino.controller.dto.response.GetUserDinoResponse;
 import kr.sesac.aoao.server.dino.controller.dto.request.ExpChangeRequest;
+import kr.sesac.aoao.server.dino.controller.dto.request.NewDinoRequest;
 import kr.sesac.aoao.server.dino.controller.dto.request.UsePointRequest;
 import kr.sesac.aoao.server.dino.controller.dto.request.RenameRequest;
+import kr.sesac.aoao.server.dino.controller.dto.response.DinoSimpleInfo;
+import kr.sesac.aoao.server.dino.controller.dto.response.FriendDinoInfo;
 import kr.sesac.aoao.server.dino.exception.DinoErrorCode;
 import kr.sesac.aoao.server.dino.repository.DinoEntity;
 import kr.sesac.aoao.server.dino.repository.DinoInfoEntity;
+import kr.sesac.aoao.server.dino.repository.DinoInfoJpaRepository;
 import kr.sesac.aoao.server.dino.repository.DinoJpaRepository;
 import kr.sesac.aoao.server.global.exception.ApplicationException;
 import kr.sesac.aoao.server.item.exception.ItemErrorCode;
@@ -36,6 +43,7 @@ public class DinoServiceImpl implements DinoService {
 	private final UserJpaRepository userRepository;
 	private final ItemJpaRepository itemRepository;
 	private final PointJpaRepository pointRepository;
+	private final DinoInfoJpaRepository dinoInfoRepository;
 
 	private GetUserDinoResponse result(DinoEntity dino, int user_point){
 		return new GetUserDinoResponse(
@@ -43,7 +51,7 @@ public class DinoServiceImpl implements DinoService {
 			dino.getName(),
 			dino.getColor(),
 			dino.getExp(),
-			dino.getDino().getLv(),
+			dino.getDino().getLevel(),
 			user_point
 		);
 	}
@@ -58,12 +66,9 @@ public class DinoServiceImpl implements DinoService {
 	@Override
 	public GetUserDinoResponse getDinoInfo(UserCustomDetails userDetails) {
 		Long userId = extractUserId(userDetails);
-		System.out.println(userId);
 		UserEntity user = getUserEntitiy(userId);
 		DinoEntity dino = getDinoEntity(user);
-		//PointEntity point = getPointEntity(user);
 		int user_point = user.getPoint().getPoint();
-
 		return result((dino), user_point);
 	}
 
@@ -119,12 +124,78 @@ public class DinoServiceImpl implements DinoService {
 		int user_point = point.getPoint();
 		int itemPrice = item.getPrice();
 
-		if (itemPrice > user_point)
-			throw new ApplicationException(DinoErrorCode.NOT_ENOUGH_POINT);
-		else{
-			point.changePoint(user_point - itemPrice);
-		}
+		if (itemPrice > user_point) throw new ApplicationException(DinoErrorCode.NOT_ENOUGH_POINT);
+		else point.changePoint(user_point - itemPrice);
+
 		return result((dino), user_point- itemPrice);
+	}
+
+	/**
+	 * 새로운 다이노 만들기
+	 * @since 2024.01.25
+	 * @return Boolean
+	 * @author 김은서
+	 */
+	@Override
+	public Boolean newDino(UserCustomDetails userDetails, NewDinoRequest newDino) {
+		String name = newDino.getDinoName();
+		String color = newDino.getDinoColor();
+		Long userId = extractUserId(userDetails);
+		UserEntity user = getUserEntitiy(userId);
+		DinoEntity dino = dinoRepository.findByUserAndFlag(user, true).orElse(null);
+		if(dino != null) {
+			dino.saveFlag(false); //현재 true인 공룡을 완성 상태로 변환
+			dinoRepository.save(dino);
+		}
+		DinoInfoEntity dinoInfo = dinoInfoRepository.findByLevel(1)
+			.orElseThrow(()->new ApplicationException(DinoErrorCode.NO_DINO_INFO));
+		DinoEntity nDino = new DinoEntity(user, name, color, 0, true, dinoInfo); //새롭게 객체 저장
+		dinoRepository.save(nDino);
+		return true;
+	}
+
+	/**
+	 * 과거 다이노 조회
+	 * @return List<DinoSimpleInfo>
+	 * @author 김은서
+	 * @since 2024.01.25
+	 */
+	@Override
+	public List<DinoSimpleInfo> userPastDino(UserCustomDetails userDetails){
+		Long userId = extractUserId(userDetails);
+		UserEntity user = getUserEntitiy(userId);
+		List<DinoEntity> allDinos = dinoRepository.findAllByUser(user); // 모든 다이노를 조회
+
+		List<DinoSimpleInfo> allPastDino = allDinos.stream()
+			.filter(dino -> !dino.isFlag()) //flag==false인 값만. True는 현재 공룡 값
+			.map(this::dinoToSimpleInfo)
+			.collect(Collectors.toList());
+
+		return allPastDino;
+	}
+
+	/**
+	 * 친구 다이노 조회
+	 * @return List<DinoSimpleInfo>
+	 * @author 김은서
+	 * @since 2024.01.25
+	 */
+	@Override
+	public FriendDinoInfo friendDino(Long friendId) {
+		FriendDinoInfo friendDinoInfo = new FriendDinoInfo();
+		UserEntity user = getUserEntitiy(friendId);
+		DinoEntity dino = getDinoEntity(user);
+		friendDinoInfo.saveColor(dino.getColor());
+		friendDinoInfo.saveName(dino.getName());
+		friendDinoInfo.saveLevel(dino.getDino().getLevel());
+		return friendDinoInfo;
+	}
+
+	private DinoSimpleInfo dinoToSimpleInfo(DinoEntity dino){
+		DinoSimpleInfo simpleDino = new DinoSimpleInfo();
+		simpleDino.saveName(dino.getName());
+		simpleDino.saveColor(dino.getColor());
+		return simpleDino;
 	}
 	private Long extractUserId(UserCustomDetails userCustomDetails) {
 		return userCustomDetails.getUserEntity().getId();
@@ -134,8 +205,8 @@ public class DinoServiceImpl implements DinoService {
 			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
 	}
 	private DinoEntity getDinoEntity(UserEntity user){
-		return dinoRepository.findByUser(user)
-			.orElseThrow(() -> new ApplicationException(DinoErrorCode.NO_DINO));
+		return dinoRepository.findByUserAndFlag(user, true)
+			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
 	}
 	private PointEntity getPointEntity(UserEntity user){
 		return pointRepository.findByUser(user)
