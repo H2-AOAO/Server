@@ -1,7 +1,6 @@
 package kr.sesac.aoao.server.dino.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -13,6 +12,7 @@ import kr.sesac.aoao.server.dino.controller.dto.request.NewDinoRequest;
 import kr.sesac.aoao.server.dino.controller.dto.request.UsePointRequest;
 import kr.sesac.aoao.server.dino.controller.dto.request.RenameRequest;
 import kr.sesac.aoao.server.dino.controller.dto.response.DinoSimpleInfo;
+import kr.sesac.aoao.server.dino.controller.dto.response.FriendDinoInfo;
 import kr.sesac.aoao.server.dino.exception.DinoErrorCode;
 import kr.sesac.aoao.server.dino.repository.DinoEntity;
 import kr.sesac.aoao.server.dino.repository.DinoInfoEntity;
@@ -24,7 +24,6 @@ import kr.sesac.aoao.server.item.repository.ItemEntity;
 import kr.sesac.aoao.server.item.repository.ItemJpaRepository;
 import kr.sesac.aoao.server.point.repository.PointEntity;
 import kr.sesac.aoao.server.point.repository.PointJpaRepository;
-import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.exception.UserErrorCode;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.repository.UserEntity;
@@ -182,10 +181,14 @@ public class DinoServiceImpl implements DinoService {
 	 * @since 2024.01.25
 	 */
 	@Override
-	public DinoSimpleInfo friendDino(Long friendId) {
+	public FriendDinoInfo friendDino(Long friendId) {
+		FriendDinoInfo friendDinoInfo = new FriendDinoInfo();
 		UserEntity user = getUserEntitiy(friendId);
 		DinoEntity dino = getDinoEntity(user);
-		return dinoToSimpleInfo(dino);
+		friendDinoInfo.saveColor(dino.getColor());
+		friendDinoInfo.saveName(dino.getName());
+		friendDinoInfo.saveLevel(dino.getDino().getLevel());
+		return friendDinoInfo;
 	}
 
 	private DinoSimpleInfo dinoToSimpleInfo(DinoEntity dino){

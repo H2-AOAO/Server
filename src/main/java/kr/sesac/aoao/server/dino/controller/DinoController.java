@@ -17,6 +17,7 @@ import kr.sesac.aoao.server.dino.controller.dto.request.NewDinoRequest;
 import kr.sesac.aoao.server.dino.controller.dto.request.UsePointRequest;
 import kr.sesac.aoao.server.dino.controller.dto.request.RenameRequest;
 import kr.sesac.aoao.server.dino.controller.dto.response.DinoSimpleInfo;
+import kr.sesac.aoao.server.dino.controller.dto.response.FriendDinoInfo;
 import kr.sesac.aoao.server.dino.service.DinoService;
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
@@ -119,9 +120,9 @@ public class DinoController {
 	 * @since 2024.01.25
 	 */
 	@GetMapping("/friend/{friendId}")
-	public ResponseEntity<ApplicationResponse<DinoSimpleInfo>> firendDino(
+	public ResponseEntity<ApplicationResponse<FriendDinoInfo>> firendDino(
 		@PathVariable Long friendId) {
-		DinoSimpleInfo friendDino = dinoService.friendDino(friendId);
+		FriendDinoInfo friendDino = dinoService.friendDino(friendId);
 		return ResponseEntity.ok(ApplicationResponse.success(friendDino));
 	}
 }
