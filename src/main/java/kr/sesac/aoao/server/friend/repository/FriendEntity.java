@@ -1,4 +1,4 @@
-package kr.sesac.aoao.server.diary.repository;
+package kr.sesac.aoao.server.friend.repository;
 
 import java.time.LocalDateTime;
 
@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
@@ -21,26 +22,24 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "diary")
+@Table(name = "friend")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class DiaryEntity extends BaseEntity {
+public class FriendEntity extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id; // 다이어리 아이디
-
-	@Column
-	private String content; // 일기 내용
-
-	@Column
-	private LocalDateTime date; // 캘린더 설정 날짜
+	private Long id; // 친구목록 아이디
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	private UserEntity user; // 일기 작성자
+	private UserEntity user; // 로그인한 유저 아이디
 
-	public DiaryEntity(String content, LocalDateTime date, UserEntity user) {
+	@ManyToMany
+	@JoinColumn(name = "user_id")
+	private UserEntity user; // 찬규 유저 아이디
+
+	public FriendEntity(String content, LocalDateTime date, UserEntity user) {
 		this.content = content;
 		this.date = date;
 		this.user = user;
@@ -56,5 +55,4 @@ public class DiaryEntity extends BaseEntity {
 			throw new ApplicationException(TodoFolderErrorCode.IS_NOT_WRITER);
 		}
 	}
-
 }

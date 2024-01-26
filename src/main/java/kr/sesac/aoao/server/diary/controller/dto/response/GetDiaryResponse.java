@@ -8,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class GetDiaryResponse {
-
-	private final Long id;
+	private final Long diaryId;
 	private final String content;
 	private final LocalDateTime date;
 

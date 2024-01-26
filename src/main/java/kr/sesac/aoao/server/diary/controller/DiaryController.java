@@ -3,6 +3,7 @@ package kr.sesac.aoao.server.diary.controller;
 import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import kr.sesac.aoao.server.diary.controller.dto.request.DiaryUpdateRequest;
 import kr.sesac.aoao.server.diary.controller.dto.response.GetDiaryResponse;
 import kr.sesac.aoao.server.diary.service.DiaryService;
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
+import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -37,9 +39,11 @@ public class DiaryController {
 	 * @author 최정윤
 	 */
 	@PostMapping
-	public ResponseEntity<ApplicationResponse<Void>> createDiary(@RequestParam Long userId, @PathVariable Long date, @RequestBody DiaryCreateRequest request) {
-		Long diaryId = diaryService.createDiary(userId, date, request);
-		return ResponseEntity.created(URI.create("/diary/" + diaryId)).build();
+	public ResponseEntity<ApplicationResponse<String>> createDiary(@AuthenticationPrincipal UserCustomDetails userDetails,
+		@RequestBody DiaryCreateRequest request) {
+		Long diaryId = diaryService.createDiary(userDetails.getUserEntity().getId(), request);
+		return ResponseEntity.ok(ApplicationResponse.success(diaryId + "번 다이어리가 생성되었습니다."));
+
 	}
 
 	/**
@@ -49,9 +53,10 @@ public class DiaryController {
 	 * @author 최정윤
 	 * 완료
 	 */
-	@GetMapping("/")
-	public ResponseEntity<ApplicationResponse<GetDiaryResponse>> getDiaryInfo(@RequestParam Long userId) {
-		GetDiaryResponse userDiaryResponse = diaryService.getDiaryInfo(userId);
+	@GetMapping
+	public ResponseEntity<ApplicationResponse<GetDiaryResponse>> getDiaryInfo(
+		@AuthenticationPrincipal UserCustomDetails userDetails, @RequestParam("date") String date) {
+		GetDiaryResponse userDiaryResponse = diaryService.getDiaryInfo(userDetails.getUserEntity().getId(), date);
 		return ResponseEntity.ok(ApplicationResponse.success(userDiaryResponse));
 	}
 
@@ -62,11 +67,12 @@ public class DiaryController {
 	 * @author 최정윤
 	 */
 	@PostMapping("/{diaryId}")
-	public ResponseEntity<ApplicationResponse<Void>> updateDiary(
-		@RequestParam Long userId, @PathVariable Long diaryId,
+	public ResponseEntity<ApplicationResponse<String>> updateDiary(
+		@AuthenticationPrincipal UserCustomDetails userDetails,
+		@PathVariable Long diaryId,
 		@RequestBody DiaryUpdateRequest request) {
-		diaryService.updateDiary(userId, diaryId, request);
-		return ResponseEntity.ok().build();
+		diaryService.updateDiary(userDetails.getUserEntity().getId(), diaryId, request);
+		return ResponseEntity.ok(ApplicationResponse.success(diaryId + "번 다이어리가 수정되었습니다."));
 	}
 
 	/**
@@ -76,10 +82,10 @@ public class DiaryController {
 	 * @author 최정윤
 	 */
 	@DeleteMapping("/{diaryId}")
-	public ResponseEntity<ApplicationResponse<Void>> deleteDiary(
-		@RequestParam Long userId, @PathVariable Long diaryId) {
-		diaryService.deleteDiary(userId, diaryId);
-		return ResponseEntity.noContent().build();
+	public ResponseEntity<ApplicationResponse<String>> deleteDiary(
+		@AuthenticationPrincipal UserCustomDetails userDetails, @PathVariable Long diaryId) {
+		diaryService.deleteDiary(userDetails.getUserEntity().getId(), diaryId);
+		return ResponseEntity.ok(ApplicationResponse.success(diaryId + "번 다이어리가 삭제되었습니다."));
 	}
 
 }
