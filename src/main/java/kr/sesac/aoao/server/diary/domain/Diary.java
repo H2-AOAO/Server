@@ -12,11 +12,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class Diary {
-	private final Long diaryId; // 일기 id
+	private final Long diaryId; // 일기 아이디
 	private final String content; // 일기 내용
 	private final LocalDateTime date; // 캘린더 설정 날짜
-	private final Long userId; // 일기 작성자 id
+	private final Long userId; // 일기 작성자 아이디
 	private final LocalDateTime createdAt; // 일기 생성 일자
 	private final LocalDateTime updateAt; // 일기 수정 일자
-
 }
