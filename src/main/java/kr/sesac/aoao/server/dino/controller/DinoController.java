@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.sesac.aoao.server.dino.controller.dto.GetUserDinoResponse;
+import kr.sesac.aoao.server.dino.controller.dto.response.GetUserDinoResponse;
 import kr.sesac.aoao.server.dino.controller.dto.request.ExpChangeRequest;
 import kr.sesac.aoao.server.dino.controller.dto.request.NewDinoRequest;
 import kr.sesac.aoao.server.dino.controller.dto.request.UsePointRequest;

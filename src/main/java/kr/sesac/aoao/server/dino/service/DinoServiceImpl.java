@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.sesac.aoao.server.dino.controller.dto.GetUserDinoResponse;
+import kr.sesac.aoao.server.dino.controller.dto.response.GetUserDinoResponse;
 import kr.sesac.aoao.server.dino.controller.dto.request.ExpChangeRequest;
 import kr.sesac.aoao.server.dino.controller.dto.request.NewDinoRequest;
 import kr.sesac.aoao.server.dino.controller.dto.request.UsePointRequest;
