@@ -7,13 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
 import kr.sesac.aoao.server.user.controller.dto.request.UserNicknameUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.UserPasswordUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
+import kr.sesac.aoao.server.user.controller.dto.response.UserProfileUpdateResponse;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -73,6 +76,22 @@ public class UserController {
 		@RequestBody @Valid UserPasswordUpdateRequest request) {
 		userService.updatePassword(userDetails, request);
 		return ResponseEntity.ok(ApplicationResponse.success(null));
+	}
+
+	/**
+	 * 프로필 수정 API
+	 * @since 2024.01.26
+	 * @parameter UserCustomDetails, MultipartFile
+	 * @return ResponseEntity<ApplicationResponse<UserProfileUpdateResponse>>
+	 * @author 김유빈
+	 */
+	@PostMapping("/profile")
+	public ResponseEntity<ApplicationResponse<UserProfileUpdateResponse>> updateProfile(
+		@AuthenticationPrincipal UserCustomDetails userDetails,
+		@RequestParam("image") MultipartFile newProfile
+	) {
+		UserProfileUpdateResponse response = userService.updateProfile(userDetails, newProfile);
+		return ResponseEntity.ok(ApplicationResponse.success(response));
 	}
 
 	/**

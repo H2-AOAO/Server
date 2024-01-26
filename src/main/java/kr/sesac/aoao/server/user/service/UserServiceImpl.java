@@ -6,11 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.sesac.aoao.server.global.exception.ApplicationException;
+import kr.sesac.aoao.server.global.support.StorageConnector;
+import kr.sesac.aoao.server.global.support.StorageGenerator;
+import kr.sesac.aoao.server.global.support.dto.response.ResourceResponse;
 import kr.sesac.aoao.server.item.repository.ItemEntity;
 import kr.sesac.aoao.server.item.repository.ItemJpaRepository;
 import kr.sesac.aoao.server.item.repository.UserItemEntity;
@@ -21,8 +26,11 @@ import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.UserNicknameUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.UserPasswordUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
+import kr.sesac.aoao.server.user.controller.dto.response.UserProfileUpdateResponse;
 import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
+import kr.sesac.aoao.server.user.repository.Resource;
+import kr.sesac.aoao.server.user.repository.ResourceRepository;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,10 +44,16 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class UserServiceImpl implements UserService {
 
+	private static final List<String> CONTENT_TYPES_OF_IMAGE = List.of(MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE);
+
 	private final PointJpaRepository pointJpaRepository;
 	private final UserJpaRepository userJpaRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final ItemJpaRepository itemJpaRepository;
+	private final ResourceRepository resourceRepository;
+
+	private final StorageConnector s3Connector;
+	private final StorageGenerator s3Generator;
 
 	/**
 	 * 회원가입
@@ -162,10 +176,27 @@ public class UserServiceImpl implements UserService {
 		savedUser.updatePassword(passwordEncoder.encode(request.getNewPassword()));
 	}
 
-	private void validatePasswordIsMatched(String rawPassword, String encodedPassword) {
-		if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
-			throw new ApplicationException(NOT_CORRECTED_PASSWORD);
+	/**
+	 * 프로필 수정
+	 * @since 2024.01.27
+	 * @parameter UserCustomDetails, MultipartFile
+	 * @author 김유빈
+	 */
+	@Override
+	public UserProfileUpdateResponse updateProfile(UserCustomDetails userDetails, MultipartFile newProfile) {
+		validateProfileIsImage(newProfile);
+
+		UserEntity savedUser = findUserById(userDetails.getUserEntity().getId());
+		Resource savedResource = savedUser.getResource();
+		if (savedResource != null) {
+			resourceRepository.deleteById(savedResource.getId());
+			s3Connector.delete(savedResource.getResourceKey());
 		}
+
+		ResourceResponse response = s3Connector.save(newProfile, s3Generator.createPath(), s3Generator.createResourceName(newProfile));
+		Resource resource = new Resource(response.getResourceKey(), response.getResourceUrl());
+		savedUser.updateProfile(resource);
+		return new UserProfileUpdateResponse(response.getResourceUrl());
 	}
 
 	@Override
@@ -182,6 +213,13 @@ public class UserServiceImpl implements UserService {
 	private void validatePasswordIsMatched(String rawPassword, String encodedPassword) {
 		if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
 			throw new ApplicationException(NOT_CORRECTED_PASSWORD);
+		}
+	}
+
+	private void validateProfileIsImage(MultipartFile file) {
+		final String contentType = file.getContentType();
+		if (!CONTENT_TYPES_OF_IMAGE.contains(contentType)) {
+			throw new IllegalArgumentException(String.format("프로필은 PNG, JPG 형식만 가능합니다. [%s]", contentType));
 		}
 	}
 }

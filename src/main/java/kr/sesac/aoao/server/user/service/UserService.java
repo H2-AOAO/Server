@@ -1,10 +1,13 @@
 package kr.sesac.aoao.server.user.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import kr.sesac.aoao.server.user.controller.dto.request.LoginRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.UserNicknameUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.UserPasswordUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
+import kr.sesac.aoao.server.user.controller.dto.response.UserProfileUpdateResponse;
 import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 
@@ -23,6 +26,8 @@ public interface UserService {
 	void updateNickname(UserCustomDetails userDetails, UserNicknameUpdateRequest request);
 
 	void updatePassword(UserCustomDetails userDetails, UserPasswordUpdateRequest request);
+
+	UserProfileUpdateResponse updateProfile(UserCustomDetails userDetails, MultipartFile newProfile);
 
 	void deleteUser(Long userId);
 }
