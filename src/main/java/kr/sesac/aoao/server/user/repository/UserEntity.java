@@ -9,14 +9,11 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import java.util.ArrayList;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import kr.sesac.aoao.server.dino.repository.DinoEntity;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
-import kr.sesac.aoao.server.item.repository.ItemEntity;
 import kr.sesac.aoao.server.item.repository.UserItemEntity;
 import kr.sesac.aoao.server.point.repository.PointEntity;
 import kr.sesac.aoao.server.user.domain.User;
@@ -87,6 +84,10 @@ public class UserEntity extends BaseEntity {
 	}
 
 	public void saveUserItems(List<UserItemEntity> userItems) {this.userItems = userItems;}
+
+	public void updateNickname(String nickname) {
+		this.nickname = nickname;
+	}
 
     public void todoCheck() {
         this.point.todoCheck();

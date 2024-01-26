@@ -14,13 +14,14 @@ import kr.sesac.aoao.server.global.exception.ApplicationException;
 import kr.sesac.aoao.server.item.repository.ItemEntity;
 import kr.sesac.aoao.server.item.repository.ItemJpaRepository;
 import kr.sesac.aoao.server.item.repository.UserItemEntity;
-import kr.sesac.aoao.server.item.repository.UserItemJpaRepository;
 import kr.sesac.aoao.server.point.repository.PointEntity;
 import kr.sesac.aoao.server.point.repository.PointJpaRepository;
 import kr.sesac.aoao.server.user.controller.dto.request.LoginRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
+import kr.sesac.aoao.server.user.controller.dto.request.UserNicknameUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
 import kr.sesac.aoao.server.user.domain.User;
+import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 
 	private final PointJpaRepository pointJpaRepository;
-	private final UserJpaRepository userRepository;
+	private final UserJpaRepository userJpaRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final ItemJpaRepository itemJpaRepository;
 
@@ -60,7 +61,7 @@ public class UserServiceImpl implements UserService {
 		user.encodePassword(encodePassword);
 
 		// 아이템 추가
-		UserEntity userEntity = userRepository.save(new UserEntity(user));
+		UserEntity userEntity = userJpaRepository.save(new UserEntity(user));
 		pointJpaRepository.save(new PointEntity(userEntity));
 		/**
 		 * 사용자 아이템 객체 추가
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService {
 			userItems.add(userItem);
 		}
 		userEntity.saveUserItems(userItems);
-		userRepository.save(userEntity);
+		userJpaRepository.save(userEntity);
 
 
 		return userEntity.toModel();
@@ -90,7 +91,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(readOnly = true)
 	public User login(LoginRequest loginRequest) {
-		User user = userRepository.findByEmail(loginRequest.getEmail())
+		User user = userJpaRepository.findByEmail(loginRequest.getEmail())
 			.orElseThrow(() -> new ApplicationException(NOT_EXISTENT_EMAIL)).toModel();
 		if (!user.checkPassword(passwordEncoder, loginRequest.getPassword())) {
 			throw new ApplicationException(NOT_CORRECTED_PASSWORD);
@@ -107,14 +108,14 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public UserProfileResponse getProfile(String username, Long userId) {
-		User user = userRepository.findByEmail(username)
+		User user = userJpaRepository.findByEmail(username)
 			.orElseThrow(() -> new ApplicationException(NOT_EXISTENT_EMAIL)).toModel();
 		return new UserProfileResponse(user.getNickname(), user.getProfile());
 	}
 
 	@Override
 	public void duplicatedEmail(String email) {
-		Optional<UserEntity> user = userRepository.findByEmail(email);
+		Optional<UserEntity> user = userJpaRepository.findByEmail(email);
 		if (user.isPresent()) {
 			throw new ApplicationException(EXISTENT_EMAIL);
 		}
@@ -122,17 +123,38 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void duplicationNickname(String nickname) {
-		Optional<UserEntity> user = userRepository.findByNickname(nickname);
+		Optional<UserEntity> user = userJpaRepository.findByNickname(nickname);
 		if (user.isPresent()) {
 			throw new ApplicationException(EXISTENT_NICKNAME);
 		}
 	}
 
+	/**
+	 * 닉네임 수정
+	 * @since 2024.01.26
+	 * @parameter UserCustomDetails, UserNicknameUpdateRequest
+	 * @author 김유빈
+	 */
 	@Override
-	public void deleteUser(Long userId) {
-		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new ApplicationException(NOT_EXIST)).toModel();
-		userRepository.delete(new UserEntity(user));
+	public void updateNickname(UserCustomDetails userDetails, UserNicknameUpdateRequest request) {
+		UserEntity savedUser = findUserById(userDetails.getUserEntity().getId());
+		if (!passwordEncoder.matches(request.getPassword(), savedUser.getPassword())) {
+			throw new ApplicationException(UserErrorCode.INVALID_PASSWORD);
+		}
+		if (userJpaRepository.existsByNickname(request.getNickname())) {
+			throw new ApplicationException(EXISTENT_NICKNAME);
+		}
+		savedUser.updateNickname(request.getNickname());
 	}
 
+	@Override
+	public void deleteUser(Long userId) {
+		User user = findUserById(userId).toModel();
+		userJpaRepository.delete(new UserEntity(user));
+	}
+
+	private UserEntity findUserById(Long userId) {
+		return userJpaRepository.findById(userId)
+			.orElseThrow(() -> new ApplicationException(NOT_EXIST));
+	}
 }

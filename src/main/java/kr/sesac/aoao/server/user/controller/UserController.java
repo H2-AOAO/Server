@@ -4,10 +4,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
+import kr.sesac.aoao.server.user.controller.dto.request.UserNicknameUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.service.UserService;
@@ -38,6 +41,21 @@ public class UserController {
 		UserProfileResponse userProfileResponse = userService.getProfile(userDetails.getUserEntity().getEmail(),
 			1L);
 		return ResponseEntity.ok(ApplicationResponse.success(userProfileResponse));
+	}
+
+	/**
+	 * 닉네임 수정 API
+	 * @since 2024.01.26
+	 * @parameter UserCustomDetails, UserNicknameUpdateRequest
+	 * @return ResponseEntity<ApplicationResponse<Void>>
+	 * @author 김유빈
+	 */
+	@PostMapping("/nickname")
+	public ResponseEntity<ApplicationResponse<Void>> updateNickname(
+		@AuthenticationPrincipal UserCustomDetails userDetails,
+		@RequestBody UserNicknameUpdateRequest request) {
+		userService.updateNickname(userDetails, request);
+		return ResponseEntity.ok(ApplicationResponse.success(null));
 	}
 
 	/**
