@@ -9,5 +9,5 @@ import kr.sesac.aoao.server.user.repository.UserEntity;
 
 public interface TodoFolderJpaRepository extends JpaRepository<TodoFolderEntity, Long> {
 
-	List<TodoFolderEntity> findByDateAndUser(LocalDate date, UserEntity user);
+	List<TodoFolderEntity> findBySelectedDateAndUser(LocalDate date, UserEntity user);
 }

@@ -44,7 +44,7 @@ public class DinoEntity extends BaseEntity {
 	private boolean flag;
 
 	@ManyToOne
-	@JoinColumn(name = "level")
+	@JoinColumn(name = "step")
 	private DinoInfoEntity dino;
 
 	public DinoEntity(UserEntity user, String name, String color, int exp, boolean flag,  DinoInfoEntity dino) {

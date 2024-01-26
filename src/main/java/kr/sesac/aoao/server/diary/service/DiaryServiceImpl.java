@@ -35,7 +35,7 @@ public class DiaryServiceImpl implements DiaryService {
 		return new GetDiaryResponse(
 			diary.getId(),
 			diary.getContent(),
-			diary.getDate()
+			diary.getSelectedDate()
 		);
 	}
 
@@ -79,7 +79,7 @@ public class DiaryServiceImpl implements DiaryService {
 
 		UserEntity user = userRepository.findById(userId)
 			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
-		DiaryEntity diary = diaryRepository.findByUserAndDate(user, localDate.atStartOfDay())
+		DiaryEntity diary = diaryRepository.findByUserAndSelectedDate(user, localDate.atStartOfDay())
 			.orElseThrow(() -> new ApplicationException(DiaryErrorCode.NO_DIARY));
 
 		return result(diary);

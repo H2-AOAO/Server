@@ -5,5 +5,5 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DinoInfoJpaRepository extends JpaRepository<DinoInfoEntity, Long> {
-	Optional<DinoInfoEntity> findByLevel(int Lv);
+	Optional<DinoInfoEntity> findByStep(int Lv);
 }

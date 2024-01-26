@@ -51,7 +51,7 @@ public class DinoServiceImpl implements DinoService {
 			dino.getName(),
 			dino.getColor(),
 			dino.getExp(),
-			dino.getDino().getLevel(),
+			dino.getDino().getStep(),
 			user_point
 		);
 	}
@@ -147,7 +147,7 @@ public class DinoServiceImpl implements DinoService {
 			dino.saveFlag(false); //현재 true인 공룡을 완성 상태로 변환
 			dinoRepository.save(dino);
 		}
-		DinoInfoEntity dinoInfo = dinoInfoRepository.findByLevel(1)
+		DinoInfoEntity dinoInfo = dinoInfoRepository.findByStep(1)
 			.orElseThrow(()->new ApplicationException(DinoErrorCode.NO_DINO_INFO));
 		DinoEntity nDino = new DinoEntity(user, name, color, 0, true, dinoInfo); //새롭게 객체 저장
 		dinoRepository.save(nDino);
@@ -187,7 +187,7 @@ public class DinoServiceImpl implements DinoService {
 		DinoEntity dino = getDinoEntity(user);
 		friendDinoInfo.saveColor(dino.getColor());
 		friendDinoInfo.saveName(dino.getName());
-		friendDinoInfo.saveLevel(dino.getDino().getLevel());
+		friendDinoInfo.saveLevel(dino.getDino().getStep());
 		return friendDinoInfo;
 	}
 
