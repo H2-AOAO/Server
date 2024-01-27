@@ -35,6 +35,9 @@ done
 echo "  > Process Terminate Success!!"
 
 cd ~
+cp -r secret Server/src/main/resources/
+
+cd ~
 cd "Server"
 ./gradlew bootJar
 echo "\nBuild project!!"
