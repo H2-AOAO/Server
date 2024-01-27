@@ -34,15 +34,15 @@ public class DiaryEntity extends BaseEntity {
 	private String content; // 일기 내용
 
 	@Column
-	private LocalDateTime date; // 캘린더 설정 날짜
+	private LocalDateTime selectedDate; // 캘린더 설정 날짜
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private UserEntity user; // 일기 작성자
 
-	public DiaryEntity(String content, LocalDateTime date, UserEntity user) {
+	public DiaryEntity(String content, LocalDateTime selectedDate, UserEntity user) {
 		this.content = content;
-		this.date = date;
+		this.selectedDate = selectedDate;
 		this.user = user;
 	}
 

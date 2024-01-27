@@ -1,7 +1,6 @@
 spring:
-  profiles:
-    active: local
   config:
+    activate:
+      on-profile: dev
     import:
       - secret/application-dev-db.yml
-      - secret/application-jwt.yml

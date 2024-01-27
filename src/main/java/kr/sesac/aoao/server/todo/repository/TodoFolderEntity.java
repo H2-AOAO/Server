@@ -37,7 +37,7 @@ public class TodoFolderEntity extends BaseEntity {
 	private String content;
 
 	@Column
-	private LocalDate date;
+	private LocalDate selectedDate;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
@@ -50,9 +50,9 @@ public class TodoFolderEntity extends BaseEntity {
 	@OneToMany(mappedBy = "todoFolder", fetch = FetchType.LAZY)
 	private List<TodoEntity> todos;
 
-	public TodoFolderEntity(String content, LocalDate date, UserEntity user, PaletteEntity palette) {
+	public TodoFolderEntity(String content, LocalDate selectedDate, UserEntity user, PaletteEntity palette) {
 		this.content = content;
-		this.date = date;
+		this.selectedDate = selectedDate;
 		this.user = user;
 		this.palette = palette;
 	}
