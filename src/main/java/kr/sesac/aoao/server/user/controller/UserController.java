@@ -2,7 +2,6 @@ package kr.sesac.aoao.server.user.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,16 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
-import kr.sesac.aoao.server.user.controller.dto.request.DuplicatedEmailRequest;
-import kr.sesac.aoao.server.user.controller.dto.request.DuplicatedNicknameRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.UserNicknameUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.UserPasswordUpdateRequest;
-import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
+import kr.sesac.aoao.server.user.controller.dto.response.MyPageResponse;
 import kr.sesac.aoao.server.user.controller.dto.response.UserProfileUpdateResponse;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author 이상민
@@ -45,11 +41,11 @@ public class UserController {
 	 * @since 2024.01.22
 	 */
 	@GetMapping
-	public ResponseEntity<ApplicationResponse<UserProfileResponse>> getProfile(
+	public ResponseEntity<ApplicationResponse<MyPageResponse>> getMypage(
 		@AuthenticationPrincipal UserCustomDetails userDetails) {
-		UserProfileResponse userProfileResponse = userService.getProfile(userDetails.getUserEntity().getEmail(),
+		MyPageResponse myPageResponse = userService.getProfile(userDetails.getUserEntity().getEmail(),
 			1L);
-		return ResponseEntity.ok(ApplicationResponse.success(userProfileResponse));
+		return ResponseEntity.ok(ApplicationResponse.success(myPageResponse));
 	}
 
 	/**

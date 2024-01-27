@@ -46,7 +46,7 @@ public class UserEntity extends BaseEntity {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "resource_id")
-	private Resource resource;
+	private Profile profile;
 
 	@Enumerated(EnumType.STRING)
 	private UserType userType;
@@ -108,12 +108,12 @@ public class UserEntity extends BaseEntity {
 		this.password = password;
 	}
 
-	public void updateProfile(Resource resource) {
-		this.resource = resource;
+	public void updateProfile(Profile profile) {
+		this.profile = profile;
 	}
 
 	public void initProfile() {
-		this.resource = null;
+		this.profile = null;
 	}
 
     public void todoCheck() {
