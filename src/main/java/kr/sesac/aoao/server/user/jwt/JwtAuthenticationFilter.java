@@ -32,6 +32,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
+
+		if ("/login/kakao".equals(request.getRequestURI())) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+
 		String token = jwtTokenProvider.resolveToken(request);
 		try {
 			// StringUtils.hasText() : 'null'이 아니면서, 하나 이상의 공백 포함 x

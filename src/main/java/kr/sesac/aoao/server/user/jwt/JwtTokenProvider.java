@@ -48,7 +48,7 @@ public class JwtTokenProvider {
 	private String secretKey =
 		"c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK";
 
-	private final long ACCESS_TOKEN_VALID_TIME = 60 * 60 * 2 * 1000L;   // 2시간
+	private final long ACCESS_TOKEN_VALID_TIME = 60 * 60 * 24 * 7 * 1000L;
 	private final long REFRESH_TOKEN_VALID_TIME = 60 * 60 * 24 * 7 * 1000L;   // 1 달
 
 	private final ObjectMapper objectMapper;

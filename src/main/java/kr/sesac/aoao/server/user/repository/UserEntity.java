@@ -5,6 +5,8 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +19,7 @@ import kr.sesac.aoao.server.dino.repository.DinoEntity;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
 import kr.sesac.aoao.server.item.repository.UserItemEntity;
 import kr.sesac.aoao.server.point.repository.PointEntity;
+import kr.sesac.aoao.server.user.domain.KakaoInfo;
 import kr.sesac.aoao.server.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -38,19 +41,22 @@ public class UserEntity extends BaseEntity {
 	@Column(nullable = false, length = 60, unique = true)
 	private String email;
 
-	@Column(nullable = false, length = 100)
+	@Column(length = 100)
 	private String password;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "resource_id")
-	private Resource resource;
+	private Profile profile;
+
+	@Enumerated(EnumType.STRING)
+	private UserType userType;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<DinoEntity> dino;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	public List<UserItemEntity> userItems;
-	
+
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private PointEntity point;
 
@@ -59,7 +65,14 @@ public class UserEntity extends BaseEntity {
 		this.nickname = user.getNickname();
 		this.password = user.getPassword();
 		this.email = user.getEmail();
-		this.resource = null;
+		this.userType = UserType.BASIC;
+	}
+
+	public UserEntity(KakaoInfo kakaoInfo) {
+		this.nickname = kakaoInfo.getNickname();
+		this.password = "secret";
+		this.email = kakaoInfo.getEmail();
+		this.userType = UserType.KAKAO;
 	}
 
 	/**
@@ -95,12 +108,12 @@ public class UserEntity extends BaseEntity {
 		this.password = password;
 	}
 
-	public void updateProfile(Resource resource) {
-		this.resource = resource;
+	public void updateProfile(Profile profile) {
+		this.profile = profile;
 	}
 
 	public void initProfile() {
-		this.resource = null;
+		this.profile = null;
 	}
 
     public void todoCheck() {

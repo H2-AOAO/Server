@@ -26,12 +26,12 @@ import kr.sesac.aoao.server.user.controller.dto.request.LoginRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.UserNicknameUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.UserPasswordUpdateRequest;
-import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
+import kr.sesac.aoao.server.user.controller.dto.response.MyPageResponse;
 import kr.sesac.aoao.server.user.controller.dto.response.UserProfileUpdateResponse;
 import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
-import kr.sesac.aoao.server.user.repository.Resource;
-import kr.sesac.aoao.server.user.repository.ResourceRepository;
+import kr.sesac.aoao.server.user.repository.Profile;
+import kr.sesac.aoao.server.user.repository.ProfileRepository;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 	private final UserJpaRepository userJpaRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final ItemJpaRepository itemJpaRepository;
-	private final ResourceRepository resourceRepository;
+	private final ProfileRepository profileRepository;
 	private final UserItemJpaRepository userItemJpaRepository;
 	private final StorageConnector s3Connector;
 	private final StorageGenerator s3Generator;
@@ -131,10 +131,10 @@ public class UserServiceImpl implements UserService {
 	 * @since 2024.01.22
 	 */
 	@Override
-	public UserProfileResponse getProfile(String username, Long userId) {
+	public MyPageResponse getProfile(String username, Long userId) {
 		User user = userJpaRepository.findByEmail(username)
 			.orElseThrow(() -> new ApplicationException(NOT_EXISTENT_EMAIL)).toModel();
-		return new UserProfileResponse(user.getNickname(), user.getProfile());
+		return new MyPageResponse(user.getNickname());
 	}
 
 	@Override
@@ -196,15 +196,15 @@ public class UserServiceImpl implements UserService {
 		validateProfileIsImage(newProfile);
 
 		UserEntity savedUser = findUserById(userDetails.getUserEntity().getId());
-		Resource savedResource = savedUser.getResource();
-		if (savedResource != null) {
-			resourceRepository.deleteById(savedResource.getId());
-			s3Connector.delete(savedResource.getResourceKey());
+		Profile savedProfile = savedUser.getProfile();
+		if (savedProfile != null) {
+			profileRepository.deleteById(savedProfile.getId());
+			s3Connector.delete(savedProfile.getResourceKey());
 		}
 
 		ResourceResponse response = s3Connector.save(newProfile, s3Generator.createPath(), s3Generator.createResourceName(newProfile));
-		Resource resource = new Resource(response.getResourceKey(), response.getResourceUrl());
-		savedUser.updateProfile(resource);
+		Profile profile = new Profile(response.getResourceKey(), response.getResourceUrl());
+		savedUser.updateProfile(profile);
 		return new UserProfileUpdateResponse(response.getResourceUrl());
 	}
 
@@ -217,13 +217,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void initProfile(UserCustomDetails userDetails) {
 		UserEntity savedUser = findUserById(userDetails.getUserEntity().getId());
-		Resource savedResource = savedUser.getResource();
-		if (savedResource == null) {
+		Profile savedProfile = savedUser.getProfile();
+		if (savedProfile == null) {
 			return;
 		}
 		savedUser.initProfile();
-		resourceRepository.deleteById(savedResource.getId());
-		s3Connector.delete(savedResource.getResourceKey());
+		profileRepository.deleteById(savedProfile.getId());
+		s3Connector.delete(savedProfile.getResourceKey());
 	}
 
 	@Override

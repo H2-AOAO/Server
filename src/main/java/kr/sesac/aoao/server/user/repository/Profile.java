@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Resource extends BaseEntity {
+public class Profile extends BaseEntity {
 
     private static final int RESOURCE_KEY_LENGTH = 255;
     private static final int RESOURCE_URL_LENGTH = 500;
@@ -28,7 +28,7 @@ public class Resource extends BaseEntity {
     @Column(nullable = false, length = RESOURCE_URL_LENGTH)
     private String resourceUrl;
 
-    public Resource(String resourceKey, String resourceUrl) {
+    public Profile(String resourceKey, String resourceUrl) {
         validateResourceKey(resourceKey);
         validateResourceUrl(resourceUrl);
         this.resourceKey = resourceKey;

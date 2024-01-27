@@ -6,7 +6,7 @@ import kr.sesac.aoao.server.user.controller.dto.request.LoginRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.UserNicknameUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.UserPasswordUpdateRequest;
-import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
+import kr.sesac.aoao.server.user.controller.dto.response.MyPageResponse;
 import kr.sesac.aoao.server.user.controller.dto.response.UserProfileUpdateResponse;
 import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
@@ -17,7 +17,7 @@ public interface UserService {
 
 	User login(LoginRequest loginRequest);
 
-	UserProfileResponse getProfile(String username, Long userId);
+	MyPageResponse getProfile(String username, Long userId);
 
 	void duplicatedEmail(String email);
 
