@@ -85,7 +85,7 @@ public class JwtTokenProvider {
 		refreshTokenEntity.ifPresent(tokenJpaRepository::delete);
 
 		tokenJpaRepository.save(new RefreshTokenEntity(user.getEmail(), refreshToken)); // 리프레시 토큰 저장소에 저장
-		return new TokenResponse(accessToken, refreshToken);
+		return new TokenResponse(user.getId(), accessToken, refreshToken);
 	}
 
 	/**

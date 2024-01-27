@@ -19,6 +19,7 @@ import kr.sesac.aoao.server.dino.repository.DinoEntity;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
 import kr.sesac.aoao.server.item.repository.UserItemEntity;
 import kr.sesac.aoao.server.point.repository.PointEntity;
+import kr.sesac.aoao.server.todo.repository.TodoFolderEntity;
 import kr.sesac.aoao.server.user.domain.KakaoInfo;
 import kr.sesac.aoao.server.user.domain.User;
 import lombok.AccessLevel;
@@ -59,6 +60,9 @@ public class UserEntity extends BaseEntity {
 
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private PointEntity point;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	public List<TodoFolderEntity> userTodoFolders;
 
 	public UserEntity(User user) {
 		this.id = user.getId();
