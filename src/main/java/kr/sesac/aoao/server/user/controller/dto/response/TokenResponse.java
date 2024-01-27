@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TokenResponse {
 
+	private final Long userId;
 	private final String accessToken;
 	private final String refreshToken;
 }

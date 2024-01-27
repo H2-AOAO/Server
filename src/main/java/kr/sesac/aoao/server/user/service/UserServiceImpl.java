@@ -2,10 +2,16 @@ package kr.sesac.aoao.server.user.service;
 
 import static kr.sesac.aoao.server.user.exception.UserErrorCode.*;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +27,9 @@ import kr.sesac.aoao.server.item.repository.UserItemEntity;
 import kr.sesac.aoao.server.item.repository.UserItemJpaRepository;
 import kr.sesac.aoao.server.point.repository.PointEntity;
 import kr.sesac.aoao.server.point.repository.PointJpaRepository;
+import kr.sesac.aoao.server.todo.repository.TodoEntity;
+import kr.sesac.aoao.server.todo.repository.TodoFolderEntity;
+import kr.sesac.aoao.server.todo.repository.TodoFolderJpaRepository;
 import kr.sesac.aoao.server.user.controller.dto.request.LoginRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.SignUpRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.UserNicknameUpdateRequest;
@@ -54,6 +63,8 @@ public class UserServiceImpl implements UserService {
 	private final UserItemJpaRepository userItemJpaRepository;
 	private final StorageConnector s3Connector;
 	private final StorageGenerator s3Generator;
+
+	private final TodoFolderJpaRepository todoFolderJpaRepository;
 
 	/**
 	 * 회원가입
@@ -114,7 +125,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(readOnly = true)
 	public User login(LoginRequest loginRequest) {
-		User user = userRepository.findByEmail(loginRequest.getEmail())
+		User user = userJpaRepository.findByEmail(loginRequest.getEmail())
 			.orElseThrow(() -> new ApplicationException(NOT_EXISTENT_EMAIL)).toModel();
 		if (!user.checkPassword(passwordEncoder, loginRequest.getPassword())) {
 			throw new ApplicationException(NOT_CORRECTED_PASSWORD);
@@ -125,20 +136,56 @@ public class UserServiceImpl implements UserService {
 	/**
 	 * 프로필 조회
 	 *
-	 * @return UserProfileResponse
+	 * @return MyPageResponse
 	 * @author 이상민
 	 * @since 2024.01.22
 	 */
 	@Override
 	public MyPageResponse getProfile(String username, Long userId) {
-		User user = userJpaRepository.findByEmail(username)
-			.orElseThrow(() -> new ApplicationException(NOT_EXISTENT_EMAIL)).toModel();
-		return new MyPageResponse(user.getNickname());
+		UserEntity userEntity = userJpaRepository.findByEmail(username)
+			.orElseThrow(() -> new ApplicationException(NOT_EXISTENT_EMAIL));
+
+		LocalDate currentDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM");
+
+		String currentMonthString = currentDate.format(formatter);
+		LocalDate selectedDate = currentDate; // 이미 LocalDate 객체이므로 변환이 필요하지 않음
+
+		List<TodoFolderEntity> todoFolders = todoFolderJpaRepository.findBySelectedDateAndUser(selectedDate, userEntity);
+
+		int monthSumTodo = 0;
+		int sumTodo = 0;
+		int todaySum = 0;
+		int todayFinish = 0;
+
+		for (TodoFolderEntity todoFolder : todoFolders) {
+			monthSumTodo += todoFolder.getTodos().size();
+
+			if (todoFolder.getSelectedDate().isEqual(currentDate)) {
+				todaySum = todoFolder.getTodos().size();
+				todayFinish = (int) todoFolder.getTodos().stream().filter(TodoEntity::isChecked).count();
+			}
+
+			sumTodo += (int) todoFolder.getTodos().stream().filter(TodoEntity::isChecked).count();
+		}
+
+		String today = (todayFinish != 0) ? todaySum + "/" + todayFinish : "0";
+
+		String profileUrl = (userEntity.getProfile() != null) ? userEntity.getProfile().getResourceUrl() : "no_profile";
+		return new MyPageResponse(
+			profileUrl,
+			userEntity.getNickname(),
+			userEntity.getEmail(),
+			currentMonthString,
+			monthSumTodo,
+			sumTodo,
+			today
+		);
 	}
 
 	@Override
 	public void duplicatedEmail(String email) {
-		Optional<UserEntity> user = userRepository.findByEmail(email);
+		Optional<UserEntity> user = userJpaRepository.findByEmail(email);
 		if (user.isPresent()) {
 			throw new ApplicationException(EXISTENT_EMAIL);
 		}
