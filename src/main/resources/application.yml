@@ -3,5 +3,5 @@ spring:
     active: local
   config:
     import:
-      - secret/application-dev-db.yml
       - secret/application-jwt.yml
+      - secret/application-aws.yml

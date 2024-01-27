@@ -32,7 +32,7 @@ public class User {
 		this.email = userEntity.getEmail();
 		this.nickname = userEntity.getNickname();
 		this.password = userEntity.getPassword();
-		this.profile = userEntity.getProfile();
+		this.profile = null;
 	}
 
 	public User(KakaoInfo kakaoInfo) {
