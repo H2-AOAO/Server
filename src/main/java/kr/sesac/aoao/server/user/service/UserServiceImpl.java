@@ -90,6 +90,7 @@ public class UserServiceImpl implements UserService {
 			UserItemEntity userItem = new UserItemEntity(userEntity, item, 0);
 			userItems.add(userItem);
 		}
+		userEntity.saveUserItems(userItems);
 		userJpaRepository.save(userEntity);
 
 		userItems = userItemJpaRepository.findAllByUser(userEntity);
