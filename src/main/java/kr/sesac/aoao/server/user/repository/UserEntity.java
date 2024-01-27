@@ -65,7 +65,6 @@ public class UserEntity extends BaseEntity {
 		this.nickname = user.getNickname();
 		this.password = user.getPassword();
 		this.email = user.getEmail();
-		this.profile = user.getProfile();
 		this.userType = UserType.BASIC;
 	}
 

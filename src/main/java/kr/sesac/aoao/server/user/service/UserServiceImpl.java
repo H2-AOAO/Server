@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -126,7 +127,7 @@ public class UserServiceImpl implements UserService {
 	public UserProfileResponse getProfile(String username, Long userId) {
 		User user = userJpaRepository.findByEmail(username)
 			.orElseThrow(() -> new ApplicationException(NOT_EXISTENT_EMAIL)).toModel();
-		return new UserProfileResponse(user.getNickname(), user.getProfile());
+		return new UserProfileResponse(user.getNickname());
 	}
 
 	@Override

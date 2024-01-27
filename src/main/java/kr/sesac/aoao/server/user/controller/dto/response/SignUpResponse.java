@@ -11,12 +11,10 @@ public class SignUpResponse {
 	private final Long userId;
 	private final String email;
 	private final String nickname;
-	private final String profile;
 
 	public SignUpResponse(User user) {
 		this.userId = user.getId();
 		this.email = user.getEmail();
 		this.nickname = user.getNickname();
-		this.profile = user.getProfile();
 	}
 }

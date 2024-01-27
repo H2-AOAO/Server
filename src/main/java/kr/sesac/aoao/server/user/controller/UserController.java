@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
@@ -16,6 +19,7 @@ import kr.sesac.aoao.server.user.controller.dto.request.DuplicatedNicknameReques
 import kr.sesac.aoao.server.user.controller.dto.request.UserNicknameUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.request.UserPasswordUpdateRequest;
 import kr.sesac.aoao.server.user.controller.dto.response.UserProfileResponse;
+import kr.sesac.aoao.server.user.controller.dto.response.UserProfileUpdateResponse;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -46,34 +50,6 @@ public class UserController {
 		UserProfileResponse userProfileResponse = userService.getProfile(userDetails.getUserEntity().getEmail(),
 			1L);
 		return ResponseEntity.ok(ApplicationResponse.success(userProfileResponse));
-	}
-
-	/**
-	 * 이메일 중복확인 API
-	 *
-	 * @return
-	 * @author 이상민
-	 * @since 2024.01.22
-	 */
-	@PostMapping("/duplicated/email")
-	public ResponseEntity<ApplicationResponse<String>> duplicationEmail(
-		@Validated @RequestBody DuplicatedEmailRequest duplicatedEmailRequest) {
-		userService.duplicatedEmail(duplicatedEmailRequest.getEmail());
-		return ResponseEntity.ok(ApplicationResponse.success("사용가능한 이메일입니다."));
-	}
-
-	/**
-	 * 닉네임 중복확인 API
-	 *
-	 * @return
-	 * @author 이상민
-	 * @since 2024.01.22
-	 */
-	@PostMapping("/duplicated/nickname")
-	public ResponseEntity<ApplicationResponse<String>> duplicationNickname(
-		@Valid @RequestBody DuplicatedNicknameRequest duplicatedNicknameRequest) {
-		userService.duplicationNickname(duplicatedNicknameRequest.getNickname());
-		return ResponseEntity.ok(ApplicationResponse.success("사용가능한 넥네임입니다."));
 	}
 
 	/**
