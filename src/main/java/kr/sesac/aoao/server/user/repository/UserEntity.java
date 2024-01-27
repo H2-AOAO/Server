@@ -73,15 +73,6 @@ public class UserEntity extends BaseEntity {
 		this.password = "secret";
 		this.email = kakaoInfo.getEmail();
 		this.userType = UserType.KAKAO;
-		this.resource = null;
-		this.userType = UserType.BASIC;
-	}
-
-	public UserEntity(KakaoInfo kakaoInfo) {
-		this.nickname = kakaoInfo.getNickname();
-		this.password = "secret";
-		this.email = kakaoInfo.getEmail();
-		this.userType = UserType.KAKAO;
 	}
 
 	/**
