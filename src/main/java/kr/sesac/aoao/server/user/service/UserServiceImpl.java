@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(readOnly = true)
 	public User login(LoginRequest loginRequest) {
-		User user = userJpaRepository.findByEmail(loginRequest.getEmail())
+		User user = userRepository.findByEmail(loginRequest.getEmail())
 			.orElseThrow(() -> new ApplicationException(NOT_EXISTENT_EMAIL)).toModel();
 		if (!user.checkPassword(passwordEncoder, loginRequest.getPassword())) {
 			throw new ApplicationException(NOT_CORRECTED_PASSWORD);
@@ -186,7 +186,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void duplicatedEmail(String email) {
-		Optional<UserEntity> user = userJpaRepository.findByEmail(email);
+		Optional<UserEntity> user = userRepository.findByEmail(email);
 		if (user.isPresent()) {
 			throw new ApplicationException(EXISTENT_EMAIL);
 		}
