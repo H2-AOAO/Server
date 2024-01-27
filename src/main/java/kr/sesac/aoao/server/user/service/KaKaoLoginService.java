@@ -1,6 +1,7 @@
 package kr.sesac.aoao.server.user.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.sesac.aoao.server.user.controller.client.KakaoApiClient;
 import kr.sesac.aoao.server.user.controller.dto.request.ouath.AccessToken;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class KaKaoLoginService {
 
 	private final UserJpaRepository userJpaRepository;
