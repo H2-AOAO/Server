@@ -10,13 +10,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import java.util.ArrayList;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import kr.sesac.aoao.server.dino.repository.DinoEntity;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
-import kr.sesac.aoao.server.item.repository.ItemEntity;
 import kr.sesac.aoao.server.item.repository.UserItemEntity;
 import kr.sesac.aoao.server.point.repository.PointEntity;
 import kr.sesac.aoao.server.user.domain.User;
@@ -43,8 +41,9 @@ public class UserEntity extends BaseEntity {
 	@Column(nullable = false, length = 100)
 	private String password;
 
-	@Column
-	private String profile;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "resource_id")
+	private Resource resource;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<DinoEntity> dino;
@@ -60,7 +59,7 @@ public class UserEntity extends BaseEntity {
 		this.nickname = user.getNickname();
 		this.password = user.getPassword();
 		this.email = user.getEmail();
-		this.profile = user.getProfile();
+		this.resource = null;
 	}
 
 	/**
@@ -87,6 +86,22 @@ public class UserEntity extends BaseEntity {
 	}
 
 	public void saveUserItems(List<UserItemEntity> userItems) {this.userItems = userItems;}
+
+	public void updateNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public void updatePassword(String password) {
+		this.password = password;
+	}
+
+	public void updateProfile(Resource resource) {
+		this.resource = resource;
+	}
+
+	public void initProfile() {
+		this.resource = null;
+	}
 
     public void todoCheck() {
         this.point.todoCheck();
