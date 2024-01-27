@@ -19,6 +19,7 @@ import kr.sesac.aoao.server.global.support.dto.response.ResourceResponse;
 import kr.sesac.aoao.server.item.repository.ItemEntity;
 import kr.sesac.aoao.server.item.repository.ItemJpaRepository;
 import kr.sesac.aoao.server.item.repository.UserItemEntity;
+import kr.sesac.aoao.server.item.repository.UserItemJpaRepository;
 import kr.sesac.aoao.server.point.repository.PointEntity;
 import kr.sesac.aoao.server.point.repository.PointJpaRepository;
 import kr.sesac.aoao.server.user.controller.dto.request.LoginRequest;
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
 	private final PasswordEncoder passwordEncoder;
 	private final ItemJpaRepository itemJpaRepository;
 	private final ResourceRepository resourceRepository;
-
+	private final UserItemJpaRepository userItemJpaRepository;
 	private final StorageConnector s3Connector;
 	private final StorageGenerator s3Generator;
 
@@ -89,9 +90,16 @@ public class UserServiceImpl implements UserService {
 			UserItemEntity userItem = new UserItemEntity(userEntity, item, 0);
 			userItems.add(userItem);
 		}
-		userEntity.saveUserItems(userItems);
 		userJpaRepository.save(userEntity);
 
+		userItems = userItemJpaRepository.findAllByUser(userEntity);
+		for(UserItemEntity userItem : userItems){
+			long item_id = userItem.getId() % 5 == 0 ? 5 : userItem.getId() % 5;
+			ItemEntity item = itemJpaRepository.findNonNullById(item_id);
+			userItem.changeItem(item);
+		}
+		userEntity.saveUserItems(userItems);
+		userJpaRepository.save(userEntity);
 
 		return userEntity.toModel();
 	}

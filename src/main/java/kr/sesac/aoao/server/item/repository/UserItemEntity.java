@@ -43,4 +43,6 @@ public class UserItemEntity {
 	public void changeItemNum(int num) {
 		this.item_num = num;
 	}
+	public void changeItem(ItemEntity item){this.item = item;}
+
 }
