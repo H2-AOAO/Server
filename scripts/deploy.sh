@@ -9,7 +9,7 @@ echo "  > current profile : ${PROFILE}"
 
 # Set Variables
 JAR_PATH="./server-0.0.1-SNAPSHOT.jar"
-PROCESS_NAME="dinosoul"
+PROCESS_NAME="server"
 LOG_FILE="application.log"
 
 

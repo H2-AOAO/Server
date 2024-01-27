@@ -147,8 +147,9 @@ public class DinoServiceImpl implements DinoService {
 			dino.saveFlag(false); //현재 true인 공룡을 완성 상태로 변환
 			dinoRepository.save(dino);
 		}
-		DinoInfoEntity dinoInfo = dinoInfoRepository.findByStep(1)
+		DinoInfoEntity dinoInfo = dinoInfoRepository.findById(1L)
 			.orElseThrow(()->new ApplicationException(DinoErrorCode.NO_DINO_INFO));
+		dinoInfo.changeLv(1);
 		DinoEntity nDino = new DinoEntity(user, name, color, 0, true, dinoInfo); //새롭게 객체 저장
 		dinoRepository.save(nDino);
 		return true;
