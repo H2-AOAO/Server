@@ -11,7 +11,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class User {
 
-	private final Long id;
+	private Long id;
 	private final String email;
 	private final String nickname;
 	private String password;
@@ -33,6 +33,12 @@ public class User {
 		this.nickname = userEntity.getNickname();
 		this.password = userEntity.getPassword();
 		this.profile = userEntity.getProfile();
+	}
+
+	public User(KakaoInfo kakaoInfo) {
+		this.email = kakaoInfo.getEmail();
+		this.nickname = kakaoInfo.getNickname();
+		this.profile = kakaoInfo.getProfileImage();
 	}
 
 	/**

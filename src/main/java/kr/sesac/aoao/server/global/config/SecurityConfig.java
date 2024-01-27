@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 
 import kr.sesac.aoao.server.user.jwt.JwtAuthenticationEntryPoint;
 import kr.sesac.aoao.server.user.jwt.JwtAuthenticationFilter;
@@ -37,15 +38,16 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http
 			.csrf(AbstractHttpConfigurer::disable)// CSRF 토큰 비활성화
-			.authorizeHttpRequests(request -> request
+			.authorizeHttpRequests(authorize -> authorize
 				.requestMatchers("/login"
 					, "/signup"
 					, "/user/reissue"
 					, "/palettes"
-					, "/duplicated/*").permitAll()
+					, "/duplicated/**"
+					,"/login/kakao").permitAll()
 				.anyRequest().authenticated() //어떠한 요청이라도 인증 필요
 			)
 			.exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint))
@@ -56,5 +58,10 @@ public class SecurityConfig {
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
 	}
 }

@@ -14,7 +14,6 @@ import kr.sesac.aoao.server.global.exception.ApplicationException;
 import kr.sesac.aoao.server.item.repository.ItemEntity;
 import kr.sesac.aoao.server.item.repository.ItemJpaRepository;
 import kr.sesac.aoao.server.item.repository.UserItemEntity;
-import kr.sesac.aoao.server.item.repository.UserItemJpaRepository;
 import kr.sesac.aoao.server.point.repository.PointEntity;
 import kr.sesac.aoao.server.point.repository.PointJpaRepository;
 import kr.sesac.aoao.server.user.controller.dto.request.LoginRequest;
@@ -69,13 +68,12 @@ public class UserServiceImpl implements UserService {
 		 */
 		List<UserItemEntity> userItems = new ArrayList<>();
 		for (int i = 1; i <= 5; i++) {
-			ItemEntity itemEntity = itemJpaRepository.findById((long) i).orElse(null);
+			ItemEntity itemEntity = itemJpaRepository.findById((long)i).orElse(null);
 			UserItemEntity userItem = new UserItemEntity(userEntity, itemEntity, 0);
 			userItems.add(userItem);
 		}
 		userEntity.saveUserItems(userItems);
 		userRepository.save(userEntity);
-
 
 		return userEntity.toModel();
 	}
