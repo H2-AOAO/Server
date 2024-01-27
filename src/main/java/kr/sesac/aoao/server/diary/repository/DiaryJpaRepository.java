@@ -11,5 +11,5 @@ public interface DiaryJpaRepository extends JpaRepository<DiaryEntity, Long> {
 
 	Optional<DiaryEntity> findByUser(UserEntity user);
 
-	Optional<DiaryEntity> findByUserAndDate(UserEntity user, LocalDateTime date);
+	Optional<DiaryEntity> findByUserAndSelectedDate(UserEntity user, LocalDateTime date);
 }

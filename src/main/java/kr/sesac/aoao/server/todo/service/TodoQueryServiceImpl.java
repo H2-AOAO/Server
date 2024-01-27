@@ -49,7 +49,7 @@ public class TodoQueryServiceImpl implements TodoQueryService {
 	public TodoQueryDetailResponse findAllTodos(UserCustomDetails userDetails, String date) {
 		Long userId = extractUserId(userDetails);
 		UserEntity savedUser = findUserById(userId);
-		List<TodoFolderEntity> folders = todoFolderJpaRepository.findByDateAndUser(convertDate(date), savedUser);
+		List<TodoFolderEntity> folders = todoFolderJpaRepository.findBySelectedDateAndUser(convertDate(date), savedUser);
 		int check = countCheckedTodo(folders);
 		return new TodoQueryDetailResponse(
 			check,
@@ -69,7 +69,7 @@ public class TodoQueryServiceImpl implements TodoQueryService {
 	public FolderQueryDetailResponse findAllFolders(UserCustomDetails userDetails, String date) {
 		Long userId = extractUserId(userDetails);
 		UserEntity savedUser = findUserById(userId);
-		List<TodoFolderEntity> folders = todoFolderJpaRepository.findByDateAndUser(convertDate(date), savedUser);
+		List<TodoFolderEntity> folders = todoFolderJpaRepository.findBySelectedDateAndUser(convertDate(date), savedUser);
 		return new FolderQueryDetailResponse(
 			folders.stream()
 				.map(FolderDetailResponse::from)
