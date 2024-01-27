@@ -38,12 +38,6 @@ public class User {
 		this.password = "secret";
 	}
 
-	public User(KakaoInfo kakaoInfo) {
-		this.email = kakaoInfo.getEmail();
-		this.nickname = kakaoInfo.getNickname();
-		this.profile = kakaoInfo.getProfileImage();
-	}
-
 	/**
 	 * 비밀번호 암호화
 	 *
