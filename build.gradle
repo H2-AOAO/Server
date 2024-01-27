@@ -37,6 +37,9 @@ dependencies {
     // h2
     runtimeOnly 'com.h2database:h2'
 
+    // oracle
+    implementation 'com.oracle.database.jdbc:ojdbc11:21.11.0.0'
+
     // security
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
