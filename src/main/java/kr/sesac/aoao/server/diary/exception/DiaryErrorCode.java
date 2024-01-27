@@ -7,8 +7,11 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum DiaryErrorCode implements ErrorCode {
+
+	INVALID_DATE_FORMAT(HttpStatus.BAD_REQUEST, "잘못된 날짜 형식입니다."),
 	NO_DIARY(HttpStatus.BAD_REQUEST, "일기 정보가 존재하지 않습니다."),
-	EMPTY_DIARY(HttpStatus.BAD_REQUEST, "내용이 비어있습니다.");
+	EMPTY_DIARY(HttpStatus.BAD_REQUEST, "내용이 비어있습니다."),
+	;
 
 	private final HttpStatus httpStatus;
 	private final String message;

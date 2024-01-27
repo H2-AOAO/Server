@@ -1,6 +1,6 @@
 package kr.sesac.aoao.server.diary.controller.dto.response;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +10,6 @@ import lombok.RequiredArgsConstructor;
 public class GetDiaryResponse {
 	private final Long diaryId;
 	private final String content;
-	private final LocalDateTime date;
+	private final LocalDate date;
 
 }

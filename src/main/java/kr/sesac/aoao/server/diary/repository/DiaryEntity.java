@@ -1,6 +1,6 @@
 package kr.sesac.aoao.server.diary.repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,13 +34,13 @@ public class DiaryEntity extends BaseEntity {
 	private String content; // 일기 내용
 
 	@Column
-	private LocalDateTime selectedDate; // 캘린더 설정 날짜
+	private LocalDate selectedDate; // 캘린더 설정 날짜
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private UserEntity user; // 일기 작성자
 
-	public DiaryEntity(String content, LocalDateTime selectedDate, UserEntity user) {
+	public DiaryEntity(String content, LocalDate selectedDate, UserEntity user) {
 		this.content = content;
 		this.selectedDate = selectedDate;
 		this.user = user;

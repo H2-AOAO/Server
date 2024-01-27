@@ -1,7 +1,7 @@
 package kr.sesac.aoao.server.diary.service;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 import org.springframework.stereotype.Service;
 
@@ -47,17 +47,11 @@ public class DiaryServiceImpl implements DiaryService {
 	 */
 	@Override
 	public Long createDiary(Long userId, DiaryCreateRequest request) {
-
-		// Long 값을 "yyyyMMdd" 형식의 날짜 문자열로 변환
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-		String dateString = String.valueOf(request.getDate());
-		LocalDate localDate = LocalDate.parse(dateString, formatter);
-
 		UserEntity savedUser = findUserById(userId);
 
 		DiaryEntity diaryEntity = new DiaryEntity(
 			request.getContent(),
-			localDate.atStartOfDay(),
+			convertDate(request.getDate()),
 			savedUser
 		);
 		return diaryJpaRepository.save(diaryEntity).getId();
@@ -72,14 +66,9 @@ public class DiaryServiceImpl implements DiaryService {
 	 */
 	@Override
 	public GetDiaryResponse getDiaryInfo(Long userId, String date) {
-		// Long 값을 "yyyyMMdd" 형식의 날짜 문자열로 변환
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-		String dateString = String.valueOf(date);
-		LocalDate localDate = LocalDate.parse(dateString, formatter);
-
 		UserEntity user = userRepository.findById(userId)
 			.orElseThrow(() -> new ApplicationException(UserErrorCode.NOT_FOUND_USER));
-		DiaryEntity diary = diaryRepository.findByUserAndSelectedDate(user, localDate.atStartOfDay())
+		DiaryEntity diary = diaryRepository.findByUserAndSelectedDate(user, convertDate(date))
 			.orElseThrow(() -> new ApplicationException(DiaryErrorCode.NO_DIARY));
 
 		return result(diary);
@@ -125,4 +114,13 @@ public class DiaryServiceImpl implements DiaryService {
 			.orElseThrow(() -> new ApplicationException(DiaryErrorCode.NO_DIARY));
 	}
 
+	private LocalDate convertDate(String date) {
+		int[] dates = Arrays.stream(date.split("-"))
+			.mapToInt(Integer::parseInt)
+			.toArray();
+		if (dates.length != 3) {
+			throw new ApplicationException(DiaryErrorCode.INVALID_DATE_FORMAT);
+		}
+		return LocalDate.of(dates[0], dates[1], dates[2]);
+	}
 }
