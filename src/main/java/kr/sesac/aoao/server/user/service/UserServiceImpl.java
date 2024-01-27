@@ -84,11 +84,16 @@ public class UserServiceImpl implements UserService {
 		 * @since 2024.01.26
 		 */
 		List<UserItemEntity> userItems = new ArrayList<>();
-		for (int i = 1; i <= 5; i++) {
-			ItemEntity itemEntity = itemJpaRepository.findById((long) i).orElse(null);
-			UserItemEntity userItem = new UserItemEntity(userEntity, itemEntity, 0);
+		List<ItemEntity> itemEntityList = itemJpaRepository.findAll();
+		for (ItemEntity item : itemEntityList) {
+			UserItemEntity userItem = new UserItemEntity(userEntity, item, 0);
 			userItems.add(userItem);
 		}
+		// for (int i = 1; i <= 5; i++) {
+		// 	//ItemEntity itemEntity = itemJpaRepository.findById((long) i).orElse(null);
+		// 	UserItemEntity userItem = new UserItemEntity(userEntity, itemEntityList.get(i), 0);
+		// 	userItems.add(userItem);
+		// }
 		userEntity.saveUserItems(userItems);
 		userJpaRepository.save(userEntity);
 
