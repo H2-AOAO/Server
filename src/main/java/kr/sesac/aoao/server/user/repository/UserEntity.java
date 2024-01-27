@@ -65,6 +65,15 @@ public class UserEntity extends BaseEntity {
 		this.nickname = user.getNickname();
 		this.password = user.getPassword();
 		this.email = user.getEmail();
+		this.profile = user.getProfile();
+		this.userType = UserType.BASIC;
+	}
+
+	public UserEntity(KakaoInfo kakaoInfo) {
+		this.nickname = kakaoInfo.getNickname();
+		this.password = "secret";
+		this.email = kakaoInfo.getEmail();
+		this.userType = UserType.KAKAO;
 		this.resource = null;
 		this.userType = UserType.BASIC;
 	}
