@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,8 @@ import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.repository.Profile;
 import kr.sesac.aoao.server.user.repository.ProfileRepository;
+import kr.sesac.aoao.server.user.repository.RefreshTokenEntity;
+import kr.sesac.aoao.server.user.repository.TokenJpaRepository;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -64,6 +67,8 @@ public class UserServiceImpl implements UserService {
 	private final StorageGenerator s3Generator;
 
 	private final TodoFolderJpaRepository todoFolderJpaRepository;
+
+	private final TokenJpaRepository tokenJpaRepository;
 
 	/**
 	 * 회원가입
@@ -124,7 +129,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(readOnly = true)
 	public User login(LoginRequest loginRequest) {
-		User user = userRepository.findByEmail(loginRequest.getEmail())
+		User user = userJpaRepository.findByEmail(loginRequest.getEmail())
 			.orElseThrow(() -> new ApplicationException(NOT_EXISTENT_EMAIL)).toModel();
 		if (!user.checkPassword(passwordEncoder, loginRequest.getPassword())) {
 			throw new ApplicationException(NOT_CORRECTED_PASSWORD);
@@ -185,7 +190,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void duplicatedEmail(String email) {
-		Optional<UserEntity> user = userRepository.findByEmail(email);
+		Optional<UserEntity> user = userJpaRepository.findByEmail(email);
 		if (user.isPresent()) {
 			throw new ApplicationException(EXISTENT_EMAIL);
 		}
@@ -276,6 +281,12 @@ public class UserServiceImpl implements UserService {
 	public void deleteUser(Long userId) {
 		User user = findUserById(userId).toModel();
 		userJpaRepository.delete(new UserEntity(user));
+	}
+
+	@Override
+	public void logout(UserEntity userEntity) {
+		Optional<RefreshTokenEntity> refreshTokenEntity = tokenJpaRepository.findByEmail(userEntity.getEmail());
+		refreshTokenEntity.ifPresent(tokenJpaRepository::delete);
 	}
 
 	private UserEntity findUserById(Long userId) {

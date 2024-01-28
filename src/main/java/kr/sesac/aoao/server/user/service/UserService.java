@@ -10,6 +10,7 @@ import kr.sesac.aoao.server.user.controller.dto.response.MyPageResponse;
 import kr.sesac.aoao.server.user.controller.dto.response.UserProfileUpdateResponse;
 import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
+import kr.sesac.aoao.server.user.repository.UserEntity;
 
 public interface UserService {
 
@@ -32,4 +33,6 @@ public interface UserService {
 	void initProfile(UserCustomDetails userDetails);
 
 	void deleteUser(Long userId);
+
+	void logout(UserEntity userEntity);
 }
