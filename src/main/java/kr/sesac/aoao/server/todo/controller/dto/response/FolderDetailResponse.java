@@ -9,12 +9,14 @@ import lombok.RequiredArgsConstructor;
 public class FolderDetailResponse {
 
 	private final long folderId;
+	private final long paletteId;
 	private final String colorCode;
 	private final String content;
 
 	public static FolderDetailResponse from(TodoFolderEntity todoFolder) {
 		return new FolderDetailResponse(
 			todoFolder.getId(),
+			todoFolder.getPalette().getId(),
 			todoFolder.getPalette().getColorCode(),
 			todoFolder.getContent()
 		);
