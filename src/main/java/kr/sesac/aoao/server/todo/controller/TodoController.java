@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
 import kr.sesac.aoao.server.todo.controller.dto.request.TodoSaveRequest;
 import kr.sesac.aoao.server.todo.controller.dto.request.TodoUpdateRequest;
+import kr.sesac.aoao.server.todo.controller.dto.response.TodoSaveResponse;
 import kr.sesac.aoao.server.todo.service.TodoService;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import lombok.RequiredArgsConstructor;
@@ -33,17 +34,17 @@ public class TodoController {
 	 * 투두 생성 API
 	 * @since 2024.01.23
 	 * @parameter UserCustomDetails, Long, TodoSaveRequest
-	 * @return ResponseEntity<ApplicationResponse < Void>>
+	 * @return ResponseEntity<ApplicationResponse<TodoSaveResponse>>
 	 * @author 김유빈
 	 */
 	@PostMapping
-	public ResponseEntity<ApplicationResponse<Void>> save(
+	public ResponseEntity<ApplicationResponse<TodoSaveResponse>> save(
 		@AuthenticationPrincipal UserCustomDetails userDetails,
 		@PathVariable Long folderId,
 		@RequestBody TodoSaveRequest request) {
-		Long todoId = todoService.save(userDetails, folderId, request);
+		long todoId = todoService.save(userDetails, folderId, request);
 		return ResponseEntity.created(URI.create(String.format("/folders/%d/todos/%d", folderId, todoId)))
-			.body(ApplicationResponse.success(null));
+			.body(ApplicationResponse.success(new TodoSaveResponse(todoId)));
 	}
 
 	/**

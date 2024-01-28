@@ -6,7 +6,7 @@ import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 
 public interface TodoService {
 
-	Long save(UserCustomDetails userDetails, Long folderId, TodoSaveRequest request);
+	long save(UserCustomDetails userDetails, Long folderId, TodoSaveRequest request);
 
 	void update(UserCustomDetails userDetails, Long folderId, Long todoId, TodoUpdateRequest request);
 

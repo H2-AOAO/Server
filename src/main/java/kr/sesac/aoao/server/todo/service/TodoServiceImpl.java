@@ -39,7 +39,7 @@ public class TodoServiceImpl implements TodoService {
 	 * @author 김유빈
 	 */
 	@Override
-	public Long save(UserCustomDetails userDetails, Long folderId, TodoSaveRequest request) {
+	public long save(UserCustomDetails userDetails, Long folderId, TodoSaveRequest request) {
 		Long userId = extractUserId(userDetails);
 		UserEntity savedUser = findUserById(userId);
 		TodoFolderEntity savedTodoFolder = findTodoFolderById(folderId);
