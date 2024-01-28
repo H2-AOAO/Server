@@ -9,6 +9,7 @@ public class MyPageResponse {
 	private final String profile;
 	private final String nickname;
 	private final String email;
+	private final boolean myself;
 
 	// 투두
 	private final String month; // 현재 달

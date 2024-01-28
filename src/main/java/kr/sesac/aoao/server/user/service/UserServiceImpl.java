@@ -144,6 +144,7 @@ public class UserServiceImpl implements UserService {
 	public MyPageResponse getProfile(String username, Long userId) {
 		UserEntity userEntity = userJpaRepository.findByEmail(username)
 			.orElseThrow(() -> new ApplicationException(NOT_EXISTENT_EMAIL));
+		boolean myself = userEntity.getId().equals(userId);
 
 		LocalDate currentDate = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM");
@@ -175,6 +176,7 @@ public class UserServiceImpl implements UserService {
 			profileUrl,
 			userEntity.getNickname(),
 			userEntity.getEmail(),
+			myself,
 			currentMonthString,
 			monthSumTodo,
 			sumTodo,
