@@ -28,9 +28,11 @@ public class InitializingPaletteConfig implements ApplicationRunner {
 	 */
 	@Override
 	public void run(ApplicationArguments args) {
-		for (Palette palette : Palette.values()) {
-			PaletteEntity paletteEntity = new PaletteEntity(palette.getColorCode());
-			paletteJpaRepository.save(paletteEntity);
+		if (paletteJpaRepository.findAll().isEmpty()) {
+			for (Palette palette : Palette.values()) {
+				PaletteEntity paletteEntity = new PaletteEntity(palette.getColorCode());
+				paletteJpaRepository.save(paletteEntity);
+			}
 		}
 	}
 }
