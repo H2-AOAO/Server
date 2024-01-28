@@ -147,29 +147,28 @@ public class UserServiceImpl implements UserService {
 
 		LocalDate currentDate = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM");
-
 		String currentMonthString = currentDate.format(formatter);
-		LocalDate selectedDate = currentDate; // 이미 LocalDate 객체이므로 변환이 필요하지 않음
 
-		List<TodoFolderEntity> todoFolders = todoFolderJpaRepository.findBySelectedDateAndUser(selectedDate, userEntity);
+		List<TodoFolderEntity> todoFoldersAboutMonth = todoFolderJpaRepository.findByMonthAndUser(
+			currentDate.getYear(), currentDate.getMonthValue(), userEntity);
 
 		int monthSumTodo = 0;
 		int sumTodo = 0;
 		int todaySum = 0;
 		int todayFinish = 0;
 
-		for (TodoFolderEntity todoFolder : todoFolders) {
+		for (TodoFolderEntity todoFolder : todoFoldersAboutMonth) {
 			monthSumTodo += todoFolder.getTodos().size();
 
 			if (todoFolder.getSelectedDate().isEqual(currentDate)) {
-				todaySum = todoFolder.getTodos().size();
-				todayFinish = (int) todoFolder.getTodos().stream().filter(TodoEntity::isChecked).count();
+				todaySum += todoFolder.getTodos().size();
+				todayFinish += (int) todoFolder.getTodos().stream().filter(TodoEntity::isChecked).count();
 			}
 
 			sumTodo += (int) todoFolder.getTodos().stream().filter(TodoEntity::isChecked).count();
 		}
 
-		String today = (todayFinish != 0) ? todaySum + "/" + todayFinish : "0";
+		String today = String.format("%d / %d", todayFinish, todaySum);
 
 		String profileUrl = (userEntity.getProfile() != null) ? userEntity.getProfile().getResourceUrl() : "no_profile";
 		return new MyPageResponse(
