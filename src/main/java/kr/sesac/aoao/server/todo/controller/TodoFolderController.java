@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kr.sesac.aoao.server.global.controller.dto.response.ApplicationResponse;
 import kr.sesac.aoao.server.todo.controller.dto.request.TodoFolderSaveRequest;
 import kr.sesac.aoao.server.todo.controller.dto.request.TodoFolderUpdateRequest;
+import kr.sesac.aoao.server.todo.controller.dto.response.FolderSaveResponse;
 import kr.sesac.aoao.server.todo.service.TodoFolderService;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import lombok.RequiredArgsConstructor;
@@ -33,15 +34,16 @@ public class TodoFolderController {
 	 * 투두 폴더 생성 API
 	 * @since 2024.01.19
 	 * @parameter UserCustomDetails, TodoFolderSaveRequest
-	 * @return ResponseEntity<ApplicationResponse < Void>>
+	 * @return ResponseEntity<ApplicationResponse<FolderSaveResponse>>
 	 * @author 김유빈
 	 */
 	@PostMapping
-	public ResponseEntity<ApplicationResponse<Void>> save(
+	public ResponseEntity<ApplicationResponse<FolderSaveResponse>> save(
 		@AuthenticationPrincipal UserCustomDetails userDetails,
 		@RequestBody TodoFolderSaveRequest request) {
 		Long folderId = todoFolderService.save(userDetails, request);
-		return ResponseEntity.created(URI.create("/folders/" + folderId)).body(ApplicationResponse.success(null));
+		return ResponseEntity.created(URI.create("/folders/" + folderId))
+			.body(ApplicationResponse.success(new FolderSaveResponse(folderId)));
 	}
 
 	/**
