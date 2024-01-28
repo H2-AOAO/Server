@@ -1,5 +1,6 @@
 package kr.sesac.aoao.server.dino.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -169,6 +170,7 @@ public class DinoServiceImpl implements DinoService {
 
 		List<DinoSimpleInfo> allPastDino = allDinos.stream()
 			.filter(dino -> !dino.isFlag()) //flag==false인 값만. True는 현재 공룡 값
+			.sorted(Comparator.comparing(DinoEntity::getCreatedAt).reversed())
 			.map(this::dinoToSimpleInfo)
 			.collect(Collectors.toList());
 
