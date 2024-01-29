@@ -21,6 +21,7 @@ import kr.sesac.aoao.server.user.controller.dto.response.UserProfileUpdateRespon
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import oracle.jdbc.proxy.annotation.Post;
 
 /**
  * @author 이상민
@@ -124,4 +125,18 @@ public class UserController {
 		return ResponseEntity.ok().body(ApplicationResponse.success("탈퇴에 성공하였습니다."));
 	}
 
+	/**
+	 * 로그아웃 API
+	 *
+	 * @parameter String
+	 * @return String
+	 * @author 이상민
+	 * @since 2024.01.28
+	 */
+	@PostMapping("/logout")
+	public ResponseEntity<ApplicationResponse<String>> logout(
+		@AuthenticationPrincipal UserCustomDetails userDetails) {
+		userService.logout(userDetails.getUserEntity());
+		return ResponseEntity.ok().body(ApplicationResponse.success("로그아웃되었습니다."));
+	}
 }

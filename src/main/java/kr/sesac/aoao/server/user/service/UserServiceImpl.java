@@ -40,6 +40,8 @@ import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.repository.Profile;
 import kr.sesac.aoao.server.user.repository.ProfileRepository;
+import kr.sesac.aoao.server.user.repository.RefreshTokenEntity;
+import kr.sesac.aoao.server.user.repository.TokenJpaRepository;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -65,6 +67,8 @@ public class UserServiceImpl implements UserService {
 	private final StorageGenerator s3Generator;
 
 	private final TodoFolderJpaRepository todoFolderJpaRepository;
+
+	private final TokenJpaRepository tokenJpaRepository;
 
 	/**
 	 * 회원가입
@@ -277,6 +281,12 @@ public class UserServiceImpl implements UserService {
 	public void deleteUser(Long userId) {
 		User user = findUserById(userId).toModel();
 		userJpaRepository.delete(new UserEntity(user));
+	}
+
+	@Override
+	public void logout(UserEntity userEntity) {
+		Optional<RefreshTokenEntity> refreshTokenEntity = tokenJpaRepository.findByEmail(userEntity.getEmail());
+		refreshTokenEntity.ifPresent(tokenJpaRepository::delete);
 	}
 
 	private UserEntity findUserById(Long userId) {
