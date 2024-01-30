@@ -10,7 +10,10 @@ import kr.sesac.aoao.server.dino.controller.dto.request.UsePointRequest;
 import kr.sesac.aoao.server.dino.controller.dto.response.DinoSimpleInfo;
 import kr.sesac.aoao.server.dino.controller.dto.response.FriendDinoInfo;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
-
+/**
+ * @since 2024.01.19
+ * @author 김은서
+ */
 public interface DinoService {
 	GetUserDinoResponse getDinoInfo(UserCustomDetails userDetails);
 	String renameDino(UserCustomDetails userDetails,RenameRequest name);
