@@ -4,6 +4,10 @@ import org.springframework.http.HttpStatus;
 
 import kr.sesac.aoao.server.global.exception.ErrorCode;
 
+/**
+ * @since 2024.01.23
+ * @author 김유빈
+ */
 public enum TodoFolderErrorCode implements ErrorCode {
 
     NOT_EXIST(HttpStatus.BAD_REQUEST, "존재하지 않는 투두리스트 폴더입니다."),

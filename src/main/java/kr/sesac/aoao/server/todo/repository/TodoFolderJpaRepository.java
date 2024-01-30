@@ -8,6 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 
 import kr.sesac.aoao.server.user.repository.UserEntity;
 
+/**
+ * @since 2024.01.22
+ * @author 김유빈
+ */
 public interface TodoFolderJpaRepository extends JpaRepository<TodoFolderEntity, Long> {
 
 	List<TodoFolderEntity> findBySelectedDateAndUser(LocalDate date, UserEntity user);

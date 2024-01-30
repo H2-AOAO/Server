@@ -22,6 +22,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * @since 2024.01.22
+ * @author 김유빈
+ */
 @Getter
 @Entity
 @Table(name = "todo_folder")
