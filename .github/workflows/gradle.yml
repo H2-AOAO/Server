@@ -29,6 +29,7 @@ jobs:
     # 환경변수가 지나치게 많아짐을 방지하기 위해 APPLICATION_YML 변수를 만들었습니다.
     - name: make application.yml
       run: |
+        mkdir ./src/main/resources/secret
         cd ./src/main/resources/secret
         touch ./application-aws.yml
         echo "${{ secrets.APPLICATION_AWS_YML }}" >> ./application-aws.yml
