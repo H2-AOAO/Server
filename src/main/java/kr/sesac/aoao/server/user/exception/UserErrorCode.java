@@ -5,6 +5,11 @@ import org.springframework.http.HttpStatus;
 import kr.sesac.aoao.server.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 유저 관련 에러 코드 추가
+ * @author 이상민
+ * @since 2024.01.19
+ */
 @RequiredArgsConstructor
 public enum UserErrorCode implements ErrorCode {
 

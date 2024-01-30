@@ -7,6 +7,12 @@ import kr.sesac.aoao.server.user.repository.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * 유저 도메인
+ *
+ * @author 이상민
+ * @since 2024.01.19
+ */
 @Getter
 @AllArgsConstructor
 public class User {

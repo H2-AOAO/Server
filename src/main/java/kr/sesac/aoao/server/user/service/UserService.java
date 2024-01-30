@@ -12,6 +12,10 @@ import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.repository.UserEntity;
 
+/**
+ * @author 이상민
+ * @since 2024.01.19
+ */
 public interface UserService {
 
 	User signUp(SignUpRequest signUpRequest);
