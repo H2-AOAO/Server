@@ -5,6 +5,10 @@ import org.springframework.http.HttpStatus;
 import kr.sesac.aoao.server.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * @since 2024.01.22
+ * @author 김유빈
+ */
 @RequiredArgsConstructor
 public enum PaletteErrorCode implements ErrorCode {
 
