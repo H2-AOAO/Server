@@ -2,6 +2,10 @@ package kr.sesac.aoao.server.todo.domain;
 
 import lombok.Getter;
 
+/**
+ * @since 2024.01.22
+ * @author 김유빈
+ */
 @Getter
 public enum Palette {
 
