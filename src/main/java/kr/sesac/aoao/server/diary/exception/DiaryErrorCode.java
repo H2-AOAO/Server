@@ -5,6 +5,10 @@ import org.springframework.http.HttpStatus;
 import kr.sesac.aoao.server.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * @since 2024.01.23
+ * @author 최정윤
+ */
 @RequiredArgsConstructor
 public enum DiaryErrorCode implements ErrorCode {
 

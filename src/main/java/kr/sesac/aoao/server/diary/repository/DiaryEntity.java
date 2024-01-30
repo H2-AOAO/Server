@@ -19,6 +19,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * @since 2024.01.23
+ * @author 최정윤
+ */
 @Getter
 @Entity
 @Table(name = "diary")
