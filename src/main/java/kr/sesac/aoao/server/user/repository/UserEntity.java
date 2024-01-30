@@ -26,6 +26,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author 이상민
+ * @since 2024.01.19
+ */
 @Entity
 @Getter
 @Table(name = "users")

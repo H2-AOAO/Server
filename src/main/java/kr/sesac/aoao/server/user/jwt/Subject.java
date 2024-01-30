@@ -2,6 +2,10 @@ package kr.sesac.aoao.server.user.jwt;
 
 import lombok.Getter;
 
+/**
+ * @author 이상민
+ * @since 2024.01.19
+ */
 @Getter
 public class Subject {
 

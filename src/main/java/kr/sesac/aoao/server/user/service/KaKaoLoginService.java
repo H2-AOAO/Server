@@ -12,6 +12,10 @@ import kr.sesac.aoao.server.user.repository.UserEntity;
 import kr.sesac.aoao.server.user.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * @author 이상민
+ * @since 2024.01.24
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional

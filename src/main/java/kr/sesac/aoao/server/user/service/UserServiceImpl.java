@@ -188,6 +188,12 @@ public class UserServiceImpl implements UserService {
 		);
 	}
 
+	/**
+	 * 이메일 중복 함수
+	 *
+	 * @author 이상민
+	 * @since 2024.01.24
+	 */
 	@Override
 	public void duplicatedEmail(String email) {
 		Optional<UserEntity> user = userJpaRepository.findByEmail(email);
@@ -196,6 +202,12 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	/**
+	 * 닉네임 중복 함수
+	 *
+	 * @author 이상민
+	 * @since 2024.01.24
+	 */
 	@Override
 	public void duplicationNickname(String nickname) {
 		Optional<UserEntity> user = userJpaRepository.findByNickname(nickname);
@@ -283,6 +295,12 @@ public class UserServiceImpl implements UserService {
 		userJpaRepository.delete(new UserEntity(user));
 	}
 
+	/**
+	 * 로그아웃
+	 *
+	 * @since 2024.01.27
+	 * @author 이상민
+	 */
 	@Override
 	public void logout(UserEntity userEntity) {
 		Optional<RefreshTokenEntity> refreshTokenEntity = tokenJpaRepository.findByEmail(userEntity.getEmail());
