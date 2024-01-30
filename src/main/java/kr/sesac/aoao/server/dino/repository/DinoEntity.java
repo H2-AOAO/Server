@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import kr.sesac.aoao.server.global.entity.BaseEntity;
 import kr.sesac.aoao.server.user.repository.UserEntity;
@@ -15,7 +14,11 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+/**
+ * 다이노 엔티티
+ * @since 2024.01.19
+ * @author 김은서
+ */
 @Getter
 @Entity
 @Table(name = "raise_dino")
@@ -65,5 +68,4 @@ public class DinoEntity extends BaseEntity {
 	}
 
 	public void saveFlag(boolean flag){ this.flag = flag;}
-	public void saveColor(String color){this.color = color;}
 }

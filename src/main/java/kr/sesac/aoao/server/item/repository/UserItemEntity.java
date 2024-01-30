@@ -13,7 +13,10 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+/**
+ * @since 2024.01.22
+ * @author 김은서
+ */
 @Entity
 @Getter
 @Table(name = "user_item")

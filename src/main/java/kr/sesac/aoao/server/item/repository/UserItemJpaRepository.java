@@ -5,13 +5,13 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import kr.sesac.aoao.server.user.domain.User;
 import kr.sesac.aoao.server.user.repository.UserEntity;
-
+/**
+ * @since 2024.01.22
+ * @author 김은서
+ */
 public interface UserItemJpaRepository extends JpaRepository<UserItemEntity, Long> {
 	Optional<UserItemEntity> findByUserAndItem(UserEntity user, ItemEntity item);
-	
-	Optional<UserItemEntity> findByUser(UserEntity user);
 
 	List<UserItemEntity> findAllByUser(UserEntity user);
 }

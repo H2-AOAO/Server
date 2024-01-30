@@ -5,13 +5,13 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import kr.sesac.aoao.server.user.jwt.UserCustomDetails;
 import kr.sesac.aoao.server.user.repository.UserEntity;
-
+/**
+ * @since 2024.01.19
+ * @author 김은서
+ */
 public interface DinoJpaRepository extends JpaRepository<DinoEntity, Long> {
 
 	Optional<DinoEntity> findByUserAndFlag(UserEntity user, Boolean flag);
-	Optional<DinoEntity> findByUser(UserEntity user);
-	Optional<DinoEntity> findByUserAndDino (UserEntity user,DinoInfoEntity dinoInfo);
 	List<DinoEntity> findAllByUser(UserEntity user);
 }
